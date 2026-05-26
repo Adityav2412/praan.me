@@ -1,59 +1,159 @@
-import type { Metadata } from 'next'
-import { Poppins, Montserrat } from 'next/font/google'
-import { Analytics } from '@vercel/analytics/next'
-import './globals.css'
+import type { Metadata, Viewport } from 'next';
+import { Poppins, Montserrat } from 'next/font/google';
+import { Analytics } from '@vercel/analytics/next';
 
-const poppins = Poppins({ 
-  subsets: ["latin"],
+import './globals.css';
+
+const poppins = Poppins({
+  subsets: ['latin'],
   weight: ['400', '500', '600', '700', '800'],
-  variable: '--font-poppins'
+  variable: '--font-poppins',
+  display: 'swap',
 });
 
-const montserrat = Montserrat({ 
-  subsets: ["latin"],
+const montserrat = Montserrat({
+  subsets: ['latin'],
   weight: ['400', '500', '600', '700'],
-  variable: '--font-montserrat'
+  variable: '--font-montserrat',
+  display: 'swap',
 });
 
 export const metadata: Metadata = {
-  title: 'Water For Wings - Save Birds in Delhi Summer',
-  description: 'Join the mission to save birds during Delhi\'s scorching summer. Place a water station and become a Saviour today.',
-  generator: 'v0.app',
-  keywords: ['birds', 'delhi', 'water', 'summer', 'save birds', 'water station'],
-  icons: {
-    icon: [
+  metadataBase: new URL(
+    'https://www.praan.me'
+  ),
+
+  title: {
+    default:
+      'Water For Wings 🐦💧',
+    template:
+      '%s | Water For Wings',
+  },
+
+  description:
+    'Join Water For Wings and help birds survive Delhi’s extreme summer heat by placing water stations across the city.',
+
+  keywords: [
+    'Water For Wings',
+    'Save Birds Delhi',
+    'Delhi Birds',
+    'Bird Water Bowl',
+    'Bird Water Station',
+    'Delhi Summer',
+    'Help Birds',
+    'Bird Rescue',
+    'Water for Birds',
+    'Delhi NGO',
+    'Birds Need Water',
+  ],
+
+  authors: [
+    {
+      name: 'Water For Wings',
+    },
+  ],
+
+  creator: 'Water For Wings',
+
+  publisher:
+    'Water For Wings',
+
+  applicationName:
+    'Water For Wings',
+
+  category:
+    'Environment',
+
+  openGraph: {
+    title:
+      'Water For Wings 🐦💧',
+
+    description:
+      'Help birds survive Delhi’s deadly summer heat. Become a Saviour today.',
+
+    url: 'https://www.praan.me',
+
+    siteName:
+      'Water For Wings',
+
+    locale: 'en_IN',
+
+    type: 'website',
+
+    images: [
       {
-        url: '/icon-light-32x32.png',
-        media: '(prefers-color-scheme: light)',
-      },
-      {
-        url: '/icon-dark-32x32.png',
-        media: '(prefers-color-scheme: dark)',
-      },
-      {
-        url: '/icon.svg',
-        type: 'image/svg+xml',
+        url: '/favicon.ico',
+        width: 512,
+        height: 512,
+        alt: 'Water For Wings',
       },
     ],
-    apple: '/apple-icon.png',
   },
-}
 
-export const viewport = {
-  themeColor: '#1B3A6B',
-}
+  twitter: {
+    card:
+      'summary_large_image',
+
+    title:
+      'Water For Wings 🐦💧',
+
+    description:
+      'Place water stations across Delhi and help save birds this summer.',
+
+    creator:
+      '@waterforwings',
+
+    images: ['/favicon.ico'],
+  },
+
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview':
+        -1,
+      'max-image-preview':
+        'large',
+      'max-snippet': -1,
+    },
+  },
+
+  icons: {
+    icon: '/favicon.ico',
+    shortcut:
+      '/favicon.ico',
+    apple:
+      '/favicon.ico',
+  },
+};
+
+export const viewport: Viewport =
+  {
+    themeColor:
+      '#1B3A6B',
+  };
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode
+  children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${poppins.variable} ${montserrat.variable}`}>
+    <html
+      lang="en"
+      className={`${poppins.variable} ${montserrat.variable}`}
+    >
       <body className="font-sans antialiased bg-cream">
         {children}
-        {process.env.NODE_ENV === 'production' && <Analytics />}
+
+        {process.env
+          .NODE_ENV ===
+          'production' && (
+          <Analytics />
+        )}
       </body>
     </html>
-  )
+  );
 }
