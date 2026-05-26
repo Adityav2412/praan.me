@@ -1,6 +1,9 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import {
+  useState,
+  useEffect,
+} from 'react';
 
 import AnnouncementTicker from '@/components/announcement-ticker';
 import Navbar from '@/components/navbar';
@@ -16,85 +19,140 @@ import Footer from '@/components/footer';
 
 import {
   fetchSaviours,
-  clearLocalSaviours,
+  getSaviourCount,
   type Saviour,
 } from '@/lib/storage';
 
 export default function Home() {
-  const [sidebarOpen, setSidebarOpen] =
-    useState(false);
+  const [
+    sidebarOpen,
+    setSidebarOpen,
+  ] = useState(false);
 
-  const [formOpen, setFormOpen] =
-    useState(false);
+  const [
+    formOpen,
+    setFormOpen,
+  ] = useState(false);
 
-  const [certificateOpen, setCertificateOpen] =
-    useState(false);
+  const [
+    certificateOpen,
+    setCertificateOpen,
+  ] = useState(false);
 
-  const [newSaviour, setNewSaviour] =
-    useState<Saviour | null>(null);
+  const [
+    newSaviour,
+    setNewSaviour,
+  ] = useState<Saviour | null>(
+    null
+  );
 
-  const [saviourCount, setSaviourCount] =
-    useState(0);
+  const [
+    saviourCount,
+    setSaviourCount,
+  ] = useState(0);
 
-  // LIVE SAVIOUR COUNT
+  const [loading, setLoading] =
+    useState(true);
+
   useEffect(() => {
-    // remove old cached local data
-    clearLocalSaviours();
+    let mounted = true;
 
-    const updateCount = async () => {
-      try {
-        const saviours =
+    const syncData =
+      async () => {
+        try {
           await fetchSaviours();
 
-        setSaviourCount(
-          saviours.length
-        );
-      } catch (error) {
-        console.error(
-          'Failed to fetch saviours:',
-          error
-        );
-      }
-    };
+          if (mounted) {
+            setSaviourCount(
+              getSaviourCount()
+            );
+          }
+        } catch (error) {
+          console.error(
+            'Sync failed:',
+            error
+          );
+        } finally {
+          if (mounted) {
+            setLoading(false);
+          }
+        }
+      };
 
-    updateCount();
+    // initial load
+    syncData();
 
-    const interval = setInterval(
-      updateCount,
-      10000
+    // realtime sync
+    const interval =
+      setInterval(
+        syncData,
+        4000
+      );
+
+    // refresh when user returns
+    const handleFocus =
+      () => {
+        syncData();
+      };
+
+    window.addEventListener(
+      'focus',
+      handleFocus
     );
 
-    return () =>
-      clearInterval(interval);
+    return () => {
+      mounted = false;
+
+      clearInterval(
+        interval
+      );
+
+      window.removeEventListener(
+        'focus',
+        handleFocus
+      );
+    };
   }, []);
 
-  const handleBecomeSaviour = () => {
-    setFormOpen(true);
-  };
+  const handleBecomeSaviour =
+    () => {
+      setFormOpen(true);
+    };
 
   const handleFormSuccess = (
     saviour: Saviour
   ) => {
     setFormOpen(false);
 
-    setNewSaviour(saviour);
+    setNewSaviour(
+      saviour
+    );
 
-    setCertificateOpen(true);
+    setCertificateOpen(
+      true
+    );
 
-    // instant UI update
-    setSaviourCount((prev) => prev + 1);
+    // instant optimistic update
+    setSaviourCount(
+      (prev) => prev + 1
+    );
   };
 
   const handleNavigate = (
     section: string
   ) => {
     const element =
-      document.getElementById(section);
+      document.getElementById(
+        section
+      );
 
     if (element) {
-      element.scrollIntoView({
-        behavior: 'smooth',
-      });
+      element.scrollIntoView(
+        {
+          behavior:
+            'smooth',
+        }
+      );
     }
   };
 
@@ -102,26 +160,34 @@ export default function Home() {
     <>
       <main className="min-h-screen bg-cream">
 
-        {/* Announcement Ticker */}
+        {/* Announcement */}
         <AnnouncementTicker />
 
         {/* Navbar */}
         <Navbar
           onMenuClick={() =>
-            setSidebarOpen(true)
+            setSidebarOpen(
+              true
+            )
           }
         />
 
         {/* Sidebar */}
         <Sidebar
-          isOpen={sidebarOpen}
+          isOpen={
+            sidebarOpen
+          }
           onClose={() =>
-            setSidebarOpen(false)
+            setSidebarOpen(
+              false
+            )
           }
           onBecomeSaviour={
             handleBecomeSaviour
           }
-          onNavigate={handleNavigate}
+          onNavigate={
+            handleNavigate
+          }
         />
 
         {/* Hero */}
@@ -149,14 +215,16 @@ export default function Home() {
               Every summer,
               Delhi&apos;s
               temperatures soar
-              above 45°C. While we
-              seek refuge in
+              above 45°C.
+              While we seek
+              refuge in
               air-conditioned
-              spaces, thousands of
-              birds struggle to
-              find even a drop of
-              water. Many succumb
-              to dehydration and
+              spaces, thousands
+              of birds struggle
+              to find even a
+              drop of water.
+              Many succumb to
+              dehydration and
               heat stroke.
             </p>
 
@@ -166,30 +234,32 @@ export default function Home() {
               </span>{' '}
               is a
               community-driven
-              initiative to create
-              a network of water
-              stations across
-              Delhi. One bowl of
-              water can save
-              dozens of birds
-              daily. Together, we
-              can make Delhi a
+              initiative to
+              create a network
+              of water stations
+              across Delhi.
+              One bowl of water
+              can save dozens
+              of birds daily.
+              Together, we can
+              make Delhi a
               haven for our
-              feathered friends.
+              feathered
+              friends.
             </p>
           </div>
         </section>
 
-        {/* Why It Matters */}
+        {/* Why */}
         <WhyItMatters />
 
-        {/* Saviour Wall */}
+        {/* Saviours */}
         <SaviourWall />
 
-        {/* Area Leaderboard */}
+        {/* Leaderboard */}
         <AreaLeaderboard />
 
-        {/* Daily Reminder */}
+        {/* Reminder */}
         <DailyReminder />
 
         {/* Footer */}
@@ -200,20 +270,28 @@ export default function Home() {
       <FormModal
         isOpen={formOpen}
         onClose={() =>
-          setFormOpen(false)
+          setFormOpen(
+            false
+          )
         }
         onSuccess={
           handleFormSuccess
         }
       />
 
-      {/* Certificate Modal */}
+      {/* Certificate */}
       <CertificateModal
-        isOpen={certificateOpen}
-        onClose={() =>
-          setCertificateOpen(false)
+        isOpen={
+          certificateOpen
         }
-        saviour={newSaviour}
+        onClose={() =>
+          setCertificateOpen(
+            false
+          )
+        }
+        saviour={
+          newSaviour
+        }
       />
     </>
   );
