@@ -107,6 +107,17 @@ export default function FormModal({
     setIsSubmitting(true);
 
     try {
+      // Get latest saviour count
+      const response = await fetch(
+        'https://script.google.com/macros/s/AKfycbw-e7Emeb0SbS58XDJYLa60g6DS6YXsMGJ69VgH00HupqsJRFKryKZxoH2o1QBc3aI/exec'
+      );
+
+      const existingSaviours = await response.json();
+
+      const nextSaviourNumber =
+        existingSaviours.length + 1;
+
+      // Submit to Google Form
       const formBody = new FormData();
 
       formBody.append(
@@ -138,6 +149,11 @@ export default function FormModal({
         }
       );
 
+      // Wait for sheet update
+      await new Promise((resolve) =>
+        setTimeout(resolve, 1500)
+      );
+
       const saviour: Saviour = {
         id: Date.now().toString(),
         timestamp: new Date().toISOString(),
@@ -146,7 +162,7 @@ export default function FormModal({
         source: formData.source || 'Not specified',
         stationType:
           formData.stationType || 'Not specified',
-        saviourNumber: 0,
+        saviourNumber: nextSaviourNumber,
       };
 
       setFormData({
