@@ -1,0 +1,233 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  /* Water For Wings Color Palette */
+  --cream: #F5F0E8;
+  --cream-dark: #EDE8DC;
+  --navy: #1B3A6B;
+  --navy-light: #2B5BA8;
+  --navy-dark: #142b4f;
+  
+  /* Design system tokens */
+  --background: #F5F0E8;
+  --foreground: #1B3A6B;
+  --card: #EDE8DC;
+  --card-foreground: #1B3A6B;
+  --popover: #F5F0E8;
+  --popover-foreground: #1B3A6B;
+  --primary: #1B3A6B;
+  --primary-foreground: #F5F0E8;
+  --secondary: #EDE8DC;
+  --secondary-foreground: #1B3A6B;
+  --muted: #EDE8DC;
+  --muted-foreground: #4a5568;
+  --accent: #2B5BA8;
+  --accent-foreground: #F5F0E8;
+  --destructive: #dc2626;
+  --destructive-foreground: #fef2f2;
+  --border: #d4cfc5;
+  --input: #EDE8DC;
+  --ring: #2B5BA8;
+  --radius: 0.75rem;
+}
+
+@theme inline {
+  --font-sans: var(--font-poppins), system-ui, sans-serif;
+  --font-mono: 'Geist Mono', monospace;
+  --font-heading: var(--font-poppins), system-ui, sans-serif;
+  --font-body: var(--font-montserrat), system-ui, sans-serif;
+  
+  --color-cream: var(--cream);
+  --color-cream-dark: var(--cream-dark);
+  --color-navy: var(--navy);
+  --color-navy-light: var(--navy-light);
+  --color-navy-dark: var(--navy-dark);
+  
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-cream text-navy;
+  }
+}
+
+/* Custom animations */
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes fly-bird {
+  0% {
+    transform: translateX(100vw) translateY(0px);
+  }
+  25% {
+    transform: translateX(75vw) translateY(-10px);
+  }
+  50% {
+    transform: translateX(50vw) translateY(5px);
+  }
+  75% {
+    transform: translateX(25vw) translateY(-8px);
+  }
+  100% {
+    transform: translateX(-100px) translateY(0px);
+  }
+}
+
+@keyframes fly-bird-reverse {
+  0% {
+    transform: translateX(-100px) translateY(0px) scaleX(-1);
+  }
+  25% {
+    transform: translateX(25vw) translateY(-8px) scaleX(-1);
+  }
+  50% {
+    transform: translateX(50vw) translateY(5px) scaleX(-1);
+  }
+  75% {
+    transform: translateX(75vw) translateY(-10px) scaleX(-1);
+  }
+  100% {
+    transform: translateX(100vw) translateY(0px) scaleX(-1);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(43, 91, 168, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(43, 91, 168, 0.5);
+  }
+}
+
+@keyframes slide-up {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-in-right {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes count-up {
+  from {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+}
+
+.animate-fly-bird {
+  animation: fly-bird linear infinite;
+}
+
+.animate-fly-bird-reverse {
+  animation: fly-bird-reverse linear infinite;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.animate-slide-up {
+  animation: slide-up 0.4s ease-out;
+}
+
+.animate-slide-in-right {
+  animation: slide-in-right 0.3s ease-out;
+}
+
+.animate-count-up {
+  animation: count-up 0.5s ease-out;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--cream-dark);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--navy-light);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--navy);
+}
+
+/* Glass effect */
+.glass {
+  background: rgba(245, 240, 232, 0.8);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
