@@ -1,9 +1,6 @@
 'use client';
 
-import {
-  useState,
-  useEffect,
-} from 'react';
+import { useState, useEffect } from 'react';
 
 import AnnouncementTicker from '@/components/announcement-ticker';
 import Navbar from '@/components/navbar';
@@ -19,7 +16,6 @@ import Footer from '@/components/footer';
 
 import {
   fetchSaviours,
-  getSaviourCount,
   type Saviour,
 } from '@/lib/storage';
 
@@ -49,69 +45,39 @@ export default function Home() {
   const [
     saviourCount,
     setSaviourCount,
-  ] = useState(0);
+  ] = useState<number | null>(
+    null
+  );
 
-  const [loading, setLoading] =
-    useState(true);
-
+  // live sync
   useEffect(() => {
-    let mounted = true;
-
-    const syncData =
+    const updateData =
       async () => {
         try {
-          await fetchSaviours();
+          const data =
+            await fetchSaviours();
 
-          if (mounted) {
-            setSaviourCount(
-              getSaviourCount()
-            );
-          }
+          setSaviourCount(
+            data.length
+          );
         } catch (error) {
           console.error(
-            'Sync failed:',
+            'Failed to fetch saviours:',
             error
           );
-        } finally {
-          if (mounted) {
-            setLoading(false);
-          }
         }
       };
 
-    // initial load
-    syncData();
+    updateData();
 
-    // realtime sync
     const interval =
       setInterval(
-        syncData,
-        4000
+        updateData,
+        10000
       );
 
-    // refresh when user returns
-    const handleFocus =
-      () => {
-        syncData();
-      };
-
-    window.addEventListener(
-      'focus',
-      handleFocus
-    );
-
-    return () => {
-      mounted = false;
-
-      clearInterval(
-        interval
-      );
-
-      window.removeEventListener(
-        'focus',
-        handleFocus
-      );
-    };
+    return () =>
+      clearInterval(interval);
   }, []);
 
   const handleBecomeSaviour =
@@ -132,9 +98,9 @@ export default function Home() {
       true
     );
 
-    // instant optimistic update
+    // instant UI update
     setSaviourCount(
-      (prev) => prev + 1
+      saviour.saviourNumber
     );
   };
 
@@ -147,12 +113,9 @@ export default function Home() {
       );
 
     if (element) {
-      element.scrollIntoView(
-        {
-          behavior:
-            'smooth',
-        }
-      );
+      element.scrollIntoView({
+        behavior: 'smooth',
+      });
     }
   };
 
@@ -166,21 +129,15 @@ export default function Home() {
         {/* Navbar */}
         <Navbar
           onMenuClick={() =>
-            setSidebarOpen(
-              true
-            )
+            setSidebarOpen(true)
           }
         />
 
         {/* Sidebar */}
         <Sidebar
-          isOpen={
-            sidebarOpen
-          }
+          isOpen={sidebarOpen}
           onClose={() =>
-            setSidebarOpen(
-              false
-            )
+            setSidebarOpen(false)
           }
           onBecomeSaviour={
             handleBecomeSaviour
@@ -215,17 +172,13 @@ export default function Home() {
               Every summer,
               Delhi&apos;s
               temperatures soar
-              above 45°C.
-              While we seek
-              refuge in
+              above 45°C. While
+              we seek refuge in
               air-conditioned
               spaces, thousands
               of birds struggle
-              to find even a
-              drop of water.
-              Many succumb to
-              dehydration and
-              heat stroke.
+              to find even a drop
+              of water.
             </p>
 
             <p className="text-lg text-navy/80 leading-relaxed">
@@ -238,31 +191,18 @@ export default function Home() {
               create a network
               of water stations
               across Delhi.
-              One bowl of water
-              can save dozens
-              of birds daily.
-              Together, we can
-              make Delhi a
-              haven for our
-              feathered
-              friends.
             </p>
           </div>
         </section>
 
-        {/* Why */}
         <WhyItMatters />
 
-        {/* Saviours */}
         <SaviourWall />
 
-        {/* Leaderboard */}
         <AreaLeaderboard />
 
-        {/* Reminder */}
         <DailyReminder />
 
-        {/* Footer */}
         <Footer />
       </main>
 
@@ -270,9 +210,7 @@ export default function Home() {
       <FormModal
         isOpen={formOpen}
         onClose={() =>
-          setFormOpen(
-            false
-          )
+          setFormOpen(false)
         }
         onSuccess={
           handleFormSuccess
@@ -289,9 +227,7 @@ export default function Home() {
             false
           )
         }
-        saviour={
-          newSaviour
-        }
+        saviour={newSaviour}
       />
     </>
   );
