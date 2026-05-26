@@ -1,7 +1,6 @@
 'use client';
-
 import { useState, useEffect } from 'react';
-import { getColonyLeaderboard } from '@/lib/storage';
+import { fetchSaviours, getColonyLeaderboard } from '@/lib/storage';
 
 const placeholderColonies = [
   { colony: 'Rohini', count: 0 },
@@ -15,13 +14,13 @@ export default function AreaLeaderboard() {
   const [leaderboard, setLeaderboard] = useState<{ colony: string; count: number }[]>([]);
 
   useEffect(() => {
-    const updateLeaderboard = () => {
+    const updateLeaderboard = async () => {
+      await fetchSaviours();
       const data = getColonyLeaderboard();
       setLeaderboard(data.length > 0 ? data : placeholderColonies);
     };
-
     updateLeaderboard();
-    const interval = setInterval(updateLeaderboard, 5000);
+    const interval = setInterval(updateLeaderboard, 10000);
     return () => clearInterval(interval);
   }, []);
 
@@ -43,7 +42,6 @@ export default function AreaLeaderboard() {
         <p className="text-navy/70 text-center mb-10">
           Which colony is saving the most birds?
         </p>
-
         <div className="bg-cream rounded-2xl p-6 shadow-lg">
           <div className="space-y-4">
             {leaderboard.slice(0, 10).map((item, index) => (
@@ -51,12 +49,9 @@ export default function AreaLeaderboard() {
                 key={item.colony}
                 className="flex items-center gap-4 transition-all duration-500"
               >
-                {/* Medal/Rank */}
                 <div className="w-10 h-10 flex items-center justify-center text-xl font-bold">
                   {getMedal(index)}
                 </div>
-
-                {/* Colony name + progress */}
                 <div className="flex-1">
                   <div className="flex items-center justify-between mb-1">
                     <span className="font-semibold text-navy">{item.colony}</span>
@@ -82,7 +77,6 @@ export default function AreaLeaderboard() {
               </div>
             ))}
           </div>
-
           {leaderboard === placeholderColonies && (
             <p className="text-center text-navy/50 mt-6 text-sm">
               Be the first from your colony to join!
