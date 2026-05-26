@@ -12,47 +12,94 @@ export default function SaviourWall() {
   const [saviours, setSaviours] =
     useState<Saviour[]>([]);
 
+  const [loading, setLoading] =
+    useState(true);
+
   useEffect(() => {
+    let mounted = true;
+
     const updateSaviours =
-      async () => {
+      async (
+        showLoader = false
+      ) => {
         try {
+          if (showLoader) {
+            setLoading(true);
+          }
+
           const data =
             await fetchSaviours();
 
-          // remove broken/empty entries
+          // remove broken entries
           const cleanData =
             data.filter(
               (saviour) =>
                 saviour.name &&
                 saviour.colony &&
-                saviour.timestamp
+                saviour.timestamp &&
+                saviour.saviourNumber
             );
 
           // newest first
           const latest =
             [...cleanData]
-              .reverse()
+              .sort(
+                (
+                  a,
+                  b
+                ) =>
+                  b.saviourNumber -
+                  a.saviourNumber
+              )
               .slice(0, 10);
 
-          setSaviours(latest);
+          if (mounted) {
+            setSaviours(latest);
+          }
         } catch (error) {
           console.error(
             'Failed to fetch saviours:',
             error
           );
+        } finally {
+          if (mounted) {
+            setLoading(false);
+          }
         }
       };
 
-    updateSaviours();
+    // instant initial load
+    updateSaviours(true);
 
+    // faster sync refresh
     const interval =
-      setInterval(
-        updateSaviours,
-        10000
+      setInterval(() => {
+        updateSaviours(false);
+      }, 4000);
+
+    // auto refresh when tab focused
+    const handleFocus =
+      () => {
+        updateSaviours(false);
+      };
+
+    window.addEventListener(
+      'focus',
+      handleFocus
+    );
+
+    return () => {
+      mounted = false;
+
+      clearInterval(
+        interval
       );
 
-    return () =>
-      clearInterval(interval);
+      window.removeEventListener(
+        'focus',
+        handleFocus
+      );
+    };
   }, []);
 
   return (
@@ -72,8 +119,30 @@ export default function SaviourWall() {
           Delhi&apos;s birds
         </p>
 
-        {saviours.length ===
-        0 ? (
+        {loading ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+
+            {[1, 2, 3].map(
+              (item) => (
+                <div
+                  key={item}
+                  className="bg-cream-dark rounded-xl p-5 animate-pulse"
+                >
+                  <div className="h-5 w-32 bg-navy/10 rounded mb-3" />
+
+                  <div className="h-4 w-20 bg-navy/10 rounded mb-6" />
+
+                  <div className="flex justify-between">
+                    <div className="h-4 w-24 bg-navy/10 rounded" />
+
+                    <div className="h-4 w-16 bg-navy/10 rounded" />
+                  </div>
+                </div>
+              )
+            )}
+          </div>
+        ) : saviours.length ===
+          0 ? (
           <div className="text-center py-16 bg-cream-dark rounded-2xl">
 
             <span className="text-6xl mb-4 block">
@@ -100,9 +169,7 @@ export default function SaviourWall() {
                 index
               ) => (
                 <div
-                  key={
-                    saviour.id
-                  }
+                  key={`${saviour.id}-${saviour.saviourNumber}`}
                   className={`bg-cream-dark border-2 border-transparent hover:border-navy/20 rounded-xl p-5 transition-all hover:shadow-lg ${
                     index === 0
                       ? 'animate-slide-up'
