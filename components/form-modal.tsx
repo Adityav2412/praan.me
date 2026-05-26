@@ -28,6 +28,25 @@ const stationOptions = [
   'Other',
 ];
 
+const colonyOptions = [
+  'Dwarka',
+  'Rohini',
+  'Janakpuri',
+  'Uttam Nagar',
+  'Palam',
+  'Saket',
+  'Pitampura',
+  'Laxmi Nagar',
+  'Karol Bagh',
+  'Vasant Kunj',
+  'Rajouri Garden',
+  'Punjabi Bagh',
+  'Mayur Vihar',
+  'Paschim Vihar',
+  'Tilak Nagar',
+  'Other',
+];
+
 export default function FormModal({
   isOpen,
   onClose,
@@ -230,25 +249,36 @@ export default function FormModal({
               )}
             </div>
 
-            {/* Colony */}
+            {/* Colony Dropdown */}
             <div>
               <label className="block text-sm font-semibold text-navy mb-1">
                 Colony / Area in Delhi{' '}
                 <span className="text-red-500">*</span>
               </label>
 
-              <input
-                type="text"
+              <select
                 name="colony"
                 value={formData.colony}
                 onChange={handleChange}
-                placeholder="e.g., Rohini, Dwarka, Saket"
-                className={`w-full px-4 py-3 bg-cream-dark border-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-navy-light transition-all ${
+                className={`w-full px-4 py-3 bg-cream-dark border-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-navy-light transition-all appearance-none cursor-pointer ${
                   errors.colony
                     ? 'border-red-500'
                     : 'border-transparent'
                 }`}
-              />
+              >
+                <option value="">
+                  Select your area
+                </option>
+
+                {colonyOptions.map((area) => (
+                  <option
+                    key={area}
+                    value={area}
+                  >
+                    {area}
+                  </option>
+                ))}
+              </select>
 
               {errors.colony && (
                 <p className="text-red-500 text-sm mt-1">
