@@ -12,9 +12,7 @@ import {
 interface FormModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSuccess: (
-    saviour: Saviour
-  ) => void;
+  onSuccess: (saviour: Saviour) => void;
 }
 
 const sourceOptions = [
@@ -135,39 +133,63 @@ export default function FormModal({
     setIsSubmitting(true);
 
     try {
-      const response =
-        await fetch(
-          'https://script.google.com/macros/s/AKfycbw-e7Emeb0SbS58XDJYLa60g6DS6YXsMGJ69VgH00HupqsJRFKryKZxoH2o1QBc3aI/exec',
-          {
-            method: 'POST',
+      // submit to Apps Script
+      await fetch(
+        'https://script.google.com/macros/s/AKfycbw-e7Emeb0SbS58XDJYLa60g6DS6YXsMGJ69VgH00HupqsJRFKryKZxoH2o1QBc3aI/exec',
+        {
+          method: 'POST',
 
-            headers: {
-              'Content-Type':
-                'application/json',
-            },
+          mode: 'no-cors',
 
-            body: JSON.stringify({
-              name:
-                formData.name.trim(),
+          headers: {
+            'Content-Type':
+              'application/json',
+          },
 
-              colony:
-                formData.colony.trim(),
+          body: JSON.stringify({
+            name:
+              formData.name.trim(),
 
-              source:
-                formData.source ||
-                'Not specified',
+            colony:
+              formData.colony.trim(),
 
-              stationType:
-                formData.stationType ||
-                'Not specified',
-            }),
-          }
+            source:
+              formData.source ||
+              'Not specified',
+
+            stationType:
+              formData.stationType ||
+              'Not specified',
+          }),
+        }
+      );
+
+      // wait for Google Sheet sync
+      await new Promise(
+        (resolve) =>
+          setTimeout(
+            resolve,
+            2500
+          )
+      );
+
+      // fetch latest live data
+      const latestData =
+        await refreshSaviours();
+
+      const latest =
+        latestData[
+          latestData.length - 1
+        ];
+
+      if (!latest) {
+        throw new Error(
+          'No saviour found'
         );
+      }
 
-      const saviour =
-        await response.json();
-
-      await refreshSaviours();
+      // success
+      onSuccess(latest);
 
       setFormData({
         name: '',
@@ -176,19 +198,19 @@ export default function FormModal({
         stationType: '',
       });
 
-      onSuccess(saviour);
-
       onClose();
+
     } catch (error) {
+
       console.error(error);
 
       alert(
         'Unable to submit right now. Please try again.'
       );
+
     } finally {
-      setIsSubmitting(
-        false
-      );
+
+      setIsSubmitting(false);
     }
   };
 
@@ -206,7 +228,7 @@ export default function FormModal({
       {/* Modal */}
       <div className="relative bg-cream border-4 border-navy rounded-2xl shadow-2xl w-full max-w-md animate-slide-up overflow-hidden">
 
-        {/* Close */}
+        {/* Close Button */}
         <button
           onClick={onClose}
           className="absolute top-4 right-4 p-2 hover:bg-cream-dark rounded-lg transition-colors z-10"
@@ -345,9 +367,7 @@ export default function FormModal({
 
               <select
                 name="stationType"
-                value={
-                  formData.stationType
-                }
+                value={formData.stationType}
                 onChange={handleChange}
                 className="w-full px-4 py-3 bg-cream-dark border-2 border-transparent rounded-xl focus:outline-none focus:ring-2 focus:ring-navy-light transition-all appearance-none cursor-pointer"
               >
