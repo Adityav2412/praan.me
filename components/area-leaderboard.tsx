@@ -1,7 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { fetchSaviours, getColonyLeaderboard } from '@/lib/storage';
-
 const placeholderColonies = [
   { colony: 'Rohini', count: 0 },
   { colony: 'Dwarka', count: 0 },
@@ -9,10 +8,8 @@ const placeholderColonies = [
   { colony: 'Saket', count: 0 },
   { colony: 'Greater Kailash', count: 0 },
 ];
-
 export default function AreaLeaderboard() {
   const [leaderboard, setLeaderboard] = useState<{ colony: string; count: number }[]>([]);
-
   useEffect(() => {
     const updateLeaderboard = async () => {
       await fetchSaviours();
@@ -23,16 +20,13 @@ export default function AreaLeaderboard() {
     const interval = setInterval(updateLeaderboard, 10000);
     return () => clearInterval(interval);
   }, []);
-
   const maxCount = Math.max(...leaderboard.map(l => l.count), 1);
-
   const getMedal = (rank: number) => {
     if (rank === 0) return '🥇';
     if (rank === 1) return '🥈';
     if (rank === 2) return '🥉';
     return `${rank + 1}`;
   };
-
   return (
     <section id="leaderboard" className="py-16 px-4 bg-cream-dark">
       <div className="max-w-4xl mx-auto">
@@ -87,3 +81,4 @@ export default function AreaLeaderboard() {
     </section>
   );
 }
+ye code hai kardo update pura
