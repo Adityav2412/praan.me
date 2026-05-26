@@ -1,14 +1,15 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { getSaviours, formatTimeAgo, type Saviour } from '@/lib/storage';
+import { fetchSaviours, formatTimeAgo, type Saviour } from '@/lib/storage';
 
 export default function SaviourWall() {
   const [saviours, setSaviours] = useState<Saviour[]>([]);
 
   useEffect(() => {
     const updateSaviours = () => {
-      const data = getSaviours();
+   const updateSaviours = async () => {
+  const data = await fetchSaviours();
       setSaviours([...data].reverse()); // Newest first
     };
 
