@@ -88,38 +88,36 @@ export default function FormModal({
     setIsSubmitting(true);
 
     try {
-      // Submit to Google Form
-      const googleFormURL =
-        'https://docs.google.com/forms/d/e/1FAIpQLSeXXXXXXXXXXXXXXXXXXXX/formResponse';
-
       const formBody = new FormData();
 
-      // Replace these entry IDs with your actual Google Form entry IDs
       formBody.append(
-        'entry.1111111111',
+        'entry.1192801997',
         formData.name.trim()
       );
 
       formBody.append(
-        'entry.2222222222',
+        'entry.1490393253',
         formData.stationType || 'Not specified'
       );
 
       formBody.append(
-        'entry.3333333333',
+        'entry.1722117052',
         formData.colony.trim()
       );
 
       formBody.append(
-        'entry.4444444444',
+        'entry.1326422342',
         formData.source || 'Not specified'
       );
 
-      await fetch(googleFormURL, {
-        method: 'POST',
-        mode: 'no-cors',
-        body: formBody,
-      });
+      await fetch(
+        'https://docs.google.com/forms/d/e/1FAIpQLSfWHgM8HhOXnO661ft5C-HIxdOYAmV2FnkhIDwSeb8Ud-eUVA/formResponse',
+        {
+          method: 'POST',
+          mode: 'no-cors',
+          body: formBody,
+        }
+      );
 
       const saviour: Saviour = {
         id: Date.now().toString(),
