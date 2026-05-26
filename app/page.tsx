@@ -16,6 +16,7 @@ import Footer from '@/components/footer';
 
 import {
   fetchSaviours,
+  clearLocalSaviours,
   type Saviour,
 } from '@/lib/storage';
 
@@ -37,6 +38,9 @@ export default function Home() {
 
   // LIVE SAVIOUR COUNT
   useEffect(() => {
+    // remove old cached local data
+    clearLocalSaviours();
+
     const updateCount = async () => {
       try {
         const saviours =
