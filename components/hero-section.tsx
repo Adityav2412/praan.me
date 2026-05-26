@@ -23,11 +23,23 @@ function Bird({ className }: { className?: string }) {
   );
 }
 
-function FlyingBird({ delay, top, duration }: { delay: number; top: string; duration: number }) {
+function FlyingBird({
+  delay,
+  top,
+  duration,
+}: {
+  delay: number;
+  top: string;
+  duration: number;
+}) {
   return (
     <div
       className="absolute text-navy/40 animate-fly-bird"
-      style={{ top, animationDelay: `${delay}s`, animationDuration: `${duration}s` }}
+      style={{
+        top,
+        animationDelay: `${delay}s`,
+        animationDuration: `${duration}s`,
+      }}
     >
       <Bird className="w-6 h-6 md:w-8 md:h-8" />
     </div>
@@ -37,6 +49,7 @@ function FlyingBird({ delay, top, duration }: { delay: number; top: string; dura
 function useCountUp(target: number, duration: number = 2000) {
   const [count, setCount] = useState(0);
   const [hasStarted, setHasStarted] = useState(false);
+
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -62,7 +75,12 @@ function useCountUp(target: number, duration: number = 2000) {
 
     const animate = () => {
       const now = Date.now();
-      const progress = Math.min((now - startTime) / duration, 1);
+
+      const progress = Math.min(
+        (now - startTime) / duration,
+        1
+      );
+
       const easeOut = 1 - Math.pow(1 - progress, 3);
 
       setCount(Math.floor(easeOut * target));
@@ -92,7 +110,6 @@ export default function HeroSection({
 
   useEffect(() => {
     const fetchWeather = async () => {
-      // Open-Meteo API
       try {
         const controller = new AbortController();
 
@@ -112,7 +129,9 @@ export default function HeroSection({
         const data = await res.json();
 
         setWeather({
-          temperature: Math.round(data.current_weather.temperature),
+          temperature: Math.round(
+            data.current_weather.temperature
+          ),
           loading: false,
           error: false,
         });
@@ -120,7 +139,6 @@ export default function HeroSection({
         return;
       } catch {}
 
-      // Fallback API
       try {
         const controller2 = new AbortController();
 
@@ -128,15 +146,20 @@ export default function HeroSection({
           controller2.abort();
         }, 5000);
 
-        const res2 = await fetch('https://wttr.in/Delhi?format=j1', {
-          signal: controller2.signal,
-        });
+        const res2 = await fetch(
+          'https://wttr.in/Delhi?format=j1',
+          {
+            signal: controller2.signal,
+          }
+        );
 
         clearTimeout(timeout2);
 
         const data2 = await res2.json();
 
-        const temp = parseInt(data2.current_condition[0].temp_C);
+        const temp = parseInt(
+          data2.current_condition[0].temp_C
+        );
 
         setWeather({
           temperature: temp,
@@ -156,22 +179,32 @@ export default function HeroSection({
 
     fetchWeather();
 
-    const interval = setInterval(fetchWeather, 10 * 60 * 1000);
+    const interval = setInterval(
+      fetchWeather,
+      10 * 60 * 1000
+    );
 
     return () => clearInterval(interval);
   }, []);
 
   const getWeatherMessage = (temp: number) => {
-    if (temp > 40) return 'Birds are suffering. They need you NOW.';
-    if (temp >= 35) return "It's dangerously hot for birds.";
+    if (temp > 40)
+      return 'Birds are suffering. They need you NOW.';
+
+    if (temp >= 35)
+      return "It's dangerously hot for birds.";
 
     return 'Birds still need fresh water daily.';
   };
 
-  const progress = Math.min((saviourCount / 200) * 100, 100);
+  const progress = Math.min(
+    (saviourCount / 200) * 100,
+    100
+  );
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+
       {/* Background */}
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-gradient-to-b from-[#87CEEB] via-[#B0E0E6] to-[#FFE4B5]" />
@@ -191,11 +224,11 @@ export default function HeroSection({
 
       {/* Flying Birds */}
       <FlyingBird delay={0} top="15%" duration={18} />
-      <FlyingBird delay={3} top="25%" duration={22} />
-      <FlyingBird delay={6} top="20%" duration={20} />
-      <FlyingBird delay={9} top="30%" duration={25} />
-      <FlyingBird delay={12} top="18%" duration={19} />
-      <FlyingBird delay={15} top="35%" duration={23} />
+      <FlyingBird delay={1} top="25%" duration={22} />
+      <FlyingBird delay={2} top="20%" duration={20} />
+      <FlyingBird delay={3} top="30%" duration={25} />
+      <FlyingBird delay={4} top="18%" duration={19} />
+      <FlyingBird delay={5} top="35%" duration={23} />
 
       {/* Content */}
       <div className="relative z-10 text-center px-4 pt-12 pb-16">
