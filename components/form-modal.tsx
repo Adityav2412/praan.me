@@ -61,10 +61,13 @@ export default function FormModal({
 
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitting, setIsSubmitting] =
+    useState(false);
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement
+    >
   ) => {
     const { name, value } = e.target;
 
@@ -82,19 +85,27 @@ export default function FormModal({
   };
 
   const validate = () => {
-    const newErrors: Record<string, string> = {};
+    const newErrors: Record<
+      string,
+      string
+    > = {};
 
     if (!formData.name.trim()) {
-      newErrors.name = 'Name is required';
+      newErrors.name =
+        'Name is required';
     }
 
     if (!formData.colony.trim()) {
-      newErrors.colony = 'Colony is required';
+      newErrors.colony =
+        'Colony is required';
     }
 
     setErrors(newErrors);
 
-    return Object.keys(newErrors).length === 0;
+    return (
+      Object.keys(newErrors)
+        .length === 0
+    );
   };
 
   const handleSubmit = async (
@@ -104,21 +115,27 @@ export default function FormModal({
 
     if (!validate()) return;
 
+    if (isSubmitting) return;
+
     setIsSubmitting(true);
 
     try {
-      // Get latest saviour count
-      const response = await fetch(
-        'https://script.google.com/macros/s/AKfycbw-e7Emeb0SbS58XDJYLa60g6DS6YXsMGJ69VgH00HupqsJRFKryKZxoH2o1QBc3aI/exec'
-      );
+      // Fetch latest saviours
+      const response =
+        await fetch(
+          'https://script.google.com/macros/s/AKfycbw-e7Emeb0SbS58XDJYLa60g6DS6YXsMGJ69VgH00HupqsJRFKryKZxoH2o1QBc3aI/exec'
+        );
 
-      const existingSaviours = await response.json();
+      const existingSaviours =
+        await response.json();
 
       const nextSaviourNumber =
-        existingSaviours.length + 1;
+        existingSaviours.length +
+        1;
 
-      // Submit to Google Form
-      const formBody = new FormData();
+      // Create form data
+      const formBody =
+        new FormData();
 
       formBody.append(
         'entry.1192801997',
@@ -127,7 +144,8 @@ export default function FormModal({
 
       formBody.append(
         'entry.1490393253',
-        formData.stationType || 'Not specified'
+        formData.stationType ||
+          'Not specified'
       );
 
       formBody.append(
@@ -137,9 +155,11 @@ export default function FormModal({
 
       formBody.append(
         'entry.1326422342',
-        formData.source || 'Not specified'
+        formData.source ||
+          'Not specified'
       );
 
+      // Submit to Google Form
       await fetch(
         'https://docs.google.com/forms/d/e/1FAIpQLSfWHgM8HhOXnO661ft5C-HIxdOYAmV2FnkhIDwSeb8Ud-eUVA/formResponse',
         {
@@ -149,21 +169,33 @@ export default function FormModal({
         }
       );
 
-      // Wait for sheet update
-      await new Promise((resolve) =>
-        setTimeout(resolve, 1500)
+      // Smooth wait
+      await new Promise(
+        (resolve) =>
+          setTimeout(
+            resolve,
+            1200
+          )
       );
 
-      const saviour: Saviour = {
-        id: Date.now().toString(),
-        timestamp: new Date().toISOString(),
-        name: formData.name.trim(),
-        colony: formData.colony.trim(),
-        source: formData.source || 'Not specified',
-        stationType:
-          formData.stationType || 'Not specified',
-        saviourNumber: nextSaviourNumber,
-      };
+      const saviour: Saviour =
+        {
+          id: Date.now().toString(),
+          timestamp:
+            new Date().toISOString(),
+          name:
+            formData.name.trim(),
+          colony:
+            formData.colony.trim(),
+          source:
+            formData.source ||
+            'Not specified',
+          stationType:
+            formData.stationType ||
+            'Not specified',
+          saviourNumber:
+            nextSaviourNumber,
+        };
 
       setFormData({
         name: '',
@@ -179,7 +211,7 @@ export default function FormModal({
       console.error(error);
 
       alert(
-        'Something went wrong. Please try again.'
+        'Unable to connect right now. Please try again in a few seconds.'
       );
     }
 
@@ -231,25 +263,36 @@ export default function FormModal({
           </h2>
 
           <p className="text-navy/70 text-center mb-6">
-            Join the mission to save Delhi&apos;s birds
+            Join the mission to
+            save Delhi&apos;s
+            birds
           </p>
 
           <form
-            onSubmit={handleSubmit}
+            onSubmit={
+              handleSubmit
+            }
             className="space-y-4"
           >
 
             {/* Name */}
             <div>
               <label className="block text-sm font-semibold text-navy mb-1">
-                Full Name <span className="text-red-500">*</span>
+                Full Name{' '}
+                <span className="text-red-500">
+                  *
+                </span>
               </label>
 
               <input
                 type="text"
                 name="name"
-                value={formData.name}
-                onChange={handleChange}
+                value={
+                  formData.name
+                }
+                onChange={
+                  handleChange
+                }
                 placeholder="Enter your name"
                 className={`w-full px-4 py-3 bg-cream-dark border-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-navy-light transition-all ${
                   errors.name
@@ -260,22 +303,31 @@ export default function FormModal({
 
               {errors.name && (
                 <p className="text-red-500 text-sm mt-1">
-                  {errors.name}
+                  {
+                    errors.name
+                  }
                 </p>
               )}
             </div>
 
-            {/* Colony Dropdown */}
+            {/* Colony */}
             <div>
               <label className="block text-sm font-semibold text-navy mb-1">
-                Colony / Area in Delhi{' '}
-                <span className="text-red-500">*</span>
+                Colony / Area in
+                Delhi{' '}
+                <span className="text-red-500">
+                  *
+                </span>
               </label>
 
               <select
                 name="colony"
-                value={formData.colony}
-                onChange={handleChange}
+                value={
+                  formData.colony
+                }
+                onChange={
+                  handleChange
+                }
                 className={`w-full px-4 py-3 bg-cream-dark border-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-navy-light transition-all appearance-none cursor-pointer ${
                   errors.colony
                     ? 'border-red-500'
@@ -283,22 +335,31 @@ export default function FormModal({
                 }`}
               >
                 <option value="">
-                  Select your area
+                  Select your
+                  area
                 </option>
 
-                {colonyOptions.map((area) => (
-                  <option
-                    key={area}
-                    value={area}
-                  >
-                    {area}
-                  </option>
-                ))}
+                {colonyOptions.map(
+                  (area) => (
+                    <option
+                      key={
+                        area
+                      }
+                      value={
+                        area
+                      }
+                    >
+                      {area}
+                    </option>
+                  )
+                )}
               </select>
 
               {errors.colony && (
                 <p className="text-red-500 text-sm mt-1">
-                  {errors.colony}
+                  {
+                    errors.colony
+                  }
                 </p>
               )}
             </div>
@@ -306,62 +367,101 @@ export default function FormModal({
             {/* Source */}
             <div>
               <label className="block text-sm font-semibold text-navy mb-1">
-                How did you hear about us?
+                How did you hear
+                about us?
               </label>
 
               <select
                 name="source"
-                value={formData.source}
-                onChange={handleChange}
+                value={
+                  formData.source
+                }
+                onChange={
+                  handleChange
+                }
                 className="w-full px-4 py-3 bg-cream-dark border-2 border-transparent rounded-xl focus:outline-none focus:ring-2 focus:ring-navy-light transition-all appearance-none cursor-pointer"
               >
-                <option value="">Select an option</option>
+                <option value="">
+                  Select an
+                  option
+                </option>
 
-                {sourceOptions.map((opt) => (
-                  <option
-                    key={opt}
-                    value={opt}
-                  >
-                    {opt}
-                  </option>
-                ))}
+                {sourceOptions.map(
+                  (opt) => (
+                    <option
+                      key={
+                        opt
+                      }
+                      value={
+                        opt
+                      }
+                    >
+                      {opt}
+                    </option>
+                  )
+                )}
               </select>
             </div>
 
             {/* Station Type */}
             <div>
               <label className="block text-sm font-semibold text-navy mb-1">
-                Type of Water Station
+                Type of Water
+                Station
               </label>
 
               <select
                 name="stationType"
-                value={formData.stationType}
-                onChange={handleChange}
+                value={
+                  formData.stationType
+                }
+                onChange={
+                  handleChange
+                }
                 className="w-full px-4 py-3 bg-cream-dark border-2 border-transparent rounded-xl focus:outline-none focus:ring-2 focus:ring-navy-light transition-all appearance-none cursor-pointer"
               >
-                <option value="">Select an option</option>
+                <option value="">
+                  Select an
+                  option
+                </option>
 
-                {stationOptions.map((opt) => (
-                  <option
-                    key={opt}
-                    value={opt}
-                  >
-                    {opt}
-                  </option>
-                ))}
+                {stationOptions.map(
+                  (opt) => (
+                    <option
+                      key={
+                        opt
+                      }
+                      value={
+                        opt
+                      }
+                    >
+                      {opt}
+                    </option>
+                  )
+                )}
               </select>
             </div>
 
             {/* Submit Button */}
             <button
               type="submit"
-              disabled={isSubmitting}
-              className="w-full bg-navy text-cream py-4 px-6 rounded-xl font-bold text-lg hover:bg-navy-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed mt-6"
+              disabled={
+                isSubmitting
+              }
+              className="w-full bg-navy text-cream py-4 px-6 rounded-xl font-bold text-lg hover:bg-navy-dark transition-all disabled:opacity-50 disabled:cursor-not-allowed mt-6 flex items-center justify-center gap-3"
             >
-              {isSubmitting
-                ? 'Joining...'
-                : 'Join the Mission 🐦'}
+              {isSubmitting ? (
+                <>
+                  <div className="w-5 h-5 border-2 border-cream/40 border-t-cream rounded-full animate-spin" />
+
+                  <span>
+                    Saving your
+                    mission...
+                  </span>
+                </>
+              ) : (
+                'Join the Mission 🐦'
+              )}
             </button>
           </form>
         </div>
