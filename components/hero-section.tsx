@@ -288,11 +288,17 @@ export default function HeroSection({
         duration={20}
       />
 
+      <FlyingBird
+        delay={3}
+        top="30%"
+        duration={25}
+      />
+
       {/* Content */}
-      <div className="relative z-10 text-center px-4 pt-12 pb-16">
+      <div className="relative z-10 text-center px-4 pt-20 pb-16 max-w-5xl mx-auto">
 
         {/* Weather */}
-        <div className="inline-flex items-center gap-3 bg-cream/90 backdrop-blur-sm px-8 py-4 rounded-full shadow-xl mb-6 -mt-12 border border-white/40">
+        <div className="inline-flex items-center gap-3 bg-cream/90 backdrop-blur-sm px-6 md:px-8 py-4 rounded-full shadow-xl mb-6 border border-white/40">
 
           <span className="text-3xl">
             🌡️
@@ -307,7 +313,8 @@ export default function HeroSection({
           </span>
         </div>
 
-        <p className="text-navy/80 font-medium text-lg mb-6 max-w-md mx-auto">
+        {/* Weather Message */}
+        <p className="text-navy/80 font-medium text-lg mb-8 max-w-md mx-auto">
           {weather.loading ||
           weather.error
             ? 'Birds need fresh water every day.'
@@ -316,12 +323,65 @@ export default function HeroSection({
               )}
         </p>
 
+        {/* Main Mission Box */}
+        <div className="max-w-4xl mx-auto mb-10 bg-cream/80 backdrop-blur-md border border-white/40 rounded-3xl px-6 py-5 shadow-xl">
+
+          <div className="flex flex-col md:flex-row items-center justify-center gap-4 text-center">
+
+            <div className="text-5xl">
+              🪹
+            </div>
+
+            <div>
+              <p className="text-xl md:text-2xl font-bold text-navy leading-relaxed">
+                Keep a water bowl for birds this summer.
+              </p>
+
+              <p className="text-navy/80 font-medium text-base md:text-lg mt-1">
+                💙 Place it outside & become a saviour.
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        {/* Small Recognition Section */}
+        <div className="flex items-center justify-center gap-8 md:gap-16 mb-10 text-center">
+
+          <div>
+            <p className="text-3xl mb-2">
+              🏅
+            </p>
+
+            <p className="text-sm md:text-base font-semibold text-navy leading-relaxed">
+              Get your
+              <br />
+              Saviour Certificate
+            </p>
+          </div>
+
+          <div className="w-px h-16 bg-navy/20" />
+
+          <div>
+            <p className="text-3xl mb-2">
+              🛡️
+            </p>
+
+            <p className="text-sm md:text-base font-semibold text-navy leading-relaxed">
+              Join Delhi&apos;s
+              <br />
+              bird mission
+            </p>
+          </div>
+
+        </div>
+
         {/* Counter */}
         <div
           ref={counterRef}
           className="mb-4"
         >
-          <span className="text-8xl md:text-9xl font-extrabold text-navy animate-count-up">
+          <span className="text-7xl md:text-9xl font-extrabold text-navy animate-count-up">
 
             {saviourCount ===
             null
@@ -364,10 +424,16 @@ export default function HeroSection({
           onClick={
             onBecomeSaviour
           }
-          className="inline-flex items-center gap-2 bg-navy text-cream px-10 py-5 rounded-2xl font-bold text-xl shadow-xl hover:bg-navy-dark transition-all hover:scale-105 animate-pulse-glow"
+          className="inline-flex items-center gap-2 bg-navy text-cream px-8 md:px-10 py-5 rounded-2xl font-bold text-xl shadow-xl hover:bg-navy-dark transition-all hover:scale-105 animate-pulse-glow"
         >
           🐦 Become a Saviour
         </button>
+
+        {/* Tiny Footer Note */}
+        <p className="text-navy/70 text-sm mt-5 font-medium">
+          ↪ Place a bowl, help birds & join the movement.
+        </p>
+
       </div>
 
       {/* Bottom Fade */}
