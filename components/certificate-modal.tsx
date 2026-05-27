@@ -3,7 +3,7 @@
 import { useRef, useState } from 'react';
 import {
   X,
-  Download,
+ Download,
   Instagram,
   MessageCircle,
 } from 'lucide-react';
@@ -69,7 +69,6 @@ https://praan.me
         )
           return null;
 
-        // wait for modal render
         await new Promise(
           (resolve) =>
             setTimeout(
@@ -83,18 +82,12 @@ https://praan.me
             certificateRef.current,
             {
               scale: 2,
-
               backgroundColor:
                 '#F5F0E8',
-
               useCORS: false,
-
               allowTaint: true,
-
-              logging: true,
-
+              logging: false,
               imageTimeout: 0,
-
               removeContainer: true,
             }
           );
@@ -237,20 +230,25 @@ https://praan.me
 
       {/* Backdrop */}
       <div
-        className="absolute inset-0 bg-navy/60 backdrop-blur-sm"
+        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
         onClick={onClose}
       />
 
       {/* Modal */}
-      <div className="relative bg-cream rounded-3xl shadow-2xl w-full max-w-xl my-4 sm:my-8 animate-slide-up max-h-[95vh] overflow-y-auto border border-white/30">
+      <div className="relative rounded-3xl shadow-2xl w-full max-w-xl my-4 sm:my-8 max-h-[95vh] overflow-y-auto border border-white/30 bg-[#F5F0E8]">
 
         {/* Close */}
         <button
           onClick={onClose}
-          className="absolute top-3 right-3 sm:top-4 sm:right-4 p-2 hover:bg-cream-dark rounded-xl transition-colors z-10"
+          className="absolute top-3 right-3 sm:top-4 sm:right-4 p-2 rounded-xl transition-colors z-10 hover:bg-[#EEE7DB]"
           aria-label="Close"
         >
-          <X className="w-5 h-5 sm:w-6 sm:h-6 text-navy" />
+          <X
+            className="w-5 h-5 sm:w-6 sm:h-6"
+            style={{
+              color: '#163B73',
+            }}
+          />
         </button>
 
         <div className="p-4 sm:p-6">
@@ -258,7 +256,12 @@ https://praan.me
           {/* Certificate */}
           <div
             ref={certificateRef}
-            className="bg-cream p-4 sm:p-6 md:p-8 border-[5px] sm:border-[6px] border-double border-navy rounded-2xl relative overflow-hidden shadow-inner"
+            style={{
+              background: '#F5F0E8',
+              border: '6px double #163B73',
+              color: '#163B73',
+            }}
+            className="p-4 sm:p-6 md:p-8 rounded-2xl relative overflow-hidden shadow-inner"
           >
 
             {/* Leaves */}
@@ -293,29 +296,54 @@ https://praan.me
 
               </div>
 
-              <span className="text-xl sm:text-2xl font-extrabold text-navy leading-tight">
+              <span
+                className="text-xl sm:text-2xl font-extrabold leading-tight"
+                style={{
+                  color: '#163B73',
+                }}
+              >
                 Water For Wings
               </span>
 
             </div>
 
             {/* Title */}
-            <h2 className="text-center text-navy font-bold tracking-[0.12em] sm:tracking-[0.2em] text-xs sm:text-base mb-4">
+            <h2
+              className="text-center font-bold tracking-[0.12em] sm:tracking-[0.2em] text-xs sm:text-base mb-4"
+              style={{
+                color: '#163B73',
+              }}
+            >
               ── ♥ SAVIOUR CERTIFICATE ♥ ──
             </h2>
 
             {/* Text */}
-            <p className="text-center text-navy/70 uppercase tracking-wide text-xs sm:text-sm mb-2">
+            <p
+              className="text-center uppercase tracking-wide text-xs sm:text-sm mb-2"
+              style={{
+                color: '#4B658C',
+              }}
+            >
               This certifies that
             </p>
 
             {/* Name */}
-            <h3 className="text-center text-2xl sm:text-3xl md:text-4xl font-extrabold text-navy mb-2 break-words">
+            <h3
+              className="text-center text-2xl sm:text-3xl md:text-4xl font-extrabold mb-2 break-words"
+              style={{
+                color: '#163B73',
+              }}
+            >
               {saviour.name}
             </h3>
 
             {/* Number */}
-            <p className="text-center text-sm sm:text-base text-navy/80 mb-4 px-2">
+            <p
+              className="text-center text-sm sm:text-base mb-4 px-2"
+              style={{
+                color: '#4B658C',
+              }}
+            >
               is an official{' '}
               <span className="font-bold">
                 Saviour No.{' '}
@@ -328,7 +356,14 @@ https://praan.me
             {/* Badge */}
             <div className="flex justify-center mb-4">
 
-              <span className="inline-flex items-center gap-2 bg-navy/10 px-4 py-2 rounded-full text-navy font-bold text-sm sm:text-base">
+              <span
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-full font-bold text-sm sm:text-base"
+                style={{
+                  backgroundColor:
+                    '#DDE7F5',
+                  color: '#163B73',
+                }}
+              >
                 💙 SAVIOUR
               </span>
 
@@ -337,17 +372,33 @@ https://praan.me
             {/* Info */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-3 text-center mb-4">
 
-              <div className="bg-cream-dark p-3 rounded-xl">
+              <div
+                className="p-3 rounded-xl"
+                style={{
+                  backgroundColor:
+                    '#EEE7DB',
+                }}
+              >
 
                 <span className="text-xl">
                   📍
                 </span>
 
-                <p className="text-xs text-navy/60 uppercase mt-1">
+                <p
+                  className="text-xs uppercase mt-1"
+                  style={{
+                    color: '#4B658C',
+                  }}
+                >
                   Colony
                 </p>
 
-                <p className="font-semibold text-navy text-sm break-words">
+                <p
+                  className="font-semibold text-sm break-words"
+                  style={{
+                    color: '#163B73',
+                  }}
+                >
                   {
                     saviour.colony
                   }
@@ -355,17 +406,33 @@ https://praan.me
 
               </div>
 
-              <div className="bg-cream-dark p-3 rounded-xl">
+              <div
+                className="p-3 rounded-xl"
+                style={{
+                  backgroundColor:
+                    '#EEE7DB',
+                }}
+              >
 
                 <span className="text-xl">
                   🫙
                 </span>
 
-                <p className="text-xs text-navy/60 uppercase mt-1">
+                <p
+                  className="text-xs uppercase mt-1"
+                  style={{
+                    color: '#4B658C',
+                  }}
+                >
                   Station
                 </p>
 
-                <p className="font-semibold text-navy text-sm break-words">
+                <p
+                  className="font-semibold text-sm break-words"
+                  style={{
+                    color: '#163B73',
+                  }}
+                >
                   {
                     saviour.stationType
                   }
@@ -373,17 +440,33 @@ https://praan.me
 
               </div>
 
-              <div className="bg-cream-dark p-3 rounded-xl">
+              <div
+                className="p-3 rounded-xl"
+                style={{
+                  backgroundColor:
+                    '#EEE7DB',
+                }}
+              >
 
                 <span className="text-xl">
                   📅
                 </span>
 
-                <p className="text-xs text-navy/60 uppercase mt-1">
+                <p
+                  className="text-xs uppercase mt-1"
+                  style={{
+                    color: '#4B658C',
+                  }}
+                >
                   Date
                 </p>
 
-                <p className="font-semibold text-navy text-sm">
+                <p
+                  className="font-semibold text-sm"
+                  style={{
+                    color: '#163B73',
+                  }}
+                >
                   {
                     formattedDate
                   }
@@ -394,20 +477,42 @@ https://praan.me
             </div>
 
             {/* Divider */}
-            <div className="flex items-center justify-center gap-2 text-navy/30 mb-4">
+            <div
+              className="flex items-center justify-center gap-2 mb-4"
+              style={{
+                color: '#AAB7CF',
+              }}
+            >
 
-              <div className="flex-1 h-px bg-navy/20" />
+              <div
+                className="flex-1 h-px"
+                style={{
+                  backgroundColor:
+                    '#D7DFEC',
+                }}
+              />
 
               <span>
                 ♥
               </span>
 
-              <div className="flex-1 h-px bg-navy/20" />
+              <div
+                className="flex-1 h-px"
+                style={{
+                  backgroundColor:
+                    '#D7DFEC',
+                }}
+              />
 
             </div>
 
             {/* CTA */}
-            <p className="text-center text-navy/70 text-xs sm:text-sm px-2 leading-relaxed">
+            <p
+              className="text-center text-xs sm:text-sm px-2 leading-relaxed"
+              style={{
+                color: '#4B658C',
+              }}
+            >
               📷 Share your certificate and inspire more people to help Delhi&apos;s birds 💙
             </p>
 
@@ -487,7 +592,7 @@ https://praan.me
               disabled={
                 isDownloading
               }
-              className="group flex items-center justify-center gap-3 bg-white text-navy px-4 py-3.5 rounded-2xl font-semibold border-2 border-navy/10 hover:border-navy/30 hover:scale-[1.02] transition-all duration-200 shadow-lg disabled:opacity-60"
+              className="group flex items-center justify-center gap-3 bg-white text-[#163B73] px-4 py-3.5 rounded-2xl font-semibold border-2 border-[#D7DFEC] hover:border-[#163B73] hover:scale-[1.02] transition-all duration-200 shadow-lg disabled:opacity-60"
             >
 
               <Download className="w-5 h-5" />
