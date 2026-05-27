@@ -268,11 +268,19 @@ export default function FoundersMessagePage() {
                 {/* Email */}
                 <a
                   href="mailto:Akshay1092001@yahoo.com"
-                  className="bg-cream/80 backdrop-blur-md border border-white/40 rounded-2xl px-6 py-8 shadow-lg hover:scale-105 transition-all text-center"
+                  className="bg-cream/80 backdrop-blur-md border border-white/40 rounded-2xl px-6 py-8 shadow-lg hover:scale-105 transition-all text-center flex flex-col items-center justify-center"
                 >
-                  <div className="text-4xl mb-4">
-                    📧
-                  </div>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    className="w-10 h-10 text-navy mb-4"
+                  >
+                    <path d="M4 4h16v16H4z" stroke="none" />
+                    <path d="M4 6l8 7 8-7" />
+                  </svg>
 
                   <p className="text-xl font-bold text-navy">
                     Email
@@ -284,11 +292,16 @@ export default function FoundersMessagePage() {
                   href="https://linkedin.com/in/akshay-kumar10"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-cream/80 backdrop-blur-md border border-white/40 rounded-2xl px-6 py-8 shadow-lg hover:scale-105 transition-all text-center"
+                  className="bg-cream/80 backdrop-blur-md border border-white/40 rounded-2xl px-6 py-8 shadow-lg hover:scale-105 transition-all text-center flex flex-col items-center justify-center"
                 >
-                  <div className="text-4xl mb-4">
-                    💼
-                  </div>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    className="w-10 h-10 text-navy mb-4"
+                  >
+                    <path d="M4.98 3.5C4.98 4.60457 4.10457 5.5 3 5.5C1.89543 5.5 1 4.60457 1 3.5C1 2.39543 1.89543 1.5 3 1.5C4.10457 1.5 4.98 2.39543 4.98 3.5ZM1.5 8H4.5V22H1.5V8ZM8 8H10.88V9.91H10.92C11.32 9.15 12.3 8.35 13.75 8.35C17 8.35 17.5 10.46 17.5 13.2V22H14.5V14.1C14.5 12.22 14.46 9.8 11.88 9.8C9.26 9.8 8.86 11.75 8.86 13.97V22H5.86V8H8Z" />
+                  </svg>
 
                   <p className="text-xl font-bold text-navy">
                     LinkedIn
@@ -300,11 +313,33 @@ export default function FoundersMessagePage() {
                   href="https://instagram.com/akshayyyy.000"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-cream/80 backdrop-blur-md border border-white/40 rounded-2xl px-6 py-8 shadow-lg hover:scale-105 transition-all text-center"
+                  className="bg-cream/80 backdrop-blur-md border border-white/40 rounded-2xl px-6 py-8 shadow-lg hover:scale-105 transition-all text-center flex flex-col items-center justify-center"
                 >
-                  <div className="text-4xl mb-4">
-                    📸
-                  </div>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    className="w-10 h-10 text-navy mb-4"
+                  >
+                    <rect
+                      x="2"
+                      y="2"
+                      width="20"
+                      height="20"
+                      rx="5"
+                    />
+
+                    <path d="M16 11.37A4 4 0 1 1 12.63 8A4 4 0 0 1 16 11.37z" />
+
+                    <line
+                      x1="17.5"
+                      y1="6.5"
+                      x2="17.51"
+                      y2="6.5"
+                    />
+                  </svg>
 
                   <p className="text-xl font-bold text-navy">
                     Instagram
