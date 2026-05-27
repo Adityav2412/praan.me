@@ -338,27 +338,11 @@ export default function HeroSection({
               </p>
 
               <p className="text-navy/80 font-medium text-base md:text-lg mt-1">
-                💙 Place it outside & become a saviour.
+                💙 Place it outside & claim your Saviour badge 🏅
               </p>
             </div>
 
           </div>
-        </div>
-
-        {/* Action Clarity Section */}
-        <div className="max-w-3xl mx-auto mb-10">
-
-          <div className="bg-white/55 backdrop-blur-md border border-white/40 rounded-2xl px-5 py-4 shadow-lg">
-
-            <p className="text-navy font-semibold text-sm md:text-base leading-relaxed text-center">
-
-              Place a real water bowl outside for birds,
-              then claim your Saviour badge 💙
-
-            </p>
-
-          </div>
-
         </div>
 
         {/* Counter */}
