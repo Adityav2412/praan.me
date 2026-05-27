@@ -70,11 +70,10 @@ export default function FoundersMessagePage() {
           {/* Content */}
           <div className="relative z-10 max-w-4xl mx-auto text-center pt-32 pb-20">
 
-            {/* Heading */}
-            {/* Heading */}
+         {/* Heading */}
 <div className="mb-12">
 
-  <h1 className="text-5xl md:text-7xl font-extrabold text-navy tracking-[0.15em] uppercase mb-6">
+  <h1 className="text-4xl md:text-6xl font-extrabold text-navy uppercase mb-5 leading-tight">
     Founder&apos;s Message
   </h1>
 
