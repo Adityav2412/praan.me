@@ -54,33 +54,38 @@ export default function Sidebar({
     section: string
   ) => {
     onNavigate(section);
-
     onClose();
   };
 
   const handleFounderMessage =
     () => {
       onClose();
-
       setTimeout(() => {
         window.location.href =
           '/founders-message';
-      }, 250);
+      }, 300);
     };
-
-  if (!isOpen) return null;
 
   return (
     <>
       {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-navy/50 z-50 transition-opacity backdrop-blur-sm"
+        className={`fixed inset-0 bg-navy/50 z-50 backdrop-blur-sm transition-opacity duration-300 ${
+          isOpen
+            ? 'opacity-100 pointer-events-auto'
+            : 'opacity-0 pointer-events-none'
+        }`}
         onClick={onClose}
       />
 
       {/* Sidebar */}
-      <div className="fixed top-0 right-0 h-full w-[88%] max-w-sm bg-cream shadow-2xl z-50 animate-slide-in-right overflow-y-auto">
-
+      <div
+        className={`fixed top-0 right-0 h-full w-[88%] max-w-sm bg-cream shadow-2xl z-50 overflow-y-auto transition-transform duration-300 ease-in-out ${
+          isOpen
+            ? 'translate-x-0'
+            : 'translate-x-full'
+        }`}
+      >
         <div className="relative p-5 md:p-6 min-h-full">
 
           {/* Close button */}
@@ -94,7 +99,6 @@ export default function Sidebar({
 
           {/* Logo + Brand */}
           <div className="flex items-center gap-3 mb-8 pr-10">
-
             <Image
               src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/ww-QZ98dXoNzpWbA8gocF0kQv926CU5Le.png"
               alt="Water For Wings Logo"
@@ -103,7 +107,6 @@ export default function Sidebar({
               priority
               className="w-14 h-14 md:w-16 md:h-16 flex-shrink-0"
             />
-
             <span className="text-lg md:text-xl font-extrabold text-navy leading-tight">
               Water For Wings
             </span>
@@ -113,7 +116,6 @@ export default function Sidebar({
           <button
             onClick={() => {
               onBecomeSaviour();
-
               onClose();
             }}
             className="w-full bg-navy text-cream py-4 px-5 rounded-2xl font-bold text-base md:text-lg mb-6 hover:bg-navy-dark transition-colors shadow-lg animate-pulse-glow"
@@ -123,39 +125,28 @@ export default function Sidebar({
 
           {/* Menu */}
           <nav className="space-y-2 pb-8">
-
-            {menuItems.map(
-              (item) => (
-                <button
-                  key={
-                    item.section
-                  }
-                  onClick={() =>
-                    handleNavClick(
-                      item.section
-                    )
-                  }
-                  className="w-full text-left px-4 py-3 text-navy font-medium rounded-xl hover:bg-cream-dark transition-colors text-base"
-                >
-                  {item.label}
-                </button>
-              )
-            )}
+            {menuItems.map((item) => (
+              <button
+                key={item.section}
+                onClick={() =>
+                  handleNavClick(item.section)
+                }
+                className="w-full text-left px-4 py-3 text-navy font-medium rounded-xl hover:bg-cream-dark transition-colors text-base"
+              >
+                {item.label}
+              </button>
+            ))}
 
             <button
-              onClick={
-                handleFounderMessage
-              }
+              onClick={handleFounderMessage}
               className="w-full text-left px-4 py-3 text-navy font-medium rounded-xl hover:bg-cream-dark transition-colors text-base"
             >
               Founder&apos;s Message
             </button>
-
           </nav>
 
           {/* Footer */}
           <div className="border-t border-navy/10 pt-5 mt-6">
-
             <p className="text-sm text-navy/60 text-center">
               Saving Delhi&apos;s birds 💙
             </p>
