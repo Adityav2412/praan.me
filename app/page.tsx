@@ -73,7 +73,7 @@ export default function Home() {
     const interval =
       setInterval(
         updateData,
-        10000
+        3000
       );
 
     return () =>
