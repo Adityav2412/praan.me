@@ -99,7 +99,7 @@ export default function FoundersMessagePage() {
                 </p>
 
                 <p>
-                  Birds were
+                  Birds are
                   suffering and
                   dying in the
                   extreme heat. And
