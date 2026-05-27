@@ -15,6 +15,11 @@ export default function SaviourWall() {
   const [loading, setLoading] =
     useState(true);
 
+  const [
+    visibleCount,
+    setVisibleCount,
+  ] = useState(9);
+
   useEffect(() => {
     let mounted = true;
 
@@ -42,16 +47,14 @@ export default function SaviourWall() {
 
           // newest first
           const latest =
-            [...cleanData]
-              .sort(
-                (
-                  a,
-                  b
-                ) =>
-                  b.saviourNumber -
-                  a.saviourNumber
-              )
-              .slice(0, 10);
+            [...cleanData].sort(
+              (
+                a,
+                b
+              ) =>
+                b.saviourNumber -
+                a.saviourNumber
+            );
 
           if (mounted) {
             setSaviours(latest);
@@ -101,6 +104,12 @@ export default function SaviourWall() {
       );
     };
   }, []);
+
+  const visibleSaviours =
+    saviours.slice(
+      0,
+      visibleCount
+    );
 
   return (
     <section
@@ -161,64 +170,88 @@ export default function SaviourWall() {
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
 
-            {saviours.map(
-              (
-                saviour,
-                index
-              ) => (
-                <div
-                  key={`${saviour.id}-${saviour.saviourNumber}`}
-                  className={`bg-cream-dark border-2 border-transparent hover:border-navy/20 rounded-xl p-5 transition-all hover:shadow-lg ${
-                    index === 0
-                      ? 'animate-slide-up'
-                      : ''
-                  }`}
-                >
-                  <div className="flex items-start justify-between mb-3">
+              {visibleSaviours.map(
+                (
+                  saviour,
+                  index
+                ) => (
+                  <div
+                    key={`${saviour.id}-${saviour.saviourNumber}`}
+                    className={`bg-cream-dark border-2 border-transparent hover:border-navy/20 rounded-xl p-5 transition-all hover:shadow-lg ${
+                      index === 0
+                        ? 'animate-slide-up'
+                        : ''
+                    }`}
+                  >
+                    <div className="flex items-start justify-between mb-3">
 
-                    <div>
-                      <h3 className="font-bold text-navy text-lg">
+                      <div>
+                        <h3 className="font-bold text-navy text-lg">
+                          {
+                            saviour.name
+                          }
+                        </h3>
+
+                        <p className="text-navy/60 text-sm">
+                          {
+                            saviour.colony
+                          }
+                        </p>
+                      </div>
+
+                      <span className="bg-navy text-cream text-xs font-bold px-3 py-1 rounded-full">
+                        #
                         {
-                          saviour.name
+                          saviour.saviourNumber
                         }
-                      </h3>
-
-                      <p className="text-navy/60 text-sm">
-                        {
-                          saviour.colony
-                        }
-                      </p>
+                      </span>
                     </div>
 
-                    <span className="bg-navy text-cream text-xs font-bold px-3 py-1 rounded-full">
-                      #
-                      {
-                        saviour.saviourNumber
-                      }
-                    </span>
+                    <div className="flex items-center justify-between text-sm">
+
+                      <span className="text-navy/70">
+                        🫙{' '}
+                        {
+                          saviour.stationType
+                        }
+                      </span>
+
+                      <span className="text-navy/50">
+                        {formatTimeAgo(
+                          saviour.timestamp
+                        )}
+                      </span>
+                    </div>
                   </div>
+                )
+              )}
+            </div>
 
-                  <div className="flex items-center justify-between text-sm">
+            {/* Load More Button */}
+            {visibleCount <
+              saviours.length && (
+              <div className="flex justify-center mt-10">
 
-                    <span className="text-navy/70">
-                      🫙{' '}
-                      {
-                        saviour.stationType
-                      }
-                    </span>
+                <button
+                  onClick={() =>
+                    setVisibleCount(
+                      (
+                        prev
+                      ) =>
+                        prev + 9
+                    )
+                  }
+                  className="bg-navy text-cream px-8 py-4 rounded-2xl font-bold shadow-lg hover:bg-navy-dark hover:scale-105 transition-all duration-300"
+                >
+                  Load More Saviours 💙
+                </button>
 
-                    <span className="text-navy/50">
-                      {formatTimeAgo(
-                        saviour.timestamp
-                      )}
-                    </span>
-                  </div>
-                </div>
-              )
+              </div>
             )}
-          </div>
+          </>
         )}
       </div>
     </section>
