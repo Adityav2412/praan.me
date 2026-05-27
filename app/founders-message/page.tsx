@@ -71,16 +71,18 @@ export default function FoundersMessagePage() {
           <div className="relative z-10 max-w-4xl mx-auto text-center pt-32 pb-20">
 
             {/* Heading */}
-            <p className="text-sm md:text-base font-bold tracking-[0.3em] uppercase text-navy/70 mb-5">
-              Founder&apos;s Message
-            </p>
+            {/* Heading */}
+<div className="mb-12">
 
-            {/* Subheading */}
-            <h1 className="text-5xl md:text-7xl font-extrabold text-navy leading-tight mb-10">
-              Why I Started
-              <br />
-              Water For Wings?
-            </h1>
+  <h1 className="text-5xl md:text-7xl font-extrabold text-navy tracking-[0.15em] uppercase mb-6">
+    Founder&apos;s Message
+  </h1>
+
+  <h2 className="text-2xl md:text-4xl font-bold text-navy/80 leading-relaxed">
+    Why I Started Water For Wings?
+  </h2>
+
+</div>
 
             {/* Main Message */}
             <div className="bg-cream/80 backdrop-blur-md border border-white/40 rounded-3xl px-6 md:px-10 py-8 md:py-10 shadow-xl text-left">
