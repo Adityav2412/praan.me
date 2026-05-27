@@ -1,30 +1,32 @@
 'use client';
 
-import Image from 'next/image';
-
 export default function Footer() {
   return (
     <footer className="bg-navy text-cream py-12 px-4">
       <div className="max-w-4xl mx-auto text-center">
 
-        {/* Logo */}
-        <div className="flex items-center justify-center gap-3 mb-6">
-          <Image
-            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/ww-QZ98dXoNzpWbA8gocF0kQv926CU5Le.png"
-            alt="Water For Wings Logo"
-            width={64}
-            height={64}
-            className="w-16 h-16"
-          />
+        {/* Circular Logo */}
+        <div className="flex flex-col items-center justify-center mb-6">
+
+          <div className="w-20 h-20 rounded-full bg-[#FAF7F2] flex items-center justify-center shadow-lg overflow-hidden mb-4">
+
+            <img
+              src="/bird-logo.png"
+              alt="Water For Wings Logo"
+              className="w-14 h-14 object-contain"
+            />
+
+          </div>
 
           <span className="text-2xl font-extrabold">
             Water For Wings
           </span>
+
         </div>
 
         {/* Tagline */}
-        <p className="text-cream/80 mb-4">
-          Saving Delhi&apos;s birds, one water station at a time.
+        <p className="text-cream/80 mb-4 text-lg leading-relaxed">
+          Saving Delhi&apos;s birds, One water station is all it takes.
         </p>
 
         {/* Website */}
@@ -73,12 +75,14 @@ export default function Footer() {
               <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
             </svg>
           </a>
+
         </div>
 
         {/* Copyright */}
         <p className="text-cream/50 text-sm">
           © 2026 Water For Wings. Made with 💙 for Delhi&apos;s birds.
         </p>
+
       </div>
     </footer>
   );
