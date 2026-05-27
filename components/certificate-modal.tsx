@@ -1,12 +1,12 @@
 'use client';
 
 import { useRef, useState } from 'react';
-
 import Image from 'next/image';
-
 import {
   X,
   Download,
+  Instagram,
+  MessageCircle,
 } from 'lucide-react';
 
 import html2canvas from 'html2canvas';
@@ -52,33 +52,61 @@ export default function CertificateModal({
       }
     );
 
-  const shareText = `I just became Delhi Bird Saviour #${saviour.saviourNumber}! I placed a ${saviour.stationType} in ${saviour.colony} to save birds this summer 🐦💧 Join me at praan.me #DelhiBirdsNeedWater`;
+  const shareText = `I became a Saviour with Water For Wings 🐦💧
 
-  const handleDownload =
+Delhi’s birds need water this summer.
+You can help too.
+
+Get your Saviour Certificate:
+https://praan.me
+
+#DelhiBirdsNeedWater`;
+
+  const generateCertificateBlob =
     async () => {
       if (
         !certificateRef.current
       )
-        return;
+        return null;
 
+      const canvas =
+        await html2canvas(
+          certificateRef.current,
+          {
+            scale: 2,
+            backgroundColor:
+              '#F5F0E8',
+            useCORS: true,
+            logging: false,
+          }
+        );
+
+      return new Promise<Blob | null>(
+        (resolve) => {
+          canvas.toBlob(
+            (blob) =>
+              resolve(blob),
+            'image/png'
+          );
+        }
+      );
+    };
+
+  const handleDownload =
+    async () => {
       try {
         setIsDownloading(
           true
         );
 
-        const canvas =
-          await html2canvas(
-            certificateRef.current,
-            {
-              scale: 2,
+        const blob =
+          await generateCertificateBlob();
 
-              backgroundColor:
-                '#F5F0E8',
+        if (!blob) return;
 
-              useCORS: true,
-
-              logging: false,
-            }
+        const url =
+          URL.createObjectURL(
+            blob
           );
 
         const link =
@@ -88,12 +116,13 @@ export default function CertificateModal({
 
         link.download = `WaterForWings-Saviour-${saviour.saviourNumber}.png`;
 
-        link.href =
-          canvas.toDataURL(
-            'image/png'
-          );
+        link.href = url;
 
         link.click();
+
+        URL.revokeObjectURL(
+          url
+        );
       } catch (error) {
         console.error(
           'Error downloading certificate:',
@@ -110,37 +139,118 @@ export default function CertificateModal({
       }
     };
 
-  const handleShareX =
-    () => {
-      const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
-        shareText
-      )}`;
+  const handleNativeShare =
+    async (
+      platform:
+        | 'x'
+        | 'whatsapp'
+        | 'instagram'
+    ) => {
+      try {
+        setIsDownloading(
+          true
+        );
 
-      window.open(
-        url,
-        '_blank',
-        'noopener,noreferrer'
-      );
-    };
+        const blob =
+          await generateCertificateBlob();
 
-  const handleShareWhatsApp =
-    () => {
-      const url = `https://wa.me/?text=${encodeURIComponent(
-        shareText
-      )}`;
+        if (!blob) return;
 
-      window.open(
-        url,
-        '_blank',
-        'noopener,noreferrer'
-      );
-    };
+        const file =
+          new File(
+            [blob],
+            `WaterForWings-Saviour-${saviour.saviourNumber}.png`,
+            {
+              type: 'image/png',
+            }
+          );
 
-  const handleShareInstagram =
-    () => {
-      alert(
-        'Instagram page coming soon 💙'
-      );
+        const canShare =
+          navigator.canShare &&
+          navigator.canShare({
+            files: [file],
+          });
+
+        if (canShare) {
+          await navigator.share(
+            {
+              files: [file],
+              title:
+                'Water For Wings',
+              text: shareText,
+            }
+          );
+
+          return;
+        }
+
+        const url =
+          URL.createObjectURL(
+            blob
+          );
+
+        const link =
+          document.createElement(
+            'a'
+          );
+
+        link.download = `WaterForWings-Saviour-${saviour.saviourNumber}.png`;
+
+        link.href = url;
+
+        link.click();
+
+        URL.revokeObjectURL(
+          url
+        );
+
+        if (
+          platform === 'x'
+        ) {
+          window.open(
+            `https://twitter.com/intent/tweet?text=${encodeURIComponent(
+              shareText
+            )}`,
+            '_blank',
+            'noopener,noreferrer'
+          );
+        }
+
+        if (
+          platform ===
+          'whatsapp'
+        ) {
+          window.open(
+            `https://wa.me/?text=${encodeURIComponent(
+              shareText
+            )}`,
+            '_blank',
+            'noopener,noreferrer'
+          );
+        }
+
+        if (
+          platform ===
+          'instagram'
+        ) {
+          alert(
+            'Certificate downloaded 😄\n\nShare it on your Instagram Story and tag @officialwaterforwings 💙'
+          );
+        }
+      } catch (error) {
+        console.error(
+          'Error sharing:',
+          error
+        );
+
+        alert(
+          'Sharing failed. Please try again.'
+        );
+      } finally {
+        setIsDownloading(
+          false
+        );
+      }
     };
 
   return (
@@ -153,7 +263,7 @@ export default function CertificateModal({
       />
 
       {/* Modal */}
-      <div className="relative bg-cream rounded-2xl shadow-2xl w-full max-w-xl my-4 sm:my-8 animate-slide-up max-h-[95vh] overflow-y-auto">
+      <div className="relative bg-cream rounded-3xl shadow-2xl w-full max-w-xl my-4 sm:my-8 animate-slide-up max-h-[95vh] overflow-y-auto border border-white/30">
 
         {/* Close button */}
         <button
@@ -169,7 +279,7 @@ export default function CertificateModal({
           {/* Certificate */}
           <div
             ref={certificateRef}
-            className="bg-cream p-4 sm:p-6 md:p-8 border-[5px] sm:border-[6px] border-double border-navy rounded-xl relative overflow-hidden"
+            className="bg-cream p-4 sm:p-6 md:p-8 border-[5px] sm:border-[6px] border-double border-navy rounded-2xl relative overflow-hidden shadow-inner"
           >
 
             {/* Leaves */}
@@ -192,14 +302,15 @@ export default function CertificateModal({
             {/* Logo */}
             <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3 mb-4 text-center">
 
-              <Image
-                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/ww-QZ98dXoNzpWbA8gocF0kQv926CU5Le.png"
-                alt="Water For Wings Logo"
-                width={80}
-                height={80}
-                priority
-                className="w-16 h-16 sm:w-20 sm:h-20"
-              />
+              <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-[#FAF7F2] flex items-center justify-center shadow-md overflow-hidden">
+
+                <img
+                  src="/bird-logo.png"
+                  alt="Water For Wings Logo"
+                  className="w-11 h-11 sm:w-14 sm:h-14 object-contain"
+                />
+
+              </div>
 
               <span className="text-xl sm:text-2xl font-extrabold text-navy leading-tight">
                 Water For Wings
@@ -238,12 +349,13 @@ export default function CertificateModal({
               <span className="inline-flex items-center gap-2 bg-navy/10 px-4 py-2 rounded-full text-navy font-bold text-sm sm:text-base">
                 💙 SAVIOUR
               </span>
+
             </div>
 
             {/* Info */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-3 text-center mb-4">
 
-              <div className="bg-cream-dark p-3 rounded-lg">
+              <div className="bg-cream-dark p-3 rounded-xl">
 
                 <span className="text-xl">
                   📍
@@ -258,9 +370,10 @@ export default function CertificateModal({
                     saviour.colony
                   }
                 </p>
+
               </div>
 
-              <div className="bg-cream-dark p-3 rounded-lg">
+              <div className="bg-cream-dark p-3 rounded-xl">
 
                 <span className="text-xl">
                   🫙
@@ -275,9 +388,10 @@ export default function CertificateModal({
                     saviour.stationType
                   }
                 </p>
+
               </div>
 
-              <div className="bg-cream-dark p-3 rounded-lg">
+              <div className="bg-cream-dark p-3 rounded-xl">
 
                 <span className="text-xl">
                   📅
@@ -292,7 +406,9 @@ export default function CertificateModal({
                     formattedDate
                   }
                 </p>
+
               </div>
+
             </div>
 
             {/* Divider */}
@@ -305,23 +421,32 @@ export default function CertificateModal({
               </span>
 
               <div className="flex-1 h-px bg-navy/20" />
+
             </div>
 
             {/* CTA */}
-            <p className="text-center text-navy/70 text-xs sm:text-sm px-2">
-              📷 Get featured on Instagram! Follow us and DM your certificate.
+            <p className="text-center text-navy/70 text-xs sm:text-sm px-2 leading-relaxed">
+              📷 Share your certificate and inspire more people to help Delhi&apos;s birds 💙
             </p>
+
           </div>
 
-          {/* Buttons */}
+          {/* Share Buttons */}
           <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3">
 
+            {/* X */}
             <button
-              onClick={
-                handleShareX
+              onClick={() =>
+                handleNativeShare(
+                  'x'
+                )
               }
-              className="flex items-center justify-center gap-2 bg-navy text-cream px-4 py-3 rounded-xl font-medium hover:bg-navy-dark transition-colors text-sm sm:text-base"
+              disabled={
+                isDownloading
+              }
+              className="group flex items-center justify-center gap-3 bg-black text-white px-4 py-3.5 rounded-2xl font-semibold hover:scale-[1.02] transition-all duration-200 shadow-lg disabled:opacity-60"
             >
+
               <svg
                 className="w-5 h-5"
                 viewBox="0 0 24 24"
@@ -330,43 +455,55 @@ export default function CertificateModal({
                 <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
               </svg>
 
-              Share on X
+              <span>
+                Share on X
+              </span>
+
             </button>
 
+            {/* WhatsApp */}
             <button
-              onClick={
-                handleShareWhatsApp
+              onClick={() =>
+                handleNativeShare(
+                  'whatsapp'
+                )
               }
-              className="flex items-center justify-center gap-2 bg-[#25D366] text-white px-4 py-3 rounded-xl font-medium hover:bg-[#20bd5a] transition-colors text-sm sm:text-base"
+              disabled={
+                isDownloading
+              }
+              className="group flex items-center justify-center gap-3 bg-[#25D366] text-white px-4 py-3.5 rounded-2xl font-semibold hover:scale-[1.02] transition-all duration-200 shadow-lg disabled:opacity-60"
             >
-              <svg
-                className="w-5 h-5"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-              >
-                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487." />
-              </svg>
 
-              WhatsApp
+              <MessageCircle className="w-5 h-5" />
+
+              <span>
+                Share on WhatsApp
+              </span>
+
             </button>
 
+            {/* Instagram */}
             <button
-              onClick={
-                handleShareInstagram
+              onClick={() =>
+                handleNativeShare(
+                  'instagram'
+                )
               }
-              className="flex items-center justify-center gap-2 bg-gradient-to-r from-[#833ab4] via-[#fd1d1d] to-[#fcb045] text-white px-4 py-3 rounded-xl font-medium hover:opacity-90 transition-opacity text-sm sm:text-base"
+              disabled={
+                isDownloading
+              }
+              className="group flex items-center justify-center gap-3 bg-gradient-to-r from-[#833AB4] via-[#FD1D1D] to-[#FCAF45] text-white px-4 py-3.5 rounded-2xl font-semibold hover:scale-[1.02] transition-all duration-200 shadow-lg disabled:opacity-60"
             >
-              <svg
-                className="w-5 h-5"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-              >
-                <path d="M12 2.163c3.204 0 3.584.012 4.85.07..." />
-              </svg>
 
-              Instagram
+              <Instagram className="w-5 h-5" />
+
+              <span>
+                Instagram Story
+              </span>
+
             </button>
 
+            {/* Download */}
             <button
               onClick={
                 handleDownload
@@ -374,14 +511,19 @@ export default function CertificateModal({
               disabled={
                 isDownloading
               }
-              className="flex items-center justify-center gap-2 bg-cream-dark text-navy px-4 py-3 rounded-xl font-medium hover:bg-border transition-colors border-2 border-navy disabled:opacity-60 text-sm sm:text-base"
+              className="group flex items-center justify-center gap-3 bg-white text-navy px-4 py-3.5 rounded-2xl font-semibold border-2 border-navy/10 hover:border-navy/30 hover:scale-[1.02] transition-all duration-200 shadow-lg disabled:opacity-60"
             >
+
               <Download className="w-5 h-5" />
 
-              {isDownloading
-                ? 'Downloading...'
-                : 'Download PNG'}
+              <span>
+                {isDownloading
+                  ? 'Preparing...'
+                  : 'Download PNG'}
+              </span>
+
             </button>
+
           </div>
         </div>
       </div>
