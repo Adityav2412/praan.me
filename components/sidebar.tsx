@@ -58,6 +58,16 @@ export default function Sidebar({
     onClose();
   };
 
+  const handleFounderMessage =
+    () => {
+      onClose();
+
+      setTimeout(() => {
+        window.location.href =
+          '/founders-message';
+      }, 250);
+    };
+
   if (!isOpen) return null;
 
   return (
@@ -132,13 +142,14 @@ export default function Sidebar({
               )
             )}
 
-            <Link
-              href="/founders-message"
-              onClick={onClose}
-              className="block w-full text-left px-4 py-3 text-navy font-medium rounded-xl hover:bg-cream-dark transition-colors text-base"
+            <button
+              onClick={
+                handleFounderMessage
+              }
+              className="w-full text-left px-4 py-3 text-navy font-medium rounded-xl hover:bg-cream-dark transition-colors text-base"
             >
               Founder&apos;s Message
-            </Link>
+            </button>
 
           </nav>
 
