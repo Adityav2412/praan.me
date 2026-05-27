@@ -345,33 +345,18 @@ export default function HeroSection({
           </div>
         </div>
 
-        {/* Small Recognition Section */}
-        <div className="flex items-center justify-center gap-8 md:gap-16 mb-10 text-center">
+        {/* Action Clarity Section */}
+        <div className="max-w-3xl mx-auto mb-10">
 
-          <div>
-            <p className="text-3xl mb-2">
-              🏅
+          <div className="bg-white/55 backdrop-blur-md border border-white/40 rounded-2xl px-5 py-4 shadow-lg">
+
+            <p className="text-navy font-semibold text-sm md:text-base leading-relaxed text-center">
+
+              Place a real water bowl outside for birds,
+              then claim your Saviour badge 💙
+
             </p>
 
-            <p className="text-sm md:text-base font-semibold text-navy leading-relaxed">
-              Get your
-              <br />
-              Saviour Certificate
-            </p>
-          </div>
-
-          <div className="w-px h-16 bg-navy/20" />
-
-          <div>
-            <p className="text-3xl mb-2">
-              🛡️
-            </p>
-
-            <p className="text-sm md:text-base font-semibold text-navy leading-relaxed">
-              Join Delhi&apos;s
-              <br />
-              bird mission
-            </p>
           </div>
 
         </div>
