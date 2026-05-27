@@ -48,7 +48,7 @@ export const metadata: Metadata =
 
     title: {
       default:
-        'Water For Wings 🐦💧',
+        'Water For Wings',
       template:
         '%s | Water For Wings',
     },
@@ -89,7 +89,7 @@ export const metadata: Metadata =
 
     openGraph: {
       title:
-        'Water For Wings 🐦💧',
+        'Water For Wings',
 
       description:
         'Help birds survive Delhi’s deadly summer heat. Become a Saviour today.',
@@ -118,7 +118,7 @@ export const metadata: Metadata =
         'summary_large_image',
 
       title:
-        'Water For Wings 🐦💧',
+        'Water For Wings',
 
       description:
         'Place water stations across Delhi and help save birds this summer.',
