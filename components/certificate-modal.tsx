@@ -81,15 +81,7 @@ https://praan.me
           }
         );
 
-      return new Promise<Blob | null>(
-        (resolve) => {
-          canvas.toBlob(
-            (blob) =>
-              resolve(blob),
-            'image/png'
-          );
-        }
-      );
+      return canvas;
     };
 
   const handleDownload =
@@ -99,14 +91,14 @@ https://praan.me
           true
         );
 
-        const blob =
+        const canvas =
           await generateCertificateBlob();
 
-        if (!blob) return;
+        if (!canvas) return;
 
-        const url =
-          URL.createObjectURL(
-            blob
+        const image =
+          canvas.toDataURL(
+            'image/png'
           );
 
         const link =
@@ -114,14 +106,18 @@ https://praan.me
             'a'
           );
 
+        link.href = image;
+
         link.download = `WaterForWings-Saviour-${saviour.saviourNumber}.png`;
 
-        link.href = url;
+        document.body.appendChild(
+          link
+        );
 
         link.click();
 
-        URL.revokeObjectURL(
-          url
+        document.body.removeChild(
+          link
         );
       } catch (error) {
         console.error(
@@ -151,92 +147,114 @@ https://praan.me
           true
         );
 
-        const blob =
+        const canvas =
           await generateCertificateBlob();
 
-        if (!blob) return;
+        if (!canvas) return;
 
-        const file =
-          new File(
-            [blob],
-            `WaterForWings-Saviour-${saviour.saviourNumber}.png`,
-            {
-              type: 'image/png',
-            }
+        const image =
+          canvas.toDataURL(
+            'image/png'
           );
 
-        const canShare =
-          navigator.canShare &&
-          navigator.canShare({
-            files: [file],
-          });
-
-        if (canShare) {
-          await navigator.share(
-            {
-              files: [file],
-              title:
-                'Water For Wings',
-              text: shareText,
-            }
-          );
-
-          return;
-        }
-
-        const url =
-          URL.createObjectURL(
-            blob
-          );
-
+        // download certificate first
         const link =
           document.createElement(
             'a'
           );
 
+        link.href = image;
+
         link.download = `WaterForWings-Saviour-${saviour.saviourNumber}.png`;
 
-        link.href = url;
+        document.body.appendChild(
+          link
+        );
 
         link.click();
 
-        URL.revokeObjectURL(
-          url
+        document.body.removeChild(
+          link
         );
 
-        if (
-          platform === 'x'
-        ) {
-          window.open(
-            `https://twitter.com/intent/tweet?text=${encodeURIComponent(
-              shareText
-            )}`,
-            '_blank',
-            'noopener,noreferrer'
-          );
-        }
+        // native mobile share
+        try {
+          const response =
+            await fetch(image);
 
-        if (
-          platform ===
-          'whatsapp'
-        ) {
-          window.open(
-            `https://wa.me/?text=${encodeURIComponent(
-              shareText
-            )}`,
-            '_blank',
-            'noopener,noreferrer'
-          );
-        }
+          const blob =
+            await response.blob();
 
-        if (
-          platform ===
-          'instagram'
-        ) {
-          alert(
-            'Certificate downloaded 😄\n\nShare it on your Instagram Story and tag @officialwaterforwings 💙'
-          );
-        }
+          const file =
+            new File(
+              [blob],
+              `WaterForWings-Saviour-${saviour.saviourNumber}.png`,
+              {
+                type: 'image/png',
+              }
+            );
+
+          const canShare =
+            typeof navigator !==
+              'undefined' &&
+            navigator.share &&
+            navigator.canShare &&
+            navigator.canShare(
+              {
+                files: [file],
+              }
+            );
+
+          if (canShare) {
+            await navigator.share(
+              {
+                files: [file],
+                title:
+                  'Water For Wings',
+                text: shareText,
+              }
+            );
+
+            return;
+          }
+        } catch {}
+
+        // desktop fallback
+        setTimeout(() => {
+          if (
+            platform === 'x'
+          ) {
+            window.open(
+              `https://twitter.com/intent/tweet?text=${encodeURIComponent(
+                shareText
+              )}`,
+              '_blank',
+              'noopener,noreferrer'
+            );
+          }
+
+          if (
+            platform ===
+            'whatsapp'
+          ) {
+            window.open(
+              `https://wa.me/?text=${encodeURIComponent(
+                shareText
+              )}`,
+              '_blank',
+              'noopener,noreferrer'
+            );
+          }
+
+          if (
+            platform ===
+            'instagram'
+          ) {
+            alert(
+              'Certificate downloaded 😄\n\nShare it on your Instagram Story and tag @officialwaterforwings 💙'
+            );
+          }
+        }, 500);
       } catch (error) {
         console.error(
           'Error sharing:',
@@ -244,7 +262,7 @@ https://praan.me
         );
 
         alert(
-          'Sharing failed. Please try again.'
+          'Unable to share right now.'
         );
       } finally {
         setIsDownloading(
