@@ -70,18 +70,18 @@ export default function FoundersMessagePage() {
           {/* Content */}
           <div className="relative z-10 max-w-4xl mx-auto text-center pt-32 pb-20">
 
-         {/* Heading */}
-<div className="mb-12">
+            {/* Heading */}
+            <div className="mb-12">
 
-  <h1 className="text-4xl md:text-6xl font-extrabold text-navy uppercase mb-5 leading-tight">
-    Founder&apos;s Message
-  </h1>
+              <h1 className="text-4xl md:text-6xl font-extrabold text-navy uppercase mb-5 leading-tight">
+                Founder&apos;s Message
+              </h1>
 
-  <h2 className="text-2xl md:text-4xl font-bold text-navy/80 leading-relaxed">
-    Why I Started Water For Wings?
-  </h2>
+              <h2 className="text-2xl md:text-4xl font-bold text-navy/80 leading-relaxed">
+                Why I Started Water For Wings?
+              </h2>
 
-</div>
+            </div>
 
             {/* Main Message */}
             <div className="bg-cream/80 backdrop-blur-md border border-white/40 rounded-3xl px-6 md:px-10 py-8 md:py-10 shadow-xl text-left">
@@ -265,35 +265,51 @@ export default function FoundersMessagePage() {
 
               <div className="grid md:grid-cols-3 gap-5">
 
-                <div className="bg-cream/80 backdrop-blur-md border border-white/40 rounded-2xl px-6 py-5 shadow-lg">
-                  <p className="text-sm text-navy/60 mb-2 font-semibold uppercase tracking-wider">
+                {/* Email */}
+                <a
+                  href="mailto:Akshay1092001@yahoo.com"
+                  className="bg-cream/80 backdrop-blur-md border border-white/40 rounded-2xl px-6 py-8 shadow-lg hover:scale-105 transition-all text-center"
+                >
+                  <div className="text-4xl mb-4">
+                    📧
+                  </div>
+
+                  <p className="text-xl font-bold text-navy">
                     Email
                   </p>
+                </a>
 
-                  <p className="font-bold text-navy break-all">
-                    Akshay1092001@yahoo.com
-                  </p>
-                </div>
+                {/* LinkedIn */}
+                <a
+                  href="https://linkedin.com/in/akshay-kumar10"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-cream/80 backdrop-blur-md border border-white/40 rounded-2xl px-6 py-8 shadow-lg hover:scale-105 transition-all text-center"
+                >
+                  <div className="text-4xl mb-4">
+                    💼
+                  </div>
 
-                <div className="bg-cream/80 backdrop-blur-md border border-white/40 rounded-2xl px-6 py-5 shadow-lg">
-                  <p className="text-sm text-navy/60 mb-2 font-semibold uppercase tracking-wider">
+                  <p className="text-xl font-bold text-navy">
                     LinkedIn
                   </p>
+                </a>
 
-                  <p className="font-bold text-navy break-all">
-                    linkedin.com/in/akshay-kumar10
-                  </p>
-                </div>
+                {/* Instagram */}
+                <a
+                  href="https://instagram.com/akshayyyy.000"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-cream/80 backdrop-blur-md border border-white/40 rounded-2xl px-6 py-8 shadow-lg hover:scale-105 transition-all text-center"
+                >
+                  <div className="text-4xl mb-4">
+                    📸
+                  </div>
 
-                <div className="bg-cream/80 backdrop-blur-md border border-white/40 rounded-2xl px-6 py-5 shadow-lg">
-                  <p className="text-sm text-navy/60 mb-2 font-semibold uppercase tracking-wider">
+                  <p className="text-xl font-bold text-navy">
                     Instagram
                   </p>
-
-                  <p className="font-bold text-navy">
-                    @akshayyyy.000
-                  </p>
-                </div>
+                </a>
 
               </div>
 
