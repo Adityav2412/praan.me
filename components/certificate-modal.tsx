@@ -3,7 +3,7 @@
 import { useRef, useState } from 'react';
 import {
   X,
- Download,
+  Download,
   Instagram,
   MessageCircle,
 } from 'lucide-react';
@@ -61,7 +61,7 @@ https://praan.me
 
 #DelhiBirdsNeedWater`;
 
-  const generateCertificateCanvas =
+  const generateCertificateImage =
     async () => {
       if (
         !certificateRef.current
@@ -80,20 +80,17 @@ https://praan.me
           }
         );
 
-      return canvas;
+      return canvas.toDataURL(
+        'image/png'
+      );
     };
 
-  const downloadImage =
+  const downloadCertificate =
     async () => {
-      const canvas =
-        await generateCertificateCanvas();
-
-      if (!canvas) return null;
-
       const image =
-        canvas.toDataURL(
-          'image/png'
-        );
+        await generateCertificateImage();
+
+      if (!image) return null;
 
       const link =
         document.createElement(
@@ -124,10 +121,9 @@ https://praan.me
           true
         );
 
-        await downloadImage();
+        await downloadCertificate();
       } catch (error) {
         console.error(
-          'Error downloading certificate:',
           error
         );
 
@@ -141,7 +137,7 @@ https://praan.me
       }
     };
 
-  const handleNativeShare =
+  const handleShare =
     async (
       platform:
         | 'x'
@@ -153,57 +149,8 @@ https://praan.me
           true
         );
 
-        const image =
-          await downloadImage();
+        await downloadCertificate();
 
-        if (!image) return;
-
-        // Try native share only on mobile
-        try {
-          const isMobile =
-            /Android|iPhone|iPad|iPod/i.test(
-              navigator.userAgent
-            );
-
-          if (
-            isMobile &&
-            navigator.share
-          ) {
-            const response =
-              await fetch(
-                image
-              );
-
-            const blob =
-              await response.blob();
-
-            const file =
-              new File(
-                [blob],
-                `WaterForWings-Saviour-${saviour.saviourNumber}.png`,
-                {
-                  type: 'image/png',
-                }
-              );
-
-            await navigator.share(
-              {
-                files: [file],
-                title:
-                  'Water For Wings',
-                text: shareText,
-              }
-            );
-
-            return;
-          }
-        } catch {
-          console.log(
-            'Native share skipped'
-          );
-        }
-
-        // Desktop fallback
         setTimeout(() => {
           if (
             platform === 'x'
@@ -241,7 +188,6 @@ https://praan.me
         }, 500);
       } catch (error) {
         console.error(
-          'Error sharing:',
           error
         );
 
@@ -258,16 +204,13 @@ https://praan.me
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
 
-      {/* Backdrop */}
       <div
         className="absolute inset-0 bg-navy/60 backdrop-blur-sm"
         onClick={onClose}
       />
 
-      {/* Modal */}
       <div className="relative bg-cream rounded-3xl shadow-2xl w-full max-w-xl my-4 sm:my-8 animate-slide-up max-h-[95vh] overflow-y-auto border border-white/30">
 
-        {/* Close button */}
         <button
           onClick={onClose}
           className="absolute top-3 right-3 sm:top-4 sm:right-4 p-2 hover:bg-cream-dark rounded-xl transition-colors z-10"
@@ -278,13 +221,11 @@ https://praan.me
 
         <div className="p-4 sm:p-6">
 
-          {/* Certificate */}
           <div
             ref={certificateRef}
             className="bg-cream p-4 sm:p-6 md:p-8 border-[5px] sm:border-[6px] border-double border-navy rounded-2xl relative overflow-hidden shadow-inner"
           >
 
-            {/* Leaves */}
             <div className="absolute top-2 left-2 text-xl sm:text-2xl opacity-20">
               🌿
             </div>
@@ -301,7 +242,6 @@ https://praan.me
               🌿
             </div>
 
-            {/* Logo */}
             <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3 mb-4 text-center">
 
               <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-[#FAF7F2] flex items-center justify-center shadow-md overflow-hidden">
@@ -320,22 +260,18 @@ https://praan.me
 
             </div>
 
-            {/* Title */}
             <h2 className="text-center text-navy font-bold tracking-[0.12em] sm:tracking-[0.2em] text-xs sm:text-base mb-4">
               ── ♥ SAVIOUR CERTIFICATE ♥ ──
             </h2>
 
-            {/* Text */}
             <p className="text-center text-navy/70 uppercase tracking-wide text-xs sm:text-sm mb-2">
               This certifies that
             </p>
 
-            {/* Name */}
             <h3 className="text-center text-2xl sm:text-3xl md:text-4xl font-extrabold text-navy mb-2 break-words">
               {saviour.name}
             </h3>
 
-            {/* Number */}
             <p className="text-center text-sm sm:text-base text-navy/80 mb-4 px-2">
               is an official{' '}
               <span className="font-bold">
@@ -346,7 +282,6 @@ https://praan.me
               </span>
             </p>
 
-            {/* Badge */}
             <div className="flex justify-center mb-4">
 
               <span className="inline-flex items-center gap-2 bg-navy/10 px-4 py-2 rounded-full text-navy font-bold text-sm sm:text-base">
@@ -355,7 +290,6 @@ https://praan.me
 
             </div>
 
-            {/* Info */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-3 text-center mb-4">
 
               <div className="bg-cream-dark p-3 rounded-xl">
@@ -414,7 +348,6 @@ https://praan.me
 
             </div>
 
-            {/* Divider */}
             <div className="flex items-center justify-center gap-2 text-navy/30 mb-4">
 
               <div className="flex-1 h-px bg-navy/20" />
@@ -427,20 +360,18 @@ https://praan.me
 
             </div>
 
-            {/* CTA */}
             <p className="text-center text-navy/70 text-xs sm:text-sm px-2 leading-relaxed">
               📷 Share your certificate and inspire more people to help Delhi&apos;s birds 💙
             </p>
 
           </div>
 
-          {/* Share Buttons */}
+          {/* Buttons */}
           <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3">
 
-            {/* X */}
             <button
               onClick={() =>
-                handleNativeShare(
+                handleShare(
                   'x'
                 )
               }
@@ -458,16 +389,13 @@ https://praan.me
                 <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
               </svg>
 
-              <span>
-                Share on X
-              </span>
+              Share on X
 
             </button>
 
-            {/* WhatsApp */}
             <button
               onClick={() =>
-                handleNativeShare(
+                handleShare(
                   'whatsapp'
                 )
               }
@@ -479,16 +407,13 @@ https://praan.me
 
               <MessageCircle className="w-5 h-5" />
 
-              <span>
-                Share on WhatsApp
-              </span>
+              Share on WhatsApp
 
             </button>
 
-            {/* Instagram */}
             <button
               onClick={() =>
-                handleNativeShare(
+                handleShare(
                   'instagram'
                 )
               }
@@ -500,13 +425,10 @@ https://praan.me
 
               <Instagram className="w-5 h-5" />
 
-              <span>
-                Instagram Story
-              </span>
+              Instagram Story
 
             </button>
 
-            {/* Download */}
             <button
               onClick={
                 handleDownload
@@ -519,11 +441,9 @@ https://praan.me
 
               <Download className="w-5 h-5" />
 
-              <span>
-                {isDownloading
-                  ? 'Preparing...'
-                  : 'Download PNG'}
-              </span>
+              {isDownloading
+                ? 'Preparing...'
+                : 'Download PNG'}
 
             </button>
 
