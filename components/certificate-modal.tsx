@@ -1,10 +1,9 @@
 'use client';
 
 import { useRef, useState } from 'react';
-import Image from 'next/image';
 import {
   X,
-  Download,
+ Download,
   Instagram,
   MessageCircle,
 } from 'lucide-react';
@@ -62,7 +61,7 @@ https://praan.me
 
 #DelhiBirdsNeedWater`;
 
-  const generateCertificateBlob =
+  const generateCertificateCanvas =
     async () => {
       if (
         !certificateRef.current
@@ -84,6 +83,40 @@ https://praan.me
       return canvas;
     };
 
+  const downloadImage =
+    async () => {
+      const canvas =
+        await generateCertificateCanvas();
+
+      if (!canvas) return null;
+
+      const image =
+        canvas.toDataURL(
+          'image/png'
+        );
+
+      const link =
+        document.createElement(
+          'a'
+        );
+
+      link.href = image;
+
+      link.download = `WaterForWings-Saviour-${saviour.saviourNumber}.png`;
+
+      document.body.appendChild(
+        link
+      );
+
+      link.click();
+
+      document.body.removeChild(
+        link
+      );
+
+      return image;
+    };
+
   const handleDownload =
     async () => {
       try {
@@ -91,34 +124,7 @@ https://praan.me
           true
         );
 
-        const canvas =
-          await generateCertificateBlob();
-
-        if (!canvas) return;
-
-        const image =
-          canvas.toDataURL(
-            'image/png'
-          );
-
-        const link =
-          document.createElement(
-            'a'
-          );
-
-        link.href = image;
-
-        link.download = `WaterForWings-Saviour-${saviour.saviourNumber}.png`;
-
-        document.body.appendChild(
-          link
-        );
-
-        link.click();
-
-        document.body.removeChild(
-          link
-        );
+        await downloadImage();
       } catch (error) {
         console.error(
           'Error downloading certificate:',
@@ -147,65 +153,39 @@ https://praan.me
           true
         );
 
-        const canvas =
-          await generateCertificateBlob();
-
-        if (!canvas) return;
-
         const image =
-          canvas.toDataURL(
-            'image/png'
-          );
+          await downloadImage();
 
-        // download certificate first
-        const link =
-          document.createElement(
-            'a'
-          );
+        if (!image) return;
 
-        link.href = image;
-
-        link.download = `WaterForWings-Saviour-${saviour.saviourNumber}.png`;
-
-        document.body.appendChild(
-          link
-        );
-
-        link.click();
-
-        document.body.removeChild(
-          link
-        );
-
-        // native mobile share
+        // Try native share only on mobile
         try {
-          const response =
-            await fetch(image);
-
-          const blob =
-            await response.blob();
-
-          const file =
-            new File(
-              [blob],
-              `WaterForWings-Saviour-${saviour.saviourNumber}.png`,
-              {
-                type: 'image/png',
-              }
+          const isMobile =
+            /Android|iPhone|iPad|iPod/i.test(
+              navigator.userAgent
             );
 
-          const canShare =
-            typeof navigator !==
-              'undefined' &&
-            navigator.share &&
-            navigator.canShare &&
-            navigator.canShare(
-              {
-                files: [file],
-              }
-            );
+          if (
+            isMobile &&
+            navigator.share
+          ) {
+            const response =
+              await fetch(
+                image
+              );
 
-          if (canShare) {
+            const blob =
+              await response.blob();
+
+            const file =
+              new File(
+                [blob],
+                `WaterForWings-Saviour-${saviour.saviourNumber}.png`,
+                {
+                  type: 'image/png',
+                }
+              );
+
             await navigator.share(
               {
                 files: [file],
@@ -217,9 +197,13 @@ https://praan.me
 
             return;
           }
-        } catch {}
+        } catch {
+          console.log(
+            'Native share skipped'
+          );
+        }
 
-        // desktop fallback
+        // Desktop fallback
         setTimeout(() => {
           if (
             platform === 'x'
@@ -333,6 +317,7 @@ https://praan.me
               <span className="text-xl sm:text-2xl font-extrabold text-navy leading-tight">
                 Water For Wings
               </span>
+
             </div>
 
             {/* Title */}
