@@ -232,7 +232,7 @@ export default function FoundersMessagePage() {
                 <div className="absolute inset-0 bg-gradient-to-l from-transparent via-cream/25 to-cream z-10 pointer-events-none" />
 
                 <Image
-                  src="/akshay-bw.png"
+                  src="/akshay-blend.png""
                   alt="Akshay - Founder, Water For Wings"
                   fill
                   priority
