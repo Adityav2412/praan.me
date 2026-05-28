@@ -1,3 +1,4 @@
+```tsx
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
@@ -11,40 +12,60 @@ export default function DailyReminder() {
   const [isSet, setIsSet] = useState(false);
   const [error, setError] = useState('');
   const [nextRing, setNextRing] = useState('');
+  const [mounted, setMounted] = useState(false);
   const [swSupported, setSwSupported] = useState(true);
   const swRef = useRef<ServiceWorkerRegistration | null>(null);
 
   useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!mounted) return;
+    if (typeof window === 'undefined') return;
     if (!('serviceWorker' in navigator)) {
       setSwSupported(false);
       return;
     }
+    navigator.serviceWorker
+      .register(SW_PATH, { scope: '/' })
+      .then((reg) => {
+        swRef.current = reg;
+        console.log('[SW] Registered:', reg);
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved && Notification.permission === 'granted') {
+          setTime(saved);
+          setIsSet(true);
+          updateNextRing(saved);
+          waitForSW(reg, () => {
+            sendToSW(reg, { type: 'SET_REMINDER', time: saved });
+          });
+        }
+      })
+      .catch((err) => {
+        console.error('[SW] Registration failed:', err);
+        setSwSupported(false);
+      });
+  }, [mounted]);
 
-    // Register SW
-    navigator.serviceWorker.register(SW_PATH).then((reg) => {
-      swRef.current = reg;
-
-      // Restore saved reminder
-      const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved && Notification.permission === 'granted') {
-        setTime(saved);
-        setIsSet(true);
-        updateNextRing(saved);
-        sendToSW(reg, { type: 'SET_REMINDER', time: saved });
-      }
-    }).catch(() => setSwSupported(false));
-  }, []);
-
-  // Countdown ticker
   useEffect(() => {
     if (!isSet) return;
     const tick = setInterval(() => updateNextRing(time), 60_000);
     return () => clearInterval(tick);
   }, [isSet, time]);
 
+  const waitForSW = (reg: ServiceWorkerRegistration, callback: () => void) => {
+    if (reg.active) { callback(); return; }
+    const worker = reg.installing || reg.waiting;
+    if (!worker) return;
+    worker.addEventListener('statechange', () => {
+      if (worker.state === 'activated') callback();
+    });
+  };
+
   const sendToSW = (reg: ServiceWorkerRegistration, msg: object) => {
     const worker = reg.active || reg.installing || reg.waiting;
-    worker?.postMessage(msg);
+    if (worker) worker.postMessage(msg);
   };
 
   const requestPermission = async (): Promise<boolean> => {
@@ -65,16 +86,14 @@ export default function DailyReminder() {
     setError('');
     const ok = await requestPermission();
     if (!ok) return;
-
     localStorage.setItem(STORAGE_KEY, time);
     setIsSet(true);
     updateNextRing(time);
-
     if (swRef.current) {
-      sendToSW(swRef.current, { type: 'SET_REMINDER', time });
+      waitForSW(swRef.current, () => {
+        sendToSW(swRef.current!, { type: 'SET_REMINDER', time });
+      });
     }
-
-    // Confirmation notification
     new Notification('Uncle Ji! 🐦', {
       body: `Reminder set ho gaya ${formatTime(time)} ke liye — roz aayega!`,
       icon: '/bird-icon.png',
@@ -85,9 +104,7 @@ export default function DailyReminder() {
     localStorage.removeItem(STORAGE_KEY);
     setIsSet(false);
     setNextRing('');
-    if (swRef.current) {
-      sendToSW(swRef.current, { type: 'CANCEL_REMINDER' });
-    }
+    if (swRef.current) sendToSW(swRef.current, { type: 'CANCEL_REMINDER' });
   };
 
   const updateNextRing = (reminderTime: string) => {
@@ -109,31 +126,27 @@ export default function DailyReminder() {
     return `${hr}:${String(m).padStart(2, '0')} ${ampm}`;
   };
 
+  if (!mounted) return null;
+
   return (
     <section id="reminder" className="py-16 px-4 bg-cream-dark">
       <div className="max-w-xl mx-auto text-center">
         <div className="bg-cream rounded-2xl p-8 shadow-lg">
-
-          {/* Icon */}
           {isSet
             ? <Bell className="w-12 h-12 text-navy mx-auto mb-4 animate-bounce" />
             : <BellOff className="w-12 h-12 text-navy/40 mx-auto mb-4" />
           }
-
           <h2 className="text-3xl font-extrabold text-navy mb-2">
             Remind Me to Refill 🐦
           </h2>
           <p className="text-navy/70 mb-6">
             Want us to remind you to refill the water station?
           </p>
-
           {!swSupported && (
             <p className="text-amber-600 text-sm bg-amber-50 rounded-xl p-3 mb-4">
-              ⚠️ Tumhara browser background notifications support nahi karta.
-              Tab khuli rehni chahiye reminder ke liye.
+              ⚠️ Tab khuli rehni chahiye reminder ke liye.
             </p>
           )}
-
           {isSet ? (
             <div className="bg-navy/10 rounded-xl p-6">
               <span className="text-4xl mb-2 block">✅</span>
@@ -168,11 +181,9 @@ export default function DailyReminder() {
                   className="px-4 py-3 bg-cream-dark border-2 border-navy/20 rounded-xl text-navy font-medium text-lg focus:outline-none focus:ring-2 focus:ring-navy-light"
                 />
               </div>
-
               {error && (
                 <p className="text-red-500 text-sm mb-4">{error}</p>
               )}
-
               <button
                 onClick={handleSetReminder}
                 className="bg-navy text-cream px-8 py-4 rounded-xl font-bold text-lg hover:bg-navy-dark transition-colors w-full"
@@ -186,3 +197,6 @@ export default function DailyReminder() {
     </section>
   );
 }
+```
+
+GitHub pe jao → pencil icon → **Ctrl+A → Delete → Paste → Commit!** 🚀
