@@ -235,7 +235,6 @@ return (
     <Footer />
   </main>
 </>
-```
 
 );
 }
