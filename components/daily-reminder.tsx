@@ -1,202 +1,179 @@
-```tsx
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
-import { Bell, BellOff } from 'lucide-react';
-
-const STORAGE_KEY = 'waterforwings_reminder';
-const SW_PATH = '/reminder-sw.js';
+import { useEffect, useState } from 'react';
 
 export default function DailyReminder() {
-  const [time, setTime] = useState('07:00');
-  const [isSet, setIsSet] = useState(false);
-  const [error, setError] = useState('');
-  const [nextRing, setNextRing] = useState('');
-  const [mounted, setMounted] = useState(false);
-  const [swSupported, setSwSupported] = useState(true);
-  const swRef = useRef<ServiceWorkerRegistration | null>(null);
+  const [enabled, setEnabled] =
+    useState(false);
+
+  const [time, setTime] =
+    useState('08:00');
 
   useEffect(() => {
-    setMounted(true);
+    const saved =
+      localStorage.getItem(
+        'dailyReminderEnabled'
+      );
+
+    const savedTime =
+      localStorage.getItem(
+        'dailyReminderTime'
+      );
+
+    if (saved === 'true') {
+      setEnabled(true);
+    }
+
+    if (savedTime) {
+      setTime(savedTime);
+    }
   }, []);
 
-  useEffect(() => {
-    if (!mounted) return;
-    if (typeof window === 'undefined') return;
-    if (!('serviceWorker' in navigator)) {
-      setSwSupported(false);
-      return;
-    }
-    navigator.serviceWorker
-      .register(SW_PATH, { scope: '/' })
-      .then((reg) => {
-        swRef.current = reg;
-        console.log('[SW] Registered:', reg);
-        const saved = localStorage.getItem(STORAGE_KEY);
-        if (saved && Notification.permission === 'granted') {
-          setTime(saved);
-          setIsSet(true);
-          updateNextRing(saved);
-          waitForSW(reg, () => {
-            sendToSW(reg, { type: 'SET_REMINDER', time: saved });
-          });
+  const formatTime = (
+    value: string
+  ) => {
+    const [hours, minutes] =
+      value.split(':');
+
+    const hour =
+      parseInt(hours);
+
+    const suffix =
+      hour >= 12
+        ? 'PM'
+        : 'AM';
+
+    const formattedHour =
+      hour % 12 || 12;
+
+    return `${formattedHour}:${minutes} ${suffix}`;
+  };
+
+  const requestPermission =
+    async () => {
+
+      if (
+        !(
+          'Notification' in
+          window
+        )
+      ) {
+        alert(
+          'Notifications are not supported in this browser.'
+        );
+
+        return;
+      }
+
+      const permission =
+        await Notification.requestPermission();
+
+      if (
+        permission !==
+        'granted'
+      ) {
+        alert(
+          'Please allow notifications to enable reminders.'
+        );
+
+        return;
+      }
+
+      localStorage.setItem(
+        'dailyReminderEnabled',
+        'true'
+      );
+
+      localStorage.setItem(
+        'dailyReminderTime',
+        time
+      );
+
+      setEnabled(true);
+
+      // FIXED NOTIFICATION
+      new Notification(
+        'Uncle Ji! 🐦',
+        {
+          body:
+            'Reminder set ho gaya ' +
+            formatTime(time) +
+            ' ke liye — roz aayega!',
+
+          icon:
+            '/bird-icon.png',
         }
-      })
-      .catch((err) => {
-        console.error('[SW] Registration failed:', err);
-        setSwSupported(false);
-      });
-  }, [mounted]);
+      );
+    };
 
-  useEffect(() => {
-    if (!isSet) return;
-    const tick = setInterval(() => updateNextRing(time), 60_000);
-    return () => clearInterval(tick);
-  }, [isSet, time]);
+  const disableReminder =
+    () => {
 
-  const waitForSW = (reg: ServiceWorkerRegistration, callback: () => void) => {
-    if (reg.active) { callback(); return; }
-    const worker = reg.installing || reg.waiting;
-    if (!worker) return;
-    worker.addEventListener('statechange', () => {
-      if (worker.state === 'activated') callback();
-    });
-  };
+      localStorage.removeItem(
+        'dailyReminderEnabled'
+      );
 
-  const sendToSW = (reg: ServiceWorkerRegistration, msg: object) => {
-    const worker = reg.active || reg.installing || reg.waiting;
-    if (worker) worker.postMessage(msg);
-  };
+      localStorage.removeItem(
+        'dailyReminderTime'
+      );
 
-  const requestPermission = async (): Promise<boolean> => {
-    if (!('Notification' in window)) {
-      setError('Tumhara browser notifications support nahi karta');
-      return false;
-    }
-    if (Notification.permission === 'granted') return true;
-    if (Notification.permission !== 'denied') {
-      const perm = await Notification.requestPermission();
-      if (perm === 'granted') return true;
-    }
-    setError('Notifications blocked hain — browser settings mein allow karo');
-    return false;
-  };
-
-  const handleSetReminder = async () => {
-    setError('');
-    const ok = await requestPermission();
-    if (!ok) return;
-    localStorage.setItem(STORAGE_KEY, time);
-    setIsSet(true);
-    updateNextRing(time);
-    if (swRef.current) {
-      waitForSW(swRef.current, () => {
-        sendToSW(swRef.current!, { type: 'SET_REMINDER', time });
-      });
-    }
-    new Notification('Uncle Ji! 🐦', {
-      body: `Reminder set ho gaya ${formatTime(time)} ke liye — roz aayega!`,
-      icon: '/bird-icon.png',
-    });
-  };
-
-  const handleCancel = () => {
-    localStorage.removeItem(STORAGE_KEY);
-    setIsSet(false);
-    setNextRing('');
-    if (swRef.current) sendToSW(swRef.current, { type: 'CANCEL_REMINDER' });
-  };
-
-  const updateNextRing = (reminderTime: string) => {
-    const now = new Date();
-    const [h, m] = reminderTime.split(':').map(Number);
-    const next = new Date();
-    next.setHours(h, m, 0, 0);
-    if (next <= now) next.setDate(next.getDate() + 1);
-    const diff = next.getTime() - now.getTime();
-    const hrs = Math.floor(diff / 3_600_000);
-    const mins = Math.floor((diff % 3_600_000) / 60_000);
-    setNextRing(`Agli reminder ${hrs}h ${mins}m mein`);
-  };
-
-  const formatTime = (val: string) => {
-    const [h, m] = val.split(':').map(Number);
-    const ampm = h >= 12 ? 'PM' : 'AM';
-    const hr = h % 12 || 12;
-    return `${hr}:${String(m).padStart(2, '0')} ${ampm}`;
-  };
-
-  if (!mounted) return null;
+      setEnabled(false);
+    };
 
   return (
-    <section id="reminder" className="py-16 px-4 bg-cream-dark">
-      <div className="max-w-xl mx-auto text-center">
-        <div className="bg-cream rounded-2xl p-8 shadow-lg">
-          {isSet
-            ? <Bell className="w-12 h-12 text-navy mx-auto mb-4 animate-bounce" />
-            : <BellOff className="w-12 h-12 text-navy/40 mx-auto mb-4" />
-          }
-          <h2 className="text-3xl font-extrabold text-navy mb-2">
-            Remind Me to Refill 🐦
-          </h2>
-          <p className="text-navy/70 mb-6">
-            Want us to remind you to refill the water station?
+    <div className="bg-cream rounded-2xl p-6 shadow-lg border border-navy/10">
+
+      <div className="flex items-start justify-between gap-4">
+
+        <div>
+
+          <h3 className="text-xl font-bold text-navy mb-2">
+            Daily Bird Reminder 🐦
+          </h3>
+
+          <p className="text-navy/70 text-sm leading-relaxed">
+            Get a gentle daily reminder to refill water for birds.
           </p>
-          {!swSupported && (
-            <p className="text-amber-600 text-sm bg-amber-50 rounded-xl p-3 mb-4">
-              ⚠️ Tab khuli rehni chahiye reminder ke liye.
-            </p>
-          )}
-          {isSet ? (
-            <div className="bg-navy/10 rounded-xl p-6">
-              <span className="text-4xl mb-2 block">✅</span>
-              <p className="text-navy font-semibold text-lg">
-                Roz {formatTime(time)} pe reminder aayega!
-              </p>
-              {nextRing && (
-                <p className="text-navy/50 text-sm mt-2">🕐 {nextRing}</p>
-              )}
-              <div className="flex justify-center gap-6 mt-5">
-                <button
-                  onClick={() => { setIsSet(false); setNextRing(''); }}
-                  className="text-navy/60 underline text-sm"
-                >
-                  Time badlo
-                </button>
-                <button
-                  onClick={handleCancel}
-                  className="text-red-400 underline text-sm"
-                >
-                  Cancel karo
-                </button>
-              </div>
-            </div>
-          ) : (
-            <>
-              <div className="flex items-center justify-center gap-4 mb-6">
-                <input
-                  type="time"
-                  value={time}
-                  onChange={(e) => setTime(e.target.value)}
-                  className="px-4 py-3 bg-cream-dark border-2 border-navy/20 rounded-xl text-navy font-medium text-lg focus:outline-none focus:ring-2 focus:ring-navy-light"
-                />
-              </div>
-              {error && (
-                <p className="text-red-500 text-sm mb-4">{error}</p>
-              )}
-              <button
-                onClick={handleSetReminder}
-                className="bg-navy text-cream px-8 py-4 rounded-xl font-bold text-lg hover:bg-navy-dark transition-colors w-full"
-              >
-                Set Daily Reminder
-              </button>
-            </>
-          )}
+
         </div>
+
+        <div className="flex items-center gap-3">
+
+          <input
+            type="time"
+            value={time}
+            onChange={(e) =>
+              setTime(
+                e.target.value
+              )
+            }
+            className="border border-navy/20 rounded-lg px-3 py-2 bg-white text-navy text-sm outline-none"
+          />
+
+          {enabled ? (
+            <button
+              onClick={
+                disableReminder
+              }
+              className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+            >
+              Disable
+            </button>
+          ) : (
+            <button
+              onClick={
+                requestPermission
+              }
+              className="bg-navy hover:bg-navy-dark text-cream px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+            >
+              Enable
+            </button>
+          )}
+
+        </div>
+
       </div>
-    </section>
+
+    </div>
   );
 }
-```
-
-GitHub pe jao → pencil icon → **Ctrl+A → Delete → Paste → Commit!** 🚀
