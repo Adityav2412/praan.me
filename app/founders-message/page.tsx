@@ -66,6 +66,19 @@ export default function FoundersMessagePage() {
           {/* Content */}
           <div className="relative z-10 max-w-4xl mx-auto text-center pt-32 pb-20">
 
+            {/* Back Arrow */}
+            <div className="flex justify-start mb-8">
+
+              <a
+                href="/"
+                className="text-navy/60 hover:text-navy transition-colors"
+                aria-label="Back to home"
+              >
+                <ArrowLeft className="w-7 h-7" />
+              </a>
+
+            </div>
+
             {/* Heading */}
             <div className="mb-12">
 
@@ -421,20 +434,6 @@ export default function FoundersMessagePage() {
                 </a>
 
               </div>
-
-            </div>
-
-            {/* Back To Home */}
-            <div className="text-center pt-16">
-
-              <a
-                href="/"
-                className="inline-flex items-center gap-2 text-navy/70 hover:text-navy transition-colors text-lg font-medium"
-              >
-                <ArrowLeft className="w-5 h-5" />
-
-                Back to Water For Wings
-              </a>
 
             </div>
 
