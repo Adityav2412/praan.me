@@ -45,11 +45,11 @@ export default function FoundersMessagePage() {
             Back to home
           </a>
 
-          {/* Main Grid */}
-          <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-[1fr_260px] lg:grid-cols-[1fr_320px] gap-10 items-start">
+          {/* Main Layout */}
+          <div className="relative max-w-6xl mx-auto">
 
             {/* Left — Content */}
-            <div className="relative z-20">
+            <div className="relative z-20 max-w-2xl">
 
               {/* Hello heading */}
               <h1 className="text-5xl md:text-6xl font-black text-navy mb-2 leading-tight">
@@ -142,13 +142,6 @@ export default function FoundersMessagePage() {
                     strokeLinecap="round"
                     strokeLinejoin="round"
                   />
-                  <path
-                    d="M6 54 C50 58 110 59 162 53"
-                    stroke="#1B3A6B"
-                    strokeWidth="1.2"
-                    strokeLinecap="round"
-                    opacity="0.25"
-                  />
                 </svg>
 
                 <p className="text-navy font-bold text-base">
@@ -228,10 +221,13 @@ export default function FoundersMessagePage() {
               </div>
             </div>
 
-            {/* Right — Editorial Portrait */}
-            <div className="hidden md:block relative">
+            {/* Editorial Sketch Portrait */}
+            <div className="hidden md:block absolute top-[20px] right-[-180px] pointer-events-none select-none">
 
-              <div className="absolute top-[-20px] right-[-80px] w-[620px] h-[760px] opacity-[0.97]">
+              {/* Soft glow */}
+              <div className="absolute inset-0 bg-gradient-to-br from-cream via-cream/70 to-transparent blur-3xl opacity-70 scale-110" />
+
+              <div className="relative w-[760px] h-[980px] opacity-[0.88]">
 
                 <Image
                   src="/akshay-blend.png"
