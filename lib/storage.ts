@@ -3,11 +3,8 @@ id: string;
 timestamp: string;
 name: string;
 stationType: string;
-
-// support both fields
 colony?: string;
 area?: string;
-
 source: string;
 saviourNumber: number;
 }
@@ -15,18 +12,15 @@ saviourNumber: number;
 const SHEET_URL =
 'https://script.google.com/macros/s/AKfycbw-e7Emeb0SbS58XDJYLa60g6DS6YXsMGJ69VgH00HupqsJRFKryKZxoH2o1QBc3aI/exec';
 
-// GLOBAL MEMORY CACHE
 let savioursCache: Saviour[] = [];
 
 let lastFetchTime = 0;
 
-// FETCH LIVE DATA
 export async function fetchSaviours(): Promise<Saviour[]> {
 try {
 const now = Date.now();
 
 ```
-// prevent spam fetches
 if (
   savioursCache.length > 0 &&
   now - lastFetchTime < 3000
@@ -44,7 +38,6 @@ const response = await fetch(
 const data = await response.json();
 
 if (Array.isArray(data)) {
-  // clean invalid entries
   const cleanData = data
     .filter(
       (saviour) =>
@@ -59,7 +52,6 @@ if (Array.isArray(data)) {
       (saviour, index) => ({
         ...saviour,
 
-        // normalize field
         colony:
           saviour.colony ||
           saviour.area ||
@@ -88,24 +80,20 @@ error
 );
 
 ```
-// fallback to cache
 return savioursCache;
 ```
 
 }
 }
 
-// GET SAVIOURS
 export function getSaviours(): Saviour[] {
 return savioursCache;
 }
 
-// TOTAL COUNT
 export function getSaviourCount(): number {
 return savioursCache.length;
 }
 
-// LEADERBOARD
 export function getColonyLeaderboard() {
 const colonyMap: Record<
 string,
@@ -122,7 +110,6 @@ saviour.area ||
 ).trim();
 
 ```
-  // skip invalid empty values
   if (
     !colony ||
     colony === 'Not specified'
@@ -152,7 +139,6 @@ b.count - a.count
 );
 }
 
-// TIME AGO FORMAT
 export function formatTimeAgo(
 timestamp: string
 ): string {
@@ -211,7 +197,6 @@ if (count >= 1) {
 return 'Just now';
 }
 
-// FORCE REFRESH
 export async function refreshSaviours() {
 lastFetchTime = 0;
 
