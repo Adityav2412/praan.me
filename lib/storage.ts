@@ -12,6 +12,7 @@ export interface Saviour {
 const SHEET_URL =
   'https://script.google.com/macros/s/AKfycbw-e7Emeb0SbS58XDJYLa60g6DS6YXsMGJ69VgH00HupqsJRFKryKZxoH2o1QBc3aI/exec';
 
+// GLOBAL CACHE
 let savioursCache: Saviour[] = [];
 
 let lastFetchTime = 0;
@@ -21,7 +22,7 @@ export async function fetchSaviours(): Promise<Saviour[]> {
   try {
     const now = Date.now();
 
-    // prevent spam fetches
+    // prevent spam requests
     if (
       savioursCache.length > 0 &&
       now - lastFetchTime < 3000
@@ -40,22 +41,30 @@ export async function fetchSaviours(): Promise<Saviour[]> {
         .filter(
           (saviour) =>
             saviour?.name &&
-            (saviour?.colony || saviour?.area) &&
             saviour?.timestamp
         )
-        .map((saviour, index) => ({
-          ...saviour,
-
-          // normalize area/colony
-          colony:
+        .map((saviour, index) => {
+          // normalize colony/area
+          const colonyRaw =
             saviour.colony ||
-            saviour.area ||
-            'Other',
+            saviour.area;
 
-          saviourNumber:
-            saviour.saviourNumber ||
-            index + 1,
-        }));
+          const colony =
+            colonyRaw &&
+            colonyRaw.trim() !== ''
+              ? colonyRaw.trim()
+              : 'Other';
+
+          return {
+            ...saviour,
+
+            colony,
+
+            saviourNumber:
+              saviour.saviourNumber ||
+              index + 1,
+          };
+        });
 
       savioursCache = cleanData;
 
@@ -94,14 +103,18 @@ export function getColonyLeaderboard() {
 
   savioursCache.forEach(
     (saviour) => {
-      const colony = (
+      const colonyRaw =
         saviour.colony ||
-        saviour.area ||
-        'Other'
-      ).trim();
+        saviour.area;
 
+      const colony =
+        colonyRaw &&
+        colonyRaw.trim() !== ''
+          ? colonyRaw.trim()
+          : 'Other';
+
+      // skip only invalid values
       if (
-        !colony ||
         colony === 'Not specified'
       ) {
         return;
