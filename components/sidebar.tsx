@@ -1,15 +1,12 @@
 'use client';
-
 import Image from 'next/image';
 import { X } from 'lucide-react';
-
 interface SidebarProps {
   isOpen: boolean;
   onClose: () => void;
   onBecomeSaviour: () => void;
   onNavigate: (section: string) => void;
 }
-
 export default function Sidebar({
   isOpen,
   onClose,
@@ -23,19 +20,16 @@ export default function Sidebar({
     { label: 'Area Leaderboard', section: 'leaderboard' },
     { label: 'Set Reminder', section: 'reminder' },
   ];
-
   const handleNavClick = (section: string) => {
     onNavigate(section);
     onClose();
   };
-
   const handleFounderMessage = () => {
     onClose();
     setTimeout(() => {
       window.location.href = '/founders-message';
     }, 300);
   };
-
   return (
     <>
       <div
@@ -44,14 +38,12 @@ export default function Sidebar({
           inset: 0,
           backgroundColor: 'rgba(0,0,0,0.5)',
           zIndex: 50,
-          backdropFilter: 'blur(4px)',
           opacity: isOpen ? 1 : 0,
           pointerEvents: isOpen ? 'auto' : 'none',
           transition: 'opacity 0.3s ease-in-out',
         }}
         onClick={onClose}
       />
-
       <div
         style={{
           position: 'fixed',
@@ -76,7 +68,6 @@ export default function Sidebar({
           >
             <X className="w-6 h-6 text-navy" />
           </button>
-
           <div className="flex items-center gap-3 mb-8 pr-10">
             <Image
               src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/ww-QZ98dXoNzpWbA8gocF0kQv926CU5Le.png"
@@ -90,14 +81,12 @@ export default function Sidebar({
               Water For Wings
             </span>
           </div>
-
           <button
             onClick={() => { onBecomeSaviour(); onClose(); }}
             className="w-full bg-navy text-cream py-4 px-5 rounded-2xl font-bold text-base md:text-lg mb-6 hover:bg-navy-dark transition-colors shadow-lg animate-pulse-glow"
           >
             🐦 Become a Saviour
           </button>
-
           <nav className="space-y-2 pb-8">
             {menuItems.map((item) => (
               <button
@@ -115,7 +104,6 @@ export default function Sidebar({
               Founder&apos;s Message
             </button>
           </nav>
-
           <div className="border-t border-navy/10 pt-5 mt-6">
             <p className="text-sm text-navy/60 text-center">
               Saving Delhi&apos;s birds 💙
