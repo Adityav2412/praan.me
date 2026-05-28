@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Mail, Linkedin, Instagram, ArrowLeft } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import AnnouncementTicker from '@/components/announcement-ticker';
 import Navbar from '@/components/navbar';
 import Sidebar from '@/components/sidebar';
@@ -126,31 +126,58 @@ export default function FoundersMessagePage() {
                 You can always reach out to me for feedback, suggestions, or if you simply want to support the movement.
               </p>
               <div className="grid md:grid-cols-3 gap-5">
+
+                {/* Email */}
                 
                   href="mailto:Akshay1092001@yahoo.com"
                   className="bg-cream/80 backdrop-blur-md border border-white/40 rounded-2xl px-6 py-10 shadow-lg hover:scale-105 transition-all text-center flex flex-col items-center justify-center"
                 >
-                  <Mail className="w-12 h-12 text-navy mb-5" />
+                  <svg className="w-12 h-12 mb-5" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="48" height="48" rx="8" fill="#1B3A6B"/>
+                    <path d="M10 16a2 2 0 012-2h14a2 2 0 012 2v12a2 2 0 01-2 2H12a2 2 0 01-2-2V16z" fill="white"/>
+                    <path d="M10 16l9 8 9-8" stroke="#1B3A6B" strokeWidth="2" strokeLinecap="round"/>
+                  </svg>
                   <p className="text-2xl font-bold text-navy">Email</p>
                 </a>
+
+                {/* LinkedIn */}
                 
                   href="https://linkedin.com/in/akshay-kumar10"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="bg-cream/80 backdrop-blur-md border border-white/40 rounded-2xl px-6 py-10 shadow-lg hover:scale-105 transition-all text-center flex flex-col items-center justify-center"
                 >
-                  <Linkedin className="w-12 h-12 text-navy mb-5" />
+                  <svg className="w-12 h-12 mb-5" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="48" height="48" rx="8" fill="#0A66C2"/>
+                    <path d="M16 20h-4v12h4V20zm-2-6a2 2 0 100 4 2 2 0 000-4zm18 6c-2 0-3.5.8-4 2v-2h-4v12h4v-6c0-1.5 1-2.5 2.5-2.5S33 24.5 33 26v6h4v-7c0-3-2-5-5-5z" fill="white"/>
+                  </svg>
                   <p className="text-2xl font-bold text-navy">LinkedIn</p>
                 </a>
+
+                {/* Instagram */}
                 
                   href="https://instagram.com/akshayyyy.000"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="bg-cream/80 backdrop-blur-md border border-white/40 rounded-2xl px-6 py-10 shadow-lg hover:scale-105 transition-all text-center flex flex-col items-center justify-center"
                 >
-                  <Instagram className="w-12 h-12 text-navy mb-5" />
+                  <svg className="w-12 h-12 mb-5" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                      <radialGradient id="ig-grad" cx="30%" cy="107%" r="150%">
+                        <stop offset="0%" stopColor="#fdf497"/>
+                        <stop offset="20%" stopColor="#fd5949"/>
+                        <stop offset="60%" stopColor="#d6249f"/>
+                        <stop offset="100%" stopColor="#285AEB"/>
+                      </radialGradient>
+                    </defs>
+                    <rect width="48" height="48" rx="10" fill="url(#ig-grad)"/>
+                    <rect x="13" y="13" width="22" height="22" rx="6" stroke="white" strokeWidth="2.5" fill="none"/>
+                    <circle cx="24" cy="24" r="5.5" stroke="white" strokeWidth="2.5" fill="none"/>
+                    <circle cx="31.5" cy="16.5" r="1.5" fill="white"/>
+                  </svg>
                   <p className="text-2xl font-bold text-navy">Instagram</p>
                 </a>
+
               </div>
             </div>
 
