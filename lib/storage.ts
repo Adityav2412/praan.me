@@ -29,6 +29,7 @@ function normalizeColony(
   ];
 
   for (const value of possibleValues) {
+
     if (
       typeof value === 'string' &&
       value.trim() !== ''
@@ -37,14 +38,17 @@ function normalizeColony(
     }
   }
 
-  return 'Other';
+  return '';
 }
 
 // FETCH
 export async function fetchSaviours(): Promise<Saviour[]> {
+
   try {
+
     const now = Date.now();
 
+    // prevent spam fetches
     if (
       savioursCache.length > 0 &&
       now - lastFetchTime < 3000
@@ -64,26 +68,30 @@ export async function fetchSaviours(): Promise<Saviour[]> {
 
     if (Array.isArray(data)) {
 
-      const cleanData = data
-        .filter(
-          (saviour) =>
-            saviour?.name &&
-            saviour?.timestamp
-        )
-        .map(
-          (saviour, index) => ({
-            ...saviour,
+      const cleanData =
+        data
+          .filter(
+            (saviour) =>
+              saviour?.name &&
+              saviour?.timestamp
+          )
+          .map(
+            (
+              saviour,
+              index
+            ) => ({
+              ...saviour,
 
-            colony:
-              normalizeColony(
-                saviour
-              ),
+              colony:
+                normalizeColony(
+                  saviour
+                ),
 
-            saviourNumber:
-              saviour.saviourNumber ||
-              index + 1,
-          })
-        );
+              saviourNumber:
+                saviour.saviourNumber ||
+                index + 1,
+            })
+          );
 
       savioursCache =
         cleanData;
@@ -132,9 +140,11 @@ export function getColonyLeaderboard() {
           saviour
         );
 
+      // skip empty / invalid
       if (
+        !colony ||
         colony ===
-        'Not specified'
+          'Not specified'
       ) {
         return;
       }
