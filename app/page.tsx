@@ -45,9 +45,23 @@ export default function Home() {
   const [
     saviourCount,
     setSaviourCount,
-  ] = useState<number | null>(
-    null
-  );
+  ] = useState<number | null>(() => {
+    if (
+      typeof window !==
+      'undefined'
+    ) {
+      const savedCount =
+        localStorage.getItem(
+          'saviourCount'
+        );
+
+      return savedCount
+        ? Number(savedCount)
+        : null;
+    }
+
+    return null;
+  });
 
   // live sync
   useEffect(() => {
@@ -57,8 +71,16 @@ export default function Home() {
           const data =
             await fetchSaviours();
 
+          const latestCount =
+            data.length;
+
           setSaviourCount(
-            data.length
+            latestCount
+          );
+
+          localStorage.setItem(
+            'saviourCount',
+            latestCount.toString()
           );
         } catch (error) {
           console.error(
@@ -101,6 +123,11 @@ export default function Home() {
     // instant UI update
     setSaviourCount(
       saviour.saviourNumber
+    );
+
+    localStorage.setItem(
+      'saviourCount',
+      saviour.saviourNumber.toString()
     );
   };
 
