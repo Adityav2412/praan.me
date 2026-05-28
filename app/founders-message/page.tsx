@@ -35,7 +35,7 @@ return (
 
     <section className="relative min-h-screen bg-cream px-6 md:px-12 lg:px-24 pt-32 pb-24">
 
-      {/* Back */}
+      {/* Back Button */}
       <a
         href="/"
         className="inline-flex items-center gap-2 text-navy/50 hover:text-navy transition-colors mb-12 text-sm font-medium"
@@ -47,7 +47,7 @@ return (
       {/* Main Layout */}
       <div className="relative max-w-6xl mx-auto">
 
-        {/* Left Content */}
+        {/* LEFT CONTENT */}
         <div className="relative z-20 max-w-2xl">
 
           {/* Heading */}
@@ -63,7 +63,7 @@ return (
             </span>
           </p>
 
-          {/* Content */}
+          {/* Body */}
           <div className="space-y-6 text-navy/80 text-base md:text-[17px] leading-[1.95] font-normal">
 
             <p>
@@ -130,29 +130,21 @@ return (
 
           </div>
 
-          {/* Signature */}
+          {/* Signature Section */}
           <div className="mt-12 pt-8 border-t border-navy/10">
 
             <p className="text-navy/50 italic text-sm mb-3">
               — with love for Delhi&apos;s birds,
             </p>
 
-            <svg
-              width="180"
-              height="65"
-              viewBox="0 0 180 65"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              className="mb-3"
-            >
-              <path
-                d="M8 42 C12 28 16 18 20 28 C23 36 21 46 25 33 C29 20 33 16 37 28 C40 38 39 46 44 32 C49 16 53 38 57 36 C61 34 64 24 69 36 C73 46 71 50 77 38 C83 24 88 20 93 34 C97 44 95 50 101 37 C108 22 114 32 119 40 C124 48 121 52 128 42 C136 30 140 26 148 36 C154 44 152 50 160 40"
-                stroke="#1B3A6B"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+            {/* Real Signature */}
+            <Image
+              src="/akshay-signature.png"
+              alt="Akshay Signature"
+              width={190}
+              height={80}
+              className="mb-2 object-contain opacity-95"
+            />
 
             <p className="text-navy font-bold text-base">
               Akshay
@@ -178,25 +170,43 @@ return (
               Let&apos;s connect
             </span>
 
+            {/* Instagram */}
             <a
               href="https://instagram.com/akshayyyy.000"
               target="_blank"
               rel="noopener noreferrer"
               className="w-9 h-9 rounded-full border border-navy/20 flex items-center justify-center text-navy/60 hover:text-navy hover:border-navy/50 transition-all"
+              aria-label="Instagram"
             >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
                 <rect x="2" y="2" width="20" height="20" rx="5" />
                 <circle cx="12" cy="12" r="4" />
               </svg>
             </a>
 
+            {/* LinkedIn */}
             <a
               href="https://linkedin.com/in/akshay-kumar10"
               target="_blank"
               rel="noopener noreferrer"
               className="w-9 h-9 rounded-full border border-navy/20 flex items-center justify-center text-navy/60 hover:text-navy hover:border-navy/50 transition-all"
+              aria-label="LinkedIn"
             >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
                 <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z" />
                 <rect x="2" y="9" width="4" height="12" />
                 <circle cx="4" cy="4" r="2" />
@@ -207,13 +217,13 @@ return (
 
         </div>
 
-        {/* Editorial Portrait */}
+        {/* RIGHT EDITORIAL PORTRAIT */}
         <div className="hidden md:block absolute top-[-120px] right-[-160px] pointer-events-none select-none">
 
-          {/* Glow */}
+          {/* Soft Blend Glow */}
           <div className="absolute inset-0 bg-gradient-to-br from-cream via-cream/60 to-transparent blur-3xl opacity-80 scale-110" />
 
-          {/* Image */}
+          {/* Portrait */}
           <div className="relative w-[760px] h-[760px] opacity-[0.92]">
 
             <Image
@@ -235,6 +245,7 @@ return (
     <Footer />
   </main>
 </>
+```
 
 );
 }
