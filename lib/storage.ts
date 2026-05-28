@@ -4,7 +4,7 @@ timestamp: string;
 name: string;
 stationType: string;
 
-// support both
+// support both fields
 colony?: string;
 area?: string;
 
@@ -16,80 +16,62 @@ const SHEET_URL =
 'https://script.google.com/macros/s/AKfycbw-e7Emeb0SbS58XDJYLa60g6DS6YXsMGJ69VgH00HupqsJRFKryKZxoH2o1QBc3aI/exec';
 
 // GLOBAL MEMORY CACHE
-let savioursCache: Saviour[] =
-[];
+let savioursCache: Saviour[] = [];
 
 let lastFetchTime = 0;
 
 // FETCH LIVE DATA
-export async function fetchSaviours(): Promise<
-Saviour[]
-
-> {
-> try {
-> const now = Date.now();
+export async function fetchSaviours(): Promise<Saviour[]> {
+try {
+const now = Date.now();
 
 ```
 // prevent spam fetches
 if (
-  savioursCache.length >
-    0 &&
-  now - lastFetchTime <
-    3000
+  savioursCache.length > 0 &&
+  now - lastFetchTime < 3000
 ) {
   return savioursCache;
 }
 
-const response =
-  await fetch(
-    SHEET_URL,
-    {
-      cache:
-        'no-store',
-    }
-  );
+const response = await fetch(
+  SHEET_URL,
+  {
+    cache: 'no-store',
+  }
+);
 
-const data =
-  await response.json();
+const data = await response.json();
 
-if (
-  Array.isArray(data)
-) {
+if (Array.isArray(data)) {
   // clean invalid entries
-  const cleanData =
-    data
-      .filter(
+  const cleanData = data
+    .filter(
+      (saviour) =>
+        saviour?.name &&
         (
-          saviour
-        ) =>
-          saviour?.name &&
-          (
-            saviour?.colony ||
-            saviour?.area
-          ) &&
-          saviour?.timestamp
-      )
-      .map(
-        (
-          saviour,
-          index
-        ) => ({
-          ...saviour,
+          saviour?.colony ||
+          saviour?.area
+        ) &&
+        saviour?.timestamp
+    )
+    .map(
+      (saviour, index) => ({
+        ...saviour,
 
-          // normalize colony field
-          colony:
-            saviour.colony ||
-            saviour.area ||
-            'Other',
+        // normalize field
+        colony:
+          saviour.colony ||
+          saviour.area ||
+          'Other',
 
-          saviourNumber:
-            saviour.saviourNumber ||
-            index + 1,
-        })
-      );
+        saviourNumber:
+          saviour.saviourNumber ||
+          index + 1,
+      })
+    );
 
-  savioursCache =
-    cleanData;
+  savioursCache = cleanData;
 
   lastFetchTime = now;
 
@@ -133,26 +115,23 @@ number
 
 savioursCache.forEach(
 (saviour) => {
-// support both
-const colony =
-(
+const colony = (
 saviour.colony ||
 saviour.area ||
 'Other'
 ).trim();
 
 ```
-  // skip only invalid empty values
+  // skip invalid empty values
   if (
     !colony ||
-    colony ===
-      'Not specified'
-  )
+    colony === 'Not specified'
+  ) {
     return;
+  }
 
   colonyMap[colony] =
-    (colonyMap[colony] ||
-      0) + 1;
+    (colonyMap[colony] || 0) + 1;
 }
 ```
 
@@ -162,18 +141,14 @@ return Object.entries(
 colonyMap
 )
 .map(
-([
-colony,
-count,
-]) => ({
+([colony, count]) => ({
 colony,
 count,
 })
 )
 .sort(
 (a, b) =>
-b.count -
-a.count
+b.count - a.count
 );
 }
 
@@ -181,14 +156,13 @@ a.count
 export function formatTimeAgo(
 timestamp: string
 ): string {
-const now =
-new Date();
+const now = new Date();
 
-const date =
-new Date(timestamp);
+const date = new Date(
+timestamp
+);
 
-const seconds =
-Math.floor(
+const seconds = Math.floor(
 (now.getTime() -
 date.getTime()) /
 1000
@@ -197,23 +171,19 @@ date.getTime()) /
 const intervals = [
 {
 label: 'year',
-seconds:
-31536000,
+seconds: 31536000,
 },
 {
 label: 'month',
-seconds:
-2592000,
+seconds: 2592000,
 },
 {
 label: 'day',
-seconds:
-86400,
+seconds: 86400,
 },
 {
 label: 'hour',
-seconds:
-3600,
+seconds: 3600,
 },
 {
 label: 'min',
@@ -222,10 +192,8 @@ seconds: 60,
 ];
 
 for (const interval of intervals) {
-const count =
-Math.floor(
-seconds /
-interval.seconds
+const count = Math.floor(
+seconds / interval.seconds
 );
 
 ```
