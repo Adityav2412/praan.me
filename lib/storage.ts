@@ -5,6 +5,7 @@ export interface Saviour {
   stationType: string;
   colony?: string;
   area?: string;
+  customArea?: string;
   source: string;
   saviourNumber: number;
 }
@@ -12,17 +13,38 @@ export interface Saviour {
 const SHEET_URL =
   'https://script.google.com/macros/s/AKfycbw-e7Emeb0SbS58XDJYLa60g6DS6YXsMGJ69VgH00HupqsJRFKryKZxoH2o1QBc3aI/exec';
 
-// GLOBAL CACHE
 let savioursCache: Saviour[] = [];
 
 let lastFetchTime = 0;
 
-// FETCH LIVE DATA
+// NORMALIZE COLONY
+function normalizeColony(
+  saviour: any
+): string {
+
+  const possibleValues = [
+    saviour.colony,
+    saviour.area,
+    saviour.customArea,
+  ];
+
+  for (const value of possibleValues) {
+    if (
+      typeof value === 'string' &&
+      value.trim() !== ''
+    ) {
+      return value.trim();
+    }
+  }
+
+  return 'Other';
+}
+
+// FETCH
 export async function fetchSaviours(): Promise<Saviour[]> {
   try {
     const now = Date.now();
 
-    // prevent spam requests
     if (
       savioursCache.length > 0 &&
       now - lastFetchTime < 3000
@@ -30,43 +52,41 @@ export async function fetchSaviours(): Promise<Saviour[]> {
       return savioursCache;
     }
 
-    const response = await fetch(SHEET_URL, {
-      cache: 'no-store',
-    });
+    const response = await fetch(
+      SHEET_URL,
+      {
+        cache: 'no-store',
+      }
+    );
 
-    const data = await response.json();
+    const data =
+      await response.json();
 
     if (Array.isArray(data)) {
+
       const cleanData = data
         .filter(
           (saviour) =>
             saviour?.name &&
             saviour?.timestamp
         )
-        .map((saviour, index) => {
-          // normalize colony/area
-          const colonyRaw =
-            saviour.colony ||
-            saviour.area;
-
-          const colony =
-            colonyRaw &&
-            colonyRaw.trim() !== ''
-              ? colonyRaw.trim()
-              : 'Other';
-
-          return {
+        .map(
+          (saviour, index) => ({
             ...saviour,
 
-            colony,
+            colony:
+              normalizeColony(
+                saviour
+              ),
 
             saviourNumber:
               saviour.saviourNumber ||
               index + 1,
-          };
-        });
+          })
+        );
 
-      savioursCache = cleanData;
+      savioursCache =
+        cleanData;
 
       lastFetchTime = now;
 
@@ -74,7 +94,9 @@ export async function fetchSaviours(): Promise<Saviour[]> {
     }
 
     return savioursCache;
+
   } catch (error) {
+
     console.error(
       'Error fetching saviours:',
       error
@@ -96,6 +118,7 @@ export function getSaviourCount(): number {
 
 // LEADERBOARD
 export function getColonyLeaderboard() {
+
   const colonyMap: Record<
     string,
     number
@@ -103,19 +126,15 @@ export function getColonyLeaderboard() {
 
   savioursCache.forEach(
     (saviour) => {
-      const colonyRaw =
-        saviour.colony ||
-        saviour.area;
 
       const colony =
-        colonyRaw &&
-        colonyRaw.trim() !== ''
-          ? colonyRaw.trim()
-          : 'Other';
+        normalizeColony(
+          saviour
+        );
 
-      // skip only invalid values
       if (
-        colony === 'Not specified'
+        colony ===
+        'Not specified'
       ) {
         return;
       }
@@ -128,31 +147,35 @@ export function getColonyLeaderboard() {
   return Object.entries(
     colonyMap
   )
-    .map(([colony, count]) => ({
-      colony,
-      count,
-    }))
+    .map(
+      ([colony, count]) => ({
+        colony,
+        count,
+      })
+    )
     .sort(
       (a, b) =>
         b.count - a.count
     );
 }
 
-// TIME AGO FORMAT
+// TIME AGO
 export function formatTimeAgo(
   timestamp: string
 ): string {
-  const now = new Date();
 
-  const date = new Date(
-    timestamp
-  );
+  const now =
+    new Date();
 
-  const seconds = Math.floor(
-    (now.getTime() -
-      date.getTime()) /
-      1000
-  );
+  const date =
+    new Date(timestamp);
+
+  const seconds =
+    Math.floor(
+      (now.getTime() -
+        date.getTime()) /
+        1000
+    );
 
   const intervals = [
     {
@@ -178,12 +201,15 @@ export function formatTimeAgo(
   ];
 
   for (const interval of intervals) {
-    const count = Math.floor(
-      seconds /
-        interval.seconds
-    );
+
+    const count =
+      Math.floor(
+        seconds /
+          interval.seconds
+      );
 
     if (count >= 1) {
+
       return `${count} ${interval.label}${
         count > 1
           ? 's'
@@ -197,6 +223,7 @@ export function formatTimeAgo(
 
 // FORCE REFRESH
 export async function refreshSaviours() {
+
   lastFetchTime = 0;
 
   return await fetchSaviours();
