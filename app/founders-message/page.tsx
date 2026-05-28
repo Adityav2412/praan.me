@@ -25,7 +25,9 @@ export default function FoundersMessagePage() {
         <Sidebar
           isOpen={sidebarOpen}
           onClose={() => setSidebarOpen(false)}
-          onBecomeSaviour={() => { window.location.href = '/'; }}
+          onBecomeSaviour={() => {
+            window.location.href = '/';
+          }}
           onNavigate={handleNavigate}
         />
 
@@ -41,10 +43,10 @@ export default function FoundersMessagePage() {
           </a>
 
           {/* Main Grid */}
-          <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-[1fr_280px] gap-16 items-start">
+          <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-[1fr_380px] lg:grid-cols-[1fr_460px] gap-10 lg:gap-2 items-start">
 
             {/* Left — Content */}
-            <div>
+            <div className="relative z-20">
 
               {/* Hello heading */}
               <h1 className="text-5xl md:text-6xl font-black text-navy mb-2 leading-tight">
@@ -64,14 +66,25 @@ export default function FoundersMessagePage() {
                 <p>
                   One evening I saw a news headline about birds dying in Delhi&apos;s summer heat — and I couldn&apos;t look away.
                 </p>
+
                 <p>
-                  Something as <strong className="text-navy font-bold">small as a bowl of water</strong> could actually keep a living being alive. Something so simple, yet so easy to overlook.
+                  Something as{' '}
+                  <strong className="text-navy font-bold">
+                    small as a bowl of water
+                  </strong>{' '}
+                  could actually keep a living being alive. Something so simple, yet so easy to overlook.
                 </p>
+
                 <p>
                   I know I can&apos;t do it all alone. I can&apos;t go everywhere and place water bowls outside. But I will try — as many as I can, wherever I can.
                 </p>
+
                 <p>
-                  More importantly, I wanted to <strong className="text-navy font-bold">start something.</strong> A small movement that makes more people pause and think — maybe I can do this too.
+                  More importantly, I wanted to{' '}
+                  <strong className="text-navy font-bold">
+                    start something.
+                  </strong>{' '}
+                  A small movement that makes more people pause and think — maybe I can do this too.
                 </p>
               </div>
 
@@ -89,13 +102,16 @@ export default function FoundersMessagePage() {
               <h2 className="text-xl md:text-2xl font-black text-navy mb-4">
                 Why <span className="font-black">Praan</span>?
               </h2>
+
               <div className="space-y-5 text-navy/80 text-base md:text-[17px] leading-[1.9] font-normal">
                 <p>
                   <strong className="text-navy font-bold">Praan</strong> means life. Water For Wings is just the first movement I wanted to start through this platform. In the future, I hope to create more meaningful initiatives that help protect, support, or improve life in different ways.
                 </p>
+
                 <p>
                   This initiative is not profit-oriented — simply an attempt to encourage more people to care for birds through one small daily action.
                 </p>
+
                 <p>
                   And hopefully, over time, the name{' '}
                   <strong className="text-navy font-bold">Praan</strong> will truly get justified.
@@ -134,7 +150,9 @@ export default function FoundersMessagePage() {
                 </svg>
 
                 <p className="text-navy font-bold text-base">Akshay</p>
-                <p className="text-navy/50 text-sm mt-0.5">Founder, Water For Wings 💙</p>
+                <p className="text-navy/50 text-sm mt-0.5">
+                  Founder, Water For Wings 💙
+                </p>
               </div>
 
               {/* Connect */}
@@ -205,21 +223,34 @@ export default function FoundersMessagePage() {
               </div>
             </div>
 
-            {/* Right — Photo */}
-            <div className="hidden md:flex flex-col items-end pt-2">
-              <div className="relative">
+            {/* Right — Editorial Portrait */}
+            <div className="hidden md:flex relative items-start justify-end">
+
+              <div className="relative w-[360px] lg:w-[430px] h-[620px] overflow-visible">
+
+                {/* Soft blend */}
+                <div className="absolute inset-0 bg-gradient-to-l from-transparent via-cream/25 to-cream z-10 pointer-events-none" />
+
                 <Image
                   src="/akshay-bw.png"
                   alt="Akshay - Founder, Water For Wings"
-                  width={260}
-                  height={340}
-                  className="object-cover object-top"
-                  style={{ filter: 'contrast(1.08)' }}
+                  fill
                   priority
+                  className="object-contain object-[center_top] grayscale contrast-110"
                 />
+
               </div>
-              <p className="text-xs font-semibold text-navy/60 mt-3 text-right">Akshay</p>
-              <p className="text-[11px] text-navy/40 text-right">Founder · 24 · New Delhi</p>
+
+              {/* Meta */}
+              <div className="absolute bottom-8 right-0 text-right z-20">
+                <p className="text-xs font-semibold text-navy/60">
+                  Akshay
+                </p>
+                <p className="text-[11px] text-navy/40">
+                  Founder · 24 · New Delhi
+                </p>
+              </div>
+
             </div>
 
           </div>
