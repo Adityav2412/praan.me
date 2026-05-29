@@ -54,7 +54,7 @@ export default function FoundersMessagePage() {
               </h1>
 
               {/* Intro */}
-              <p className="text-base md:text-lg font-bold text-navy mb-10">
+              <p className="text-base md:text-lg font-bold text-navy mb-7 md:mb-10">
                 I&apos;m Akshay{' '}
                 <span className="text-navy/50 font-normal">
                   (the person behind Water For Wings)
@@ -62,7 +62,7 @@ export default function FoundersMessagePage() {
               </p>
 
               {/* Mobile portrait — in document flow, no absolute positioning */}
-              <div className="md:hidden relative mx-auto mb-10 w-[60%] max-w-[280px] aspect-square pointer-events-none select-none">
+              <div className="md:hidden relative mx-auto mb-10 w-[70%] aspect-square pointer-events-none select-none">
                 <div className="absolute inset-0 bg-gradient-to-br from-cream via-cream/60 to-transparent blur-3xl opacity-80 scale-110" />
 
                 <Image
@@ -70,7 +70,7 @@ export default function FoundersMessagePage() {
                   alt="Akshay - Founder, Water For Wings"
                   fill
                   priority
-                  sizes="60vw"
+                  sizes="70vw"
                   className="object-contain object-top"
                 />
               </div>
