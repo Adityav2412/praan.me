@@ -117,17 +117,28 @@ export default function FoundersMessagePage() {
               <div className="w-10 h-[3px] bg-navy rounded-full mb-10" />
 
               {/* Why Praan */}
-              <h2 className="text-2xl md:text-3xl font-black text-navy mb-5">
+              <h2
+                id="why-praan"
+                className="text-2xl md:text-3xl font-black text-navy mb-5"
+              >
                 Why Praan?
               </h2>
 
               <div className="space-y-6 text-navy/80 text-base md:text-[17px] leading-[1.95] font-normal">
                 <p>
                   <strong className="text-navy font-bold">Praan</strong> means
-                  life. Water For Wings is just the first movement I wanted to
-                  start through this platform. In the future, I hope to create
-                  more meaningful initiatives that help protect, support, or
-                  improve life in different ways.
+                  life — and it is the parent platform behind this website.{' '}
+                  <strong className="text-navy font-bold">
+                    Water For Wings
+                  </strong>{' '}
+                  is Praan&apos;s first initiative: a community effort to help
+                  Delhi&apos;s birds survive summer heat.
+                </p>
+
+                <p>
+                  Over time, Praan may host additional initiatives that protect,
+                  support, or improve life in different ways — each with its own
+                  focus, united by the same spirit of care.
                 </p>
 
                 <p>
@@ -139,7 +150,8 @@ export default function FoundersMessagePage() {
                 <p>
                   And hopefully, over time, the name{' '}
                   <strong className="text-navy font-bold">Praan</strong> will
-                  truly get justified.
+                  truly get justified — not only through words, but through the
+                  lives touched by every initiative we build together.
                 </p>
               </div>
 
@@ -160,7 +172,7 @@ export default function FoundersMessagePage() {
                 <p className="text-navy font-bold text-base">Akshay</p>
 
                 <p className="text-navy/50 text-sm mt-0.5">
-                  Founder, Water For Wings 💙
+                  Founder, Praan 💙
                 </p>
               </div>
 

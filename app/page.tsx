@@ -158,6 +158,7 @@ export default function Home() {
           onMenuClick={() =>
             setSidebarOpen(true)
           }
+          showPraanLabel
         />
 
         {/* Sidebar */}

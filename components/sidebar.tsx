@@ -30,6 +30,7 @@ export default function Sidebar({
       window.location.href = '/founders-message';
     }, 300);
   };
+
   return (
     <>
       <div

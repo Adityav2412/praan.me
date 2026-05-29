@@ -29,6 +29,11 @@ export default function Footer() {
           Saving Delhi&apos;s birds, One water station is all it takes.
         </p>
 
+        <p className="text-cream/55 text-sm mb-4 max-w-lg mx-auto leading-relaxed">
+          Praan is a platform for meaningful community initiatives. Water For
+          Wings is our first initiative.
+        </p>
+
         {/* Website */}
         <p className="text-cream/60 mb-2">
           praan.me

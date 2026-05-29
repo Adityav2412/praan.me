@@ -11,10 +11,12 @@ import { Menu } from 'lucide-react';
 
 interface NavbarProps {
   onMenuClick: () => void;
+  showPraanLabel?: boolean;
 }
 
 export default function Navbar({
   onMenuClick,
+  showPraanLabel = false,
 }: NavbarProps) {
   const [scrolled, setScrolled] =
     useState(false);
@@ -63,9 +65,16 @@ export default function Navbar({
               className="w-12 h-12 md:w-16 md:h-16 flex-shrink-0"
             />
 
-            <span className="text-lg sm:text-xl md:text-2xl font-extrabold text-navy truncate">
-              Water For Wings
-            </span>
+            <div className="flex flex-col min-w-0 leading-tight">
+              {showPraanLabel && (
+                <span className="text-[10px] sm:text-[11px] tracking-[0.18em] uppercase text-navy/40 font-semibold mb-0.5">
+                  A Praan Initiative
+                </span>
+              )}
+              <span className="text-lg sm:text-xl md:text-2xl font-extrabold text-navy truncate">
+                Water For Wings
+              </span>
+            </div>
           </div>
 
           {/* Hamburger Menu */}
