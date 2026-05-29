@@ -11,7 +11,7 @@ import CertificateModal from '@/components/certificate-modal';
 import SaviourWall from '@/components/saviour-wall';
 import AreaLeaderboard from '@/components/area-leaderboard';
 import WhyItMatters from '@/components/why-it-matters';
-import DailyReminder from '@/components/daily-reminder';
+import ImpactCounter from '@/components/impact-counter';
 import Footer from '@/components/footer';
 
 import {
@@ -228,7 +228,9 @@ export default function Home() {
 
         <AreaLeaderboard />
 
-        <DailyReminder />
+        <ImpactCounter
+          saviourCount={saviourCount}
+        />
 
         <Footer />
       </main>
