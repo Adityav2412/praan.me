@@ -63,6 +63,22 @@ return (
             </span>
           </p>
 
+          {/* Founder Sketch */}
+          <div className="relative mx-auto mb-10 w-[76%] max-w-[340px] aspect-square pointer-events-none select-none md:absolute md:top-[-120px] md:right-[-160px] md:mb-0 md:mx-0 md:w-[760px] md:max-w-none">
+
+            {/* Soft Blend Glow */}
+            <div className="absolute inset-0 bg-gradient-to-br from-cream via-cream/60 to-transparent blur-3xl opacity-80 scale-110" />
+
+            {/* Portrait */}
+            <Image
+              src="/akshay-blend.png"
+              alt="Akshay - Founder, Water For Wings"
+              fill
+              priority
+              className="object-contain object-top"
+            />
+          </div>
+
           {/* Body */}
           <div className="space-y-6 text-navy/80 text-base md:text-[17px] leading-[1.95] font-normal">
 
@@ -212,27 +228,6 @@ return (
                 <circle cx="4" cy="4" r="2" />
               </svg>
             </a>
-
-          </div>
-
-        </div>
-
-        {/* RIGHT EDITORIAL PORTRAIT */}
-        <div className="hidden md:block absolute top-[-120px] right-[-160px] pointer-events-none select-none">
-
-          {/* Soft Blend Glow */}
-          <div className="absolute inset-0 bg-gradient-to-br from-cream via-cream/60 to-transparent blur-3xl opacity-80 scale-110" />
-
-          {/* Portrait */}
-          <div className="relative w-[760px] h-[760px] opacity-[0.92]">
-
-            <Image
-              src="/akshay-blend.png"
-              alt="Akshay - Founder, Water For Wings"
-              fill
-              priority
-              className="object-contain object-top"
-            />
 
           </div>
 
