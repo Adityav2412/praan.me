@@ -64,12 +64,12 @@ export default function FoundersMessagePage() {
               {/* Mobile portrait — in document flow, no absolute positioning */}
               <div className="md:hidden relative mx-auto mb-5 w-[70%] aspect-[4/5] overflow-hidden bg-cream pointer-events-none select-none">
                 <Image
-                  src="/akshay-blend.png"
+                  src="/akshay-blend-transparent.png"
                   alt="Akshay - Founder, Water For Wings"
                   fill
                   priority
                   sizes="70vw"
-                  className="object-contain object-top scale-[1.18] mix-blend-multiply"
+                  className="object-contain object-top scale-[1.18]"
                 />
               </div>
 
