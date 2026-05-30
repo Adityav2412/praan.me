@@ -48,13 +48,13 @@ export const metadata: Metadata =
 
     title: {
       default:
-        'Water For Wings',
+        'Praan | Water For Wings',
       template:
-        '%s | Water For Wings',
+        '%s | Praan',
     },
 
     description:
-      'Join Water For Wings and help birds survive Delhi’s extreme summer heat by placing water stations across the city.',
+      'Praan is a platform for meaningful community initiatives. Join Water For Wings — our first initiative — and help birds survive Delhi’s extreme summer heat.',
 
     keywords: [
       'Water For Wings',
@@ -71,33 +71,28 @@ export const metadata: Metadata =
 
     authors: [
       {
-        name: 'Water For Wings',
+        name: 'Praan',
       },
     ],
 
-    creator:
-      'Water For Wings',
+    creator: 'Praan',
 
-    publisher:
-      'Water For Wings',
+    publisher: 'Praan',
 
-    applicationName:
-      'Water For Wings',
+    applicationName: 'Praan',
 
     category:
       'Environment',
 
     openGraph: {
-      title:
-        'Water For Wings',
+      title: 'Praan | Water For Wings',
 
       description:
-        'Help birds survive Delhi’s deadly summer heat. Become a Saviour today.',
+        'Praan turns kindness into action. Join Water For Wings and help birds survive Delhi’s deadly summer heat.',
 
       url: 'https://www.praan.me',
 
-      siteName:
-        'Water For Wings',
+      siteName: 'Praan',
 
       locale: 'en_IN',
 
@@ -108,7 +103,7 @@ export const metadata: Metadata =
           url: '/android-chrome-512x512.png',
           width: 512,
           height: 512,
-          alt: 'Water For Wings',
+          alt: 'Praan — Water For Wings',
         },
       ],
     },
@@ -117,11 +112,10 @@ export const metadata: Metadata =
       card:
         'summary_large_image',
 
-      title:
-        'Water For Wings',
+      title: 'Praan | Water For Wings',
 
       description:
-        'Place water stations across Delhi and help save birds this summer.',
+        'Praan is a platform for community initiatives. Water For Wings helps save Delhi’s birds this summer.',
 
       creator:
         '@waterforwings',

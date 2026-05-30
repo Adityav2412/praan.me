@@ -2,6 +2,9 @@
 
 import { useState, useEffect, useRef } from 'react';
 
+import { HeroInitiativePresentation } from '@/components/brand-labels';
+import { BRAND_COPY } from '@/lib/brand';
+
 interface HeroSectionProps {
   onBecomeSaviour: () => void;
   saviourCount: number | null;
@@ -183,6 +186,12 @@ export default function HeroSection({
 
       {/* Content */}
       <div className="relative z-10 text-center px-4 pt-20 pb-16 max-w-5xl mx-auto">
+
+        {/* Brand hierarchy */}
+        <HeroInitiativePresentation className="mb-5" />
+        <p className="text-navy/70 text-sm md:text-base max-w-md mx-auto mb-8 leading-relaxed font-normal italic">
+          {BRAND_COPY.brandStatement}
+        </p>
 
         {/* Weather */}
         <div className="inline-flex items-center gap-3 bg-cream/90 backdrop-blur-sm px-6 md:px-8 py-4 rounded-full shadow-xl mb-6 border border-white/40">

@@ -8,6 +8,7 @@ import AnnouncementTicker from '@/components/announcement-ticker';
 import Navbar from '@/components/navbar';
 import Sidebar from '@/components/sidebar';
 import Footer from '@/components/footer';
+import { BRAND_COPY } from '@/lib/brand';
 
 export default function FoundersMessagePage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -57,7 +58,7 @@ export default function FoundersMessagePage() {
               <p className="text-base md:text-lg font-bold text-navy mb-4 md:mb-10">
                 I&apos;m Akshay{' '}
                 <span className="text-navy/50 font-normal">
-                  (the person behind Water For Wings)
+                  ({BRAND_COPY.founderIntro})
                 </span>
               </p>
 
@@ -65,7 +66,7 @@ export default function FoundersMessagePage() {
               <div className="md:hidden relative mx-auto mb-5 w-[70%] aspect-[4/5] overflow-hidden bg-cream pointer-events-none select-none">
                 <Image
                   src="/akshay-blend-transparent.png"
-                  alt="Akshay - Founder, Water For Wings"
+                  alt="Akshay - Founder, Praan"
                   fill
                   priority
                   sizes="70vw"
@@ -172,7 +173,7 @@ export default function FoundersMessagePage() {
                 <p className="text-navy font-bold text-base">Akshay</p>
 
                 <p className="text-navy/50 text-sm mt-0.5">
-                  Founder, Praan 💙
+                  Founder, PRAAN 💙
                 </p>
               </div>
 
@@ -239,7 +240,7 @@ export default function FoundersMessagePage() {
               <div className="relative w-[760px] h-[760px] opacity-[0.92]">
                 <Image
                   src="/akshay-blend.png"
-                  alt="Akshay - Founder, Water For Wings"
+                  alt="Akshay - Founder, Praan"
                   fill
                   priority
                   className="object-contain object-top"

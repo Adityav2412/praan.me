@@ -1,6 +1,6 @@
 'use client';
-import Image from 'next/image';
 import { X } from 'lucide-react';
+import { PraanWordmark } from '@/components/brand-labels';
 interface SidebarProps {
   isOpen: boolean;
   onClose: () => void;
@@ -69,18 +69,8 @@ export default function Sidebar({
           >
             <X className="w-6 h-6 text-navy" />
           </button>
-          <div className="flex items-center gap-3 mb-8 pr-10">
-            <Image
-              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/ww-QZ98dXoNzpWbA8gocF0kQv926CU5Le.png"
-              alt="Water For Wings Logo"
-              width={64}
-              height={64}
-              priority
-              className="w-14 h-14 md:w-16 md:h-16 flex-shrink-0"
-            />
-            <span className="text-lg md:text-xl font-extrabold text-navy leading-tight">
-              Water For Wings
-            </span>
+          <div className="mb-8 pr-10">
+            <PraanWordmark size="lg" />
           </div>
           <button
             onClick={() => { onBecomeSaviour(); onClose(); }}

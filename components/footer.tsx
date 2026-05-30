@@ -1,37 +1,18 @@
 'use client';
 
+import { FooterBrandHierarchy } from '@/components/brand-labels';
+import { BRAND, currentInitiative } from '@/lib/brand';
+
 export default function Footer() {
   return (
     <footer className="bg-navy text-cream py-12 px-4">
       <div className="max-w-4xl mx-auto text-center">
 
-        {/* Circular Logo */}
-        <div className="flex flex-col items-center justify-center mb-6">
-
-          <div className="w-20 h-20 rounded-full bg-[#FAF7F2] flex items-center justify-center shadow-lg overflow-hidden mb-4">
-
-            <img
-              src="/bird-logo.png"
-              alt="Water For Wings Logo"
-              className="w-14 h-14 object-contain"
-            />
-
-          </div>
-
-          <span className="text-2xl font-extrabold">
-            Water For Wings
-          </span>
-
-        </div>
+        <FooterBrandHierarchy className="mb-6" />
 
         {/* Tagline */}
         <p className="text-cream/80 mb-4 text-lg leading-relaxed">
           Saving Delhi&apos;s birds, One water station is all it takes.
-        </p>
-
-        <p className="text-cream/55 text-sm mb-4 max-w-lg mx-auto leading-relaxed">
-          Praan is a platform for meaningful community initiatives. Water For
-          Wings is our first initiative.
         </p>
 
         {/* Website */}
@@ -85,7 +66,8 @@ export default function Footer() {
 
         {/* Copyright */}
         <p className="text-cream/50 text-sm">
-          © 2026 Water For Wings. Made with 💙 for Delhi&apos;s birds.
+          © 2026 {BRAND.platform}. {currentInitiative.name} is our first
+          initiative. Made with 💙 for Delhi&apos;s birds.
         </p>
 
       </div>

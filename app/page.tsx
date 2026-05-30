@@ -13,6 +13,7 @@ import AreaLeaderboard from '@/components/area-leaderboard';
 import WhyItMatters from '@/components/why-it-matters';
 import ImpactCounter from '@/components/impact-counter';
 import Footer from '@/components/footer';
+import { BRAND_COPY } from '@/lib/brand';
 
 import {
   fetchSaviours,
@@ -158,7 +159,6 @@ export default function Home() {
           onMenuClick={() =>
             setSidebarOpen(true)
           }
-          showPraanLabel
         />
 
         {/* Sidebar */}
@@ -195,6 +195,10 @@ export default function Home() {
             <h2 className="text-4xl font-extrabold text-navy mb-6">
               About Water For Wings 🐦
             </h2>
+
+            <p className="text-base text-navy/65 leading-relaxed mb-6 max-w-2xl mx-auto">
+              {BRAND_COPY.homeClarity}
+            </p>
 
             <p className="text-lg text-navy/80 leading-relaxed mb-6">
               Every summer,
