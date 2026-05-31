@@ -1,3 +1,5 @@
+'use client';
+
 import Image from 'next/image';
 
 import { BRAND, BRAND_COPY, currentInitiative } from '@/lib/brand';
@@ -20,33 +22,50 @@ const variantStyles: Record<
   },
 };
 
-const wordmarkFont =
-  '"Avenir Next", "Helvetica Neue", Inter, var(--font-poppins), sans-serif';
+const LOGO_WIDTH = 1536;
+const LOGO_HEIGHT = 395;
 
-export function PraanWordmark({
-  variant = 'light',
-  size = 'md',
+export function PraanLogo({
   className = '',
+  priority = false,
+  variant = 'default',
+  sizes,
 }: {
-  variant?: Variant;
-  size?: 'sm' | 'md' | 'lg' | 'nav';
   className?: string;
+  priority?: boolean;
+  /** Lightens logo on dark navy backgrounds without modifying the SVG file */
+  variant?: 'default' | 'on-dark';
+  sizes?: string;
 }) {
-  const sizes = {
-    sm: 'text-xs sm:text-sm',
-    md: 'text-sm sm:text-base',
-    lg: 'text-lg sm:text-xl',
-    nav: 'text-base sm:text-lg md:text-xl',
-  };
-  const color = variant === 'light' ? 'text-navy' : 'text-cream';
+  return (
+    <Image
+      src="/praan-logo.svg"
+      alt="PRAAN"
+      width={LOGO_WIDTH}
+      height={LOGO_HEIGHT}
+      priority={priority}
+      sizes={sizes}
+      className={`object-contain ${variant === 'on-dark' ? 'brightness-0 invert' : ''} ${className}`}
+    />
+  );
+}
+
+export function HeartDivider({
+  className = '',
+  variant = 'light',
+}: {
+  className?: string;
+  variant?: Variant;
+}) {
+  const color = variant === 'light' ? 'text-navy/35' : 'text-cream/35';
 
   return (
-    <span
-      className={`font-light uppercase tracking-[0.1em] leading-none ${sizes[size]} ${color} ${className}`}
-      style={{ fontFamily: wordmarkFont }}
+    <p
+      className={`text-sm tracking-[0.35em] ${color} ${className}`}
+      aria-hidden="true"
     >
-      {BRAND.platformWordmark}
-    </span>
+      ── ♥ ──
+    </p>
   );
 }
 
@@ -78,76 +97,83 @@ function BrandInitiativeName({
 }) {
   const v = variantStyles[variant];
   const sizes = {
-    sm: 'text-lg sm:text-xl',
-    md: 'text-xl sm:text-2xl',
-    lg: 'text-2xl sm:text-3xl',
-    hero: 'text-3xl sm:text-4xl md:text-5xl',
+    sm: 'text-lg sm:text-xl font-extrabold',
+    md: 'text-xl sm:text-2xl font-extrabold',
+    lg: 'text-2xl sm:text-3xl font-extrabold',
+    hero: 'text-xl sm:text-2xl md:text-[1.625rem] lg:text-[1.75rem] xl:text-[1.875rem] font-semibold',
   };
 
   return (
     <span
-      className={`font-extrabold leading-tight ${sizes[size]} ${v.title} ${className}`}
+      className={`leading-tight ${sizes[size]} ${v.title} ${className}`}
     >
       {currentInitiative.name}
     </span>
   );
 }
 
-function BrandInitiativeAttribution({
-  variant = 'light',
-  className = '',
-}: {
-  variant?: Variant;
-  className?: string;
-}) {
-  const v = variantStyles[variant];
-  return (
-    <span className={`text-sm font-normal ${v.muted} ${className}`}>
-      {BRAND.initiativeAttribution}
-    </span>
-  );
-}
-
-/** Hero: PRAAN → Current Initiative → bird logo → Water For Wings → A Praan Initiative */
-export function HeroInitiativePresentation({
-  className = '',
-}: {
-  className?: string;
-}) {
-  return (
-    <div
-      className={`flex flex-col items-center text-center ${className}`}
-    >
-      <PraanWordmark size="lg" className="mb-2" />
-      <BrandInitiativeLabel className="mb-5" />
-      <Image
-        src={currentInitiative.logoSrc}
-        alt="Water For Wings Logo"
-        width={80}
-        height={80}
-        priority
-        className="w-16 h-16 sm:w-20 sm:h-20 mb-4 flex-shrink-0"
-      />
-      <BrandInitiativeName size="hero" className="mb-2" />
-      <BrandInitiativeAttribution />
-    </div>
-  );
-}
-
-/** Footer: PRAAN → platform line → Current Initiative → initiative name */
-export function FooterBrandHierarchy({
+export function FooterInitiativeBlock({
   className = '',
 }: {
   className?: string;
 }) {
   return (
     <div className={`flex flex-col items-center text-center ${className}`}>
-      <PraanWordmark variant="dark" size="lg" className="mb-3" />
-      <p className="text-cream/60 text-sm max-w-md leading-relaxed mb-5">
-        {BRAND_COPY.footerPlatformLine}
-      </p>
       <BrandInitiativeLabel variant="dark" className="mb-1.5" />
       <BrandInitiativeName variant="dark" size="md" />
     </div>
+  );
+}
+
+export function HeroInitiativeBlock({
+  className = '',
+}: {
+  className?: string;
+}) {
+  return (
+    <div className={`flex flex-col items-center text-center ${className}`}>
+      <span className="text-navy/40 text-[10px] sm:text-[11px] tracking-[0.2em] uppercase font-medium mb-1 sm:mb-1.5">
+        Introducing
+      </span>
+      <BrandInitiativeName size="hero" />
+    </div>
+  );
+}
+
+export function BrandTagline({
+  variant = 'light',
+  className = '',
+}: {
+  variant?: Variant;
+  className?: string;
+}) {
+  const color =
+    variant === 'light' ? 'text-navy/75' : 'text-cream/85';
+
+  return (
+    <p
+      className={`tracking-[0.24em] sm:tracking-[0.3em] md:tracking-[0.32em] uppercase text-xs sm:text-sm md:text-[0.9375rem] font-semibold ${color} ${className}`}
+    >
+      {BRAND_COPY.tagline}
+    </p>
+  );
+}
+
+export function BrandStatement({
+  variant = 'light',
+  className = '',
+}: {
+  variant?: Variant;
+  className?: string;
+}) {
+  const color =
+    variant === 'light' ? 'text-navy/65' : 'text-cream/65';
+
+  return (
+    <p
+      className={`text-sm sm:text-base leading-relaxed font-normal italic max-w-md mx-auto ${color} ${className}`}
+    >
+      {BRAND_COPY.brandStatement}
+    </p>
   );
 }

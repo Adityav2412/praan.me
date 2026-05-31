@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { ArrowLeft } from 'lucide-react';
 import Image from 'next/image';
 
-import AnnouncementTicker from '@/components/announcement-ticker';
 import Navbar from '@/components/navbar';
 import Sidebar from '@/components/sidebar';
 import Footer from '@/components/footer';
@@ -21,10 +20,11 @@ export default function FoundersMessagePage() {
 
   return (
     <>
-      <main className="min-h-screen bg-cream overflow-hidden">
-        <AnnouncementTicker />
-
-        <Navbar onMenuClick={() => setSidebarOpen(true)} />
+      <main className="min-h-screen bg-cream overflow-x-hidden">
+        <Navbar
+          onMenuClick={() => setSidebarOpen(true)}
+          onNavigate={handleNavigate}
+        />
 
         <Sidebar
           isOpen={sidebarOpen}

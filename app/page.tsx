@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 
-import AnnouncementTicker from '@/components/announcement-ticker';
 import Navbar from '@/components/navbar';
 import Sidebar from '@/components/sidebar';
 import HeroSection from '@/components/hero-section';
@@ -12,8 +11,10 @@ import SaviourWall from '@/components/saviour-wall';
 import AreaLeaderboard from '@/components/area-leaderboard';
 import WhyItMatters from '@/components/why-it-matters';
 import ImpactCounter from '@/components/impact-counter';
+import DailyReminder from '@/components/daily-reminder';
 import Footer from '@/components/footer';
 import { BRAND_COPY } from '@/lib/brand';
+import { NAVBAR_HEIGHT_PX } from '@/lib/navigation';
 
 import {
   fetchSaviours,
@@ -141,7 +142,13 @@ export default function Home() {
       );
 
     if (element) {
-      element.scrollIntoView({
+      const y =
+        element.getBoundingClientRect().top +
+        window.scrollY -
+        NAVBAR_HEIGHT_PX;
+
+      window.scrollTo({
+        top: Math.max(0, y),
         behavior: 'smooth',
       });
     }
@@ -149,16 +156,14 @@ export default function Home() {
 
   return (
     <>
-      <main className="min-h-screen bg-cream">
-
-        {/* Announcement */}
-        <AnnouncementTicker />
+      <main className="min-h-screen bg-cream overflow-x-hidden">
 
         {/* Navbar */}
         <Navbar
           onMenuClick={() =>
             setSidebarOpen(true)
           }
+          onNavigate={handleNavigate}
         />
 
         {/* Sidebar */}
@@ -180,15 +185,12 @@ export default function Home() {
           onBecomeSaviour={
             handleBecomeSaviour
           }
-          saviourCount={
-            saviourCount
-          }
         />
 
         {/* About */}
         <section
           id="about"
-          className="py-16 px-4 bg-cream-dark"
+          className="pt-24 md:pt-28 pb-16 px-4 bg-cream-dark"
         >
           <div className="max-w-4xl mx-auto text-center">
 
@@ -232,6 +234,8 @@ export default function Home() {
         <SaviourWall />
 
         <AreaLeaderboard />
+
+        <DailyReminder />
 
         <ImpactCounter
           saviourCount={saviourCount}

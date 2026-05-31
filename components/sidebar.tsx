@@ -1,29 +1,35 @@
 'use client';
+
+import { useState, useEffect } from 'react';
+
 import { X } from 'lucide-react';
-import { PraanWordmark } from '@/components/brand-labels';
+
+import {
+  PraanLogo,
+  BrandTagline,
+  BrandStatement,
+} from '@/components/brand-labels';
+import { SocialIcons } from '@/components/social-icons';
+import { NAV_ITEMS } from '@/lib/navigation';
+
 interface SidebarProps {
   isOpen: boolean;
   onClose: () => void;
   onBecomeSaviour: () => void;
   onNavigate: (section: string) => void;
 }
+
 export default function Sidebar({
   isOpen,
   onClose,
   onBecomeSaviour,
   onNavigate,
 }: SidebarProps) {
-  const menuItems = [
-    { label: 'About', section: 'about' },
-    { label: 'Why It Matters', section: 'why-it-matters' },
-    { label: 'Saviours', section: 'saviours' },
-    { label: 'Area Leaderboard', section: 'leaderboard' },
-    { label: 'Set Reminder', section: 'reminder' },
-  ];
   const handleNavClick = (section: string) => {
     onNavigate(section);
     onClose();
   };
+
   const handleFounderMessage = () => {
     onClose();
     setTimeout(() => {
@@ -61,7 +67,7 @@ export default function Sidebar({
           transition: 'transform 0.3s ease-in-out',
         }}
       >
-        <div className="relative p-5 md:p-6 min-h-full">
+        <div className="relative p-5 md:p-6 min-h-full flex flex-col">
           <button
             onClick={onClose}
             className="absolute top-4 right-4 p-2 rounded-xl hover:bg-cream-dark transition-colors"
@@ -69,17 +75,25 @@ export default function Sidebar({
           >
             <X className="w-6 h-6 text-navy" />
           </button>
-          <div className="mb-8 pr-10">
-            <PraanWordmark size="lg" />
+
+          <div className="flex flex-col items-center text-center mb-8 pr-8 pt-2">
+            <PraanLogo className="h-8 w-auto max-w-[160px] mb-4" />
+            <BrandTagline className="mb-2" />
+            <BrandStatement />
           </div>
+
           <button
-            onClick={() => { onBecomeSaviour(); onClose(); }}
-            className="w-full bg-navy text-cream py-4 px-5 rounded-2xl font-bold text-base md:text-lg mb-6 hover:bg-navy-dark transition-colors shadow-lg animate-pulse-glow"
+            onClick={() => {
+              onBecomeSaviour();
+              onClose();
+            }}
+            className="w-full bg-navy text-cream py-4 px-5 rounded-2xl font-bold text-base mb-6 hover:bg-navy-dark transition-colors shadow-lg animate-pulse-glow"
           >
             🐦 Become a Saviour
           </button>
-          <nav className="space-y-2 pb-8">
-            {menuItems.map((item) => (
+
+          <nav className="space-y-2 flex-1">
+            {NAV_ITEMS.map((item) => (
               <button
                 key={item.section}
                 onClick={() => handleNavClick(item.section)}
@@ -95,7 +109,12 @@ export default function Sidebar({
               Founder&apos;s Message
             </button>
           </nav>
-          <div className="border-t border-navy/10 pt-5 mt-6">
+
+          <div className="border-t border-navy/10 pt-6 mt-6 flex flex-col items-center gap-4">
+            <SocialIcons
+              linkClassName="text-navy/70 hover:text-navy"
+              iconClassName="w-6 h-6"
+            />
             <p className="text-sm text-navy/60 text-center">
               Saving Delhi&apos;s birds 💙
             </p>

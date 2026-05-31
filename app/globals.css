@@ -4,7 +4,6 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* Water For Wings Color Palette */
   --cream: #F5F0E8;
   --cream-dark: #EDE8DC;
   --navy: #1B3A6B;
@@ -77,6 +76,9 @@
   }
   body {
     @apply bg-cream text-navy;
+  }
+  section[id] {
+    scroll-margin-top: 5rem;
   }
 }
 
@@ -205,6 +207,76 @@
 
 .animate-count-up {
   animation: count-up 0.5s ease-out;
+}
+
+@keyframes scroll-hint {
+  0%, 100% {
+    transform: translateY(0);
+    opacity: 0.35;
+  }
+  50% {
+    transform: translateY(5px);
+    opacity: 0.65;
+  }
+}
+
+.animate-scroll-hint {
+  animation: scroll-hint 2.8s ease-in-out infinite;
+}
+
+/* Premium hero background — replace __image url when final art is ready */
+.hero-background {
+  background: linear-gradient(
+    180deg,
+    #9ecae8 0%,
+    #b8d9ee 38%,
+    #d4e8c8 68%,
+    #e8dcc8 100%
+  );
+}
+
+.hero-background__image {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  opacity: 0;
+}
+
+.hero-background__sky {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 120% 80% at 50% 0%,
+    rgba(255, 255, 255, 0.45) 0%,
+    transparent 55%
+  );
+}
+
+.hero-background__horizon {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 45%;
+  background: linear-gradient(
+    to top,
+    rgba(245, 240, 232, 0.55) 0%,
+    rgba(212, 232, 200, 0.25) 40%,
+    transparent 100%
+  );
+}
+
+.hero-background__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(245, 240, 232, 0.08) 0%,
+    transparent 35%,
+    rgba(245, 240, 232, 0.15) 100%
+  );
 }
 
 /* Scrollbar styling */

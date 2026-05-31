@@ -22,6 +22,7 @@ export const currentInitiative =
   BRAND.initiatives[BRAND.currentInitiativeId];
 
 export const BRAND_COPY = {
+  tagline: 'EVERY ACT. EVERY LIFE.',
   brandStatement:
     'Praan exists to turn kindness into action.',
   footerPlatformLine:

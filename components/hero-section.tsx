@@ -1,13 +1,17 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 
-import { HeroInitiativePresentation } from '@/components/brand-labels';
-import { BRAND_COPY } from '@/lib/brand';
+import {
+  PraanLogo,
+  BrandTagline,
+  BrandStatement,
+  HeartDivider,
+  HeroInitiativeBlock,
+} from '@/components/brand-labels';
 
 interface HeroSectionProps {
   onBecomeSaviour: () => void;
-  saviourCount: number | null;
 }
 
 interface WeatherData {
@@ -45,78 +49,26 @@ function FlyingBird({
 }) {
   return (
     <div
-      className="absolute text-navy/40 animate-fly-bird"
+      className="absolute text-navy/25 animate-fly-bird pointer-events-none"
       style={{
         top,
         animationDelay: `${delay}s`,
         animationDuration: `${duration}s`,
       }}
     >
-      <Bird className="w-6 h-6 md:w-8 md:h-8" />
+      <Bird className="w-5 h-5 md:w-6 md:h-6" />
     </div>
   );
 }
 
-function useCountUp(
-  target: number,
-  duration: number = 2000
-) {
-  const [count, setCount] = useState(0);
-  const [hasStarted, setHasStarted] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !hasStarted) {
-          setHasStarted(true);
-        }
-      },
-      { threshold: 0.5 }
-    );
-
-    if (ref.current) {
-      observer.observe(ref.current);
-    }
-
-    return () => observer.disconnect();
-  }, [hasStarted]);
-
-  useEffect(() => {
-    if (!hasStarted) return;
-
-    const startTime = Date.now();
-    const endTime = startTime + duration;
-
-    const animate = () => {
-      const now = Date.now();
-      const progress = Math.min((now - startTime) / duration, 1);
-      const easeOut = 1 - Math.pow(1 - progress, 3);
-      setCount(Math.floor(easeOut * target));
-
-      if (now < endTime) {
-        requestAnimationFrame(animate);
-      }
-    };
-
-    requestAnimationFrame(animate);
-  }, [hasStarted, target, duration]);
-
-  return { count, ref };
-}
-
 export default function HeroSection({
   onBecomeSaviour,
-  saviourCount,
 }: HeroSectionProps) {
   const [weather, setWeather] = useState<WeatherData>({
     temperature: 0,
     loading: true,
     error: false,
   });
-
-  const safeCount = saviourCount ?? 0;
-  const { count, ref: counterRef } = useCountUp(safeCount);
 
   useEffect(() => {
     const fetchWeather = async () => {
@@ -163,123 +115,85 @@ export default function HeroSection({
     return 'Birds still need fresh water daily.';
   };
 
-  const progress =
-    saviourCount === null
-      ? 0
-      : Math.min((saviourCount / 200) * 100, 100);
-
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-
-      {/* Background */}
-      <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-gradient-to-b from-[#87CEEB] via-[#B0E0E6] to-[#FFE4B5]" />
-        <div className="absolute bottom-20 left-1/2 -translate-x-1/2 w-64 h-64 bg-gradient-radial from-yellow-200/60 via-orange-200/30 to-transparent rounded-full blur-3xl" />
-        <div className="absolute inset-0 bg-gradient-to-t from-cream/30 to-transparent" />
+    <section className="relative min-h-[100svh] flex flex-col overflow-hidden">
+      {/* Premium background — swap hero-background__image for a photo later */}
+      <div className="absolute inset-0 hero-background">
+        <div className="hero-background__image" aria-hidden="true" />
+        <div className="hero-background__sky" aria-hidden="true" />
+        <div className="hero-background__horizon" aria-hidden="true" />
+        <div className="hero-background__overlay" aria-hidden="true" />
       </div>
 
-      {/* Birds */}
-      <FlyingBird delay={0} top="15%" duration={18} />
-      <FlyingBird delay={1} top="25%" duration={22} />
-      <FlyingBird delay={2} top="20%" duration={20} />
-      <FlyingBird delay={3} top="30%" duration={25} />
+      <FlyingBird delay={0} top="18%" duration={22} />
+      <FlyingBird delay={2} top="28%" duration={26} />
+      <FlyingBird delay={4} top="22%" duration={24} />
 
-      {/* Content */}
-      <div className="relative z-10 text-center px-4 pt-20 pb-16 max-w-5xl mx-auto">
+      {/* Hero — stable layout; desktop lifted ~100px above prior stable position */}
+      <div className="relative z-10 flex flex-col items-center text-center w-full px-4 sm:px-6 lg:px-2 pt-14 pb-10 md:pb-12 lg:flex-1 lg:justify-center lg:pt-0 lg:mt-20 lg:-translate-y-24 xl:-translate-y-28 2xl:-translate-y-32">
+        <PraanLogo
+          className="h-auto w-[min(94vw,26rem)] sm:w-[min(92vw,34rem)] md:w-[min(90vw,46rem)] lg:w-[99vw] xl:w-[99.5vw] 2xl:w-[99vw] lg:max-w-none shrink-0 mb-1 lg:mb-2"
+          sizes="(min-width: 1536px) 99vw, (min-width: 1280px) 99.5vw, (min-width: 1024px) 99vw, 94vw"
+          priority
+        />
 
-        {/* Brand hierarchy */}
-        <HeroInitiativePresentation className="mb-5" />
-        <p className="text-navy/70 text-sm md:text-base max-w-md mx-auto mb-8 leading-relaxed font-normal italic">
-          {BRAND_COPY.brandStatement}
-        </p>
+        <div className="flex flex-col items-center w-full max-w-3xl mx-auto">
+          <BrandTagline className="mb-1.5 md:mb-2" />
 
-        {/* Weather */}
-        <div className="inline-flex items-center gap-3 bg-cream/90 backdrop-blur-sm px-6 md:px-8 py-4 rounded-full shadow-xl mb-6 border border-white/40">
-          <span className="text-3xl">🌡️</span>
-          <span className="font-bold text-navy text-lg md:text-xl">
-            {weather.loading
-              ? 'Fetching Delhi temp...'
-              : weather.error
-              ? 'Delhi Weather'
-              : `Delhi Right Now: ${weather.temperature}°C`}
-          </span>
-        </div>
+          <BrandStatement className="mb-2 md:mb-2.5 max-w-lg text-sm md:text-[0.9375rem]" />
 
-        {/* Weather Message */}
-        <p className="text-navy/80 font-medium text-lg mb-8 max-w-md mx-auto">
-          {weather.loading || weather.error
-            ? 'Birds need fresh water every day.'
-            : getWeatherMessage(weather.temperature)}
-        </p>
+          <HeartDivider className="mb-2 md:mb-2.5" />
 
-        {/* Main Mission Box */}
-        <div className="max-w-4xl mx-auto mb-10 bg-cream/80 backdrop-blur-md border border-white/40 rounded-3xl px-6 py-5 shadow-xl">
-          <div className="flex flex-col md:flex-row items-center justify-center gap-4 text-center">
-            <div className="text-5xl">🪹</div>
-            <div>
-              <p className="text-xl md:text-2xl font-bold text-navy leading-relaxed">
-                Keep a water bowl for birds this summer.
-              </p>
-              <p className="text-navy/80 font-medium text-base md:text-lg mt-1">
-                💙 Place it outside & become a saviour.
-              </p>
-            </div>
-          </div>
-        </div>
+          <HeroInitiativeBlock className="mb-2.5 md:mb-3 lg:mb-4" />
 
-        {/* Counter */}
-        <div ref={counterRef} className="mb-4">
-          <span className="text-7xl md:text-9xl font-extrabold text-navy animate-count-up">
-            {saviourCount === null ? (
-              <span className="inline-block w-32 h-16 md:h-24 bg-navy/10 rounded-2xl animate-pulse" />
-            ) : (
-              count
-            )}
-          </span>
-        </div>
-
-        <p className="text-2xl font-bold text-navy/80 tracking-widest mb-6">
-          SAVIOURS
-        </p>
-
-        {/* Progress */}
-        <div className="max-w-md mx-auto mb-8">
-          <div className="flex justify-between text-sm font-medium text-navy/70 mb-2">
-            <span>
-              {saviourCount === null ? (
-                <span className="inline-block w-20 h-4 bg-navy/10 rounded animate-pulse" />
-              ) : (
-                `${saviourCount} Saviours`
-              )}
+          <div className="inline-flex items-center gap-2.5 sm:gap-3 bg-cream/90 backdrop-blur-sm px-4 sm:px-6 py-2 sm:py-2.5 rounded-full shadow-md mb-2 md:mb-2.5 border border-white/40">
+            <span className="text-lg sm:text-xl">🌡️</span>
+            <span className="font-semibold text-navy text-sm sm:text-base">
+              {weather.loading
+                ? 'Fetching Delhi temp...'
+                : weather.error
+                ? 'Delhi Weather'
+                : `Delhi Right Now: ${weather.temperature}°C`}
             </span>
-            <span>200+</span>
           </div>
 
-          <div className="h-4 bg-cream-dark rounded-full overflow-hidden shadow-inner">
-            <div
-              className="h-full bg-gradient-to-r from-navy to-navy-light rounded-full transition-all duration-1000"
-              style={{ width: `${progress}%` }}
-            />
-          </div>
+          <p className="text-navy/70 font-medium text-xs sm:text-sm mb-2.5 md:mb-3 max-w-md mx-auto">
+            {weather.loading || weather.error
+              ? 'Birds still need fresh water daily.'
+              : getWeatherMessage(weather.temperature)}
+          </p>
+
+          <button
+            type="button"
+            onClick={onBecomeSaviour}
+            className="w-full max-w-lg mx-auto bg-cream/85 backdrop-blur-md border border-white/50 rounded-3xl px-5 py-4 lg:py-3.5 shadow-lg hover:bg-cream/95 hover:shadow-xl transition-all text-left sm:text-center cursor-pointer group"
+          >
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 text-center">
+              <div className="text-3xl sm:text-4xl group-hover:scale-105 transition-transform">
+                🪹
+              </div>
+              <div>
+                <p className="text-base sm:text-lg md:text-xl font-bold text-navy leading-relaxed">
+                  Keep a water bowl for birds this summer.
+                </p>
+                <p className="text-navy/75 font-medium text-xs sm:text-sm md:text-base mt-1">
+                  💙 Place it outside & become a saviour.
+                </p>
+              </div>
+            </div>
+          </button>
         </div>
-
-        {/* CTA */}
-        <button
-          onClick={onBecomeSaviour}
-          className="inline-flex items-center gap-2 bg-navy text-cream px-8 md:px-10 py-5 rounded-2xl font-bold text-xl shadow-xl hover:bg-navy-dark transition-all hover:scale-105 animate-pulse-glow"
-        >
-          🐦 Become a Saviour
-        </button>
-
-        {/* Tiny Footer Note */}
-        <p className="text-navy/70 text-sm mt-5 font-medium">
-          ↪ Place a bowl, help birds & join the movement.
-        </p>
-
       </div>
 
-      {/* Bottom Fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-cream to-transparent" />
+      {/* Scroll indicator */}
+      <div
+        className="absolute bottom-6 md:bottom-8 left-1/2 -translate-x-1/2 z-10 text-navy/40 text-xl animate-scroll-hint pointer-events-none"
+        aria-hidden="true"
+      >
+        ⌄
+      </div>
+
+      <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-cream to-transparent pointer-events-none" />
     </section>
   );
 }
