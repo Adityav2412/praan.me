@@ -33,13 +33,13 @@ export function PraanLogo({
 }: {
   className?: string;
   priority?: boolean;
-  /** Lightens logo on dark navy backgrounds without modifying the SVG file */
+  /** Lightens logo on dark navy backgrounds without modifying the source asset */
   variant?: 'default' | 'on-dark';
   sizes?: string;
 }) {
   return (
     <Image
-      src="/praan-logo.svg"
+      src="/praan-logo-original.png"
       alt="PRAAN"
       width={LOGO_WIDTH}
       height={LOGO_HEIGHT}

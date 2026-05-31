@@ -4,7 +4,7 @@ import sharp from 'sharp';
 
 const inputPng = 'public/praan-logo-original.png';
 const traceInput = 'public/praan-logo-trace-input.png';
-const outputSvg = 'public/praan-logo-traced.svg';
+const outputSvg = 'public/praan-logo.svg';
 
 await sharp(inputPng)
   .flatten({ background: '#ffffff' })
