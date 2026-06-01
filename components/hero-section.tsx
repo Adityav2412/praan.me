@@ -116,7 +116,7 @@ export default function HeroSection({
   };
 
   return (
-    <section className="relative min-h-[100svh] flex flex-col overflow-hidden">
+    <section className="relative min-h-0 flex flex-col overflow-hidden">
       {/* Premium background — swap hero-background__image for a photo later */}
       <div className="absolute inset-0 hero-background">
         <div className="hero-background__image" aria-hidden="true" />
@@ -129,25 +129,25 @@ export default function HeroSection({
       <FlyingBird delay={2} top="28%" duration={26} />
       <FlyingBird delay={4} top="22%" duration={24} />
 
-      {/* Hero — stable layout; desktop lifted ~100px above prior stable position */}
-      <div className="relative z-10 flex flex-col items-center text-center w-full px-4 sm:px-6 lg:px-2 pt-14 pb-10 md:pb-12 lg:flex-1 lg:justify-center lg:pt-0 lg:mt-20 lg:-translate-y-24 xl:-translate-y-28 2xl:-translate-y-32">
+      {/* Hero — content-height on desktop; no flex centering (avoids empty space below CTA) */}
+      <div className="relative z-10 flex flex-col items-center text-center w-full px-4 sm:px-6 lg:px-2 pt-14 pb-8 md:pb-10 lg:pt-[4.75rem] lg:pb-5 lg:mt-14 lg:-translate-y-10 xl:-translate-y-12 2xl:-translate-y-14">
         <PraanLogo
-          className="h-auto w-[min(94vw,26rem)] sm:w-[min(92vw,34rem)] md:w-[min(90vw,46rem)] lg:w-[99vw] xl:w-[99.5vw] 2xl:w-[99vw] lg:max-w-none shrink-0 mb-2 lg:mb-3"
+          className="h-auto w-[min(94vw,26rem)] sm:w-[min(92vw,34rem)] md:w-[min(90vw,46rem)] lg:w-[99vw] xl:w-[99.5vw] 2xl:w-[99vw] lg:max-w-none shrink-0 mb-2 lg:mb-2.5"
           sizes="(min-width: 1536px) 99vw, (min-width: 1280px) 99.5vw, (min-width: 1024px) 99vw, 94vw"
           priority
         />
 
         {/* PRAAN voice → initiative → weather & CTA */}
-        <div className="flex flex-col items-center w-full max-w-[36rem] mx-auto lg:mt-0.5">
+        <div className="flex flex-col items-center w-full max-w-[36rem] mx-auto lg:mt-1">
           <BrandTagline className="mb-1.5 md:mb-2" />
 
-          <BrandStatement className="mb-2.5 md:mb-3 max-w-lg text-sm md:text-[0.9375rem]" />
+          <BrandStatement className="mb-2 md:mb-2.5 lg:mb-2.5 max-w-lg text-sm md:text-[0.9375rem]" />
 
-          <HeartDivider className="mb-3 md:mb-3.5" />
+          <HeartDivider className="mb-2.5 md:mb-3 lg:mb-3" />
 
-          <HeroInitiativeBlock className="mb-4 md:mb-5 lg:mb-6" />
+          <HeroInitiativeBlock className="mb-3.5 md:mb-4 lg:mb-4" />
 
-          <div className="inline-flex items-center gap-3 sm:gap-3.5 bg-cream/90 backdrop-blur-sm px-5 sm:px-7 py-2.5 sm:py-3 rounded-full shadow-md mb-2.5 md:mb-3 border border-white/40">
+          <div className="inline-flex items-center gap-3 sm:gap-3.5 bg-cream/90 backdrop-blur-sm px-5 sm:px-7 py-2.5 sm:py-3 rounded-full shadow-md mb-2 md:mb-2.5 border border-white/40">
             <span className="text-xl sm:text-2xl leading-none">🌡️</span>
             <span className="font-semibold text-navy text-[0.9375rem] sm:text-lg">
               {weather.loading
@@ -158,7 +158,7 @@ export default function HeroSection({
             </span>
           </div>
 
-          <p className="text-navy/70 font-medium text-sm sm:text-[0.9375rem] md:text-base mb-3 md:mb-4 max-w-md mx-auto leading-snug">
+          <p className="text-navy/70 font-medium text-sm sm:text-[0.9375rem] md:text-base mb-2.5 md:mb-3 max-w-md mx-auto leading-snug">
             {weather.loading || weather.error
               ? 'Birds still need fresh water daily.'
               : getWeatherMessage(weather.temperature)}
@@ -167,7 +167,7 @@ export default function HeroSection({
           <button
             type="button"
             onClick={onBecomeSaviour}
-            className="w-full max-w-xl mx-auto bg-cream/85 backdrop-blur-md border border-white/50 rounded-3xl px-6 py-4.5 sm:py-5 lg:py-4 shadow-lg hover:bg-cream/95 hover:shadow-xl transition-all text-left sm:text-center cursor-pointer group"
+            className="w-full max-w-xl mx-auto bg-cream/85 backdrop-blur-md border border-white/50 rounded-3xl px-6 py-4 sm:py-4.5 lg:py-3.5 shadow-lg hover:bg-cream/95 hover:shadow-xl transition-all text-left sm:text-center cursor-pointer group"
           >
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5 sm:gap-4 text-center">
               <div className="text-[2rem] sm:text-[2.25rem] md:text-4xl leading-none group-hover:scale-105 transition-transform">
@@ -188,13 +188,13 @@ export default function HeroSection({
 
       {/* Scroll indicator */}
       <div
-        className="absolute bottom-6 md:bottom-8 left-1/2 -translate-x-1/2 z-10 text-navy/40 text-xl animate-scroll-hint pointer-events-none"
+        className="absolute bottom-4 md:bottom-5 lg:bottom-3 left-1/2 -translate-x-1/2 z-10 text-navy/40 text-xl animate-scroll-hint pointer-events-none"
         aria-hidden="true"
       >
         ⌄
       </div>
 
-      <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-cream to-transparent pointer-events-none" />
+      <div className="absolute bottom-0 left-0 right-0 h-20 lg:h-14 bg-gradient-to-t from-cream to-transparent pointer-events-none" />
     </section>
   );
 }
