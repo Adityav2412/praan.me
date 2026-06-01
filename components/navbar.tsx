@@ -18,7 +18,7 @@ import {
 
   NAV_ITEMS_LEFT,
 
-  NAV_ITEMS_RIGHT_DESKTOP,
+  NAV_ITEMS_RIGHT,
 } from '@/lib/navigation';
 
 
@@ -151,7 +151,7 @@ export default function Navbar({
 
           <div className="flex items-center justify-end gap-0.5 xl:gap-1 flex-1 min-w-0 pl-4 xl:pl-6">
 
-            {NAV_ITEMS_RIGHT_DESKTOP.map((item) => (
+            {NAV_ITEMS_RIGHT.map((item) => (
 
               <button
 

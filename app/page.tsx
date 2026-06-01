@@ -11,7 +11,6 @@ import SaviourWall from '@/components/saviour-wall';
 import AreaLeaderboard from '@/components/area-leaderboard';
 import WhyItMatters from '@/components/why-it-matters';
 import ImpactCounter from '@/components/impact-counter';
-import DailyReminder from '@/components/daily-reminder';
 import Footer from '@/components/footer';
 import { BRAND_COPY } from '@/lib/brand';
 import { NAVBAR_HEIGHT_PX } from '@/lib/navigation';
@@ -234,8 +233,6 @@ export default function Home() {
         <SaviourWall />
 
         <AreaLeaderboard />
-
-        <DailyReminder />
 
         <ImpactCounter
           saviourCount={saviourCount}
