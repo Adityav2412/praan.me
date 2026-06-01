@@ -132,23 +132,24 @@ export default function HeroSection({
       {/* Hero — stable layout; desktop lifted ~100px above prior stable position */}
       <div className="relative z-10 flex flex-col items-center text-center w-full px-4 sm:px-6 lg:px-2 pt-14 pb-10 md:pb-12 lg:flex-1 lg:justify-center lg:pt-0 lg:mt-20 lg:-translate-y-24 xl:-translate-y-28 2xl:-translate-y-32">
         <PraanLogo
-          className="h-auto w-[min(94vw,26rem)] sm:w-[min(92vw,34rem)] md:w-[min(90vw,46rem)] lg:w-[99vw] xl:w-[99.5vw] 2xl:w-[99vw] lg:max-w-none shrink-0 mb-1 lg:mb-2"
+          className="h-auto w-[min(94vw,26rem)] sm:w-[min(92vw,34rem)] md:w-[min(90vw,46rem)] lg:w-[99vw] xl:w-[99.5vw] 2xl:w-[99vw] lg:max-w-none shrink-0 mb-2 lg:mb-3"
           sizes="(min-width: 1536px) 99vw, (min-width: 1280px) 99.5vw, (min-width: 1024px) 99vw, 94vw"
           priority
         />
 
-        <div className="flex flex-col items-center w-full max-w-3xl mx-auto">
+        {/* PRAAN voice → initiative → weather & CTA */}
+        <div className="flex flex-col items-center w-full max-w-[36rem] mx-auto lg:mt-0.5">
           <BrandTagline className="mb-1.5 md:mb-2" />
 
-          <BrandStatement className="mb-2 md:mb-2.5 max-w-lg text-sm md:text-[0.9375rem]" />
+          <BrandStatement className="mb-2.5 md:mb-3 max-w-lg text-sm md:text-[0.9375rem]" />
 
-          <HeartDivider className="mb-2 md:mb-2.5" />
+          <HeartDivider className="mb-3 md:mb-3.5" />
 
-          <HeroInitiativeBlock className="mb-2.5 md:mb-3 lg:mb-4" />
+          <HeroInitiativeBlock className="mb-4 md:mb-5 lg:mb-6" />
 
-          <div className="inline-flex items-center gap-2.5 sm:gap-3 bg-cream/90 backdrop-blur-sm px-4 sm:px-6 py-2 sm:py-2.5 rounded-full shadow-md mb-2 md:mb-2.5 border border-white/40">
-            <span className="text-lg sm:text-xl">🌡️</span>
-            <span className="font-semibold text-navy text-sm sm:text-base">
+          <div className="inline-flex items-center gap-3 sm:gap-3.5 bg-cream/90 backdrop-blur-sm px-5 sm:px-7 py-2.5 sm:py-3 rounded-full shadow-md mb-2.5 md:mb-3 border border-white/40">
+            <span className="text-xl sm:text-2xl leading-none">🌡️</span>
+            <span className="font-semibold text-navy text-[0.9375rem] sm:text-lg">
               {weather.loading
                 ? 'Fetching Delhi temp...'
                 : weather.error
@@ -157,7 +158,7 @@ export default function HeroSection({
             </span>
           </div>
 
-          <p className="text-navy/70 font-medium text-xs sm:text-sm mb-2.5 md:mb-3 max-w-md mx-auto">
+          <p className="text-navy/70 font-medium text-sm sm:text-[0.9375rem] md:text-base mb-3 md:mb-4 max-w-md mx-auto leading-snug">
             {weather.loading || weather.error
               ? 'Birds still need fresh water daily.'
               : getWeatherMessage(weather.temperature)}
@@ -166,17 +167,17 @@ export default function HeroSection({
           <button
             type="button"
             onClick={onBecomeSaviour}
-            className="w-full max-w-lg mx-auto bg-cream/85 backdrop-blur-md border border-white/50 rounded-3xl px-5 py-4 lg:py-3.5 shadow-lg hover:bg-cream/95 hover:shadow-xl transition-all text-left sm:text-center cursor-pointer group"
+            className="w-full max-w-xl mx-auto bg-cream/85 backdrop-blur-md border border-white/50 rounded-3xl px-6 py-4.5 sm:py-5 lg:py-4 shadow-lg hover:bg-cream/95 hover:shadow-xl transition-all text-left sm:text-center cursor-pointer group"
           >
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 text-center">
-              <div className="text-3xl sm:text-4xl group-hover:scale-105 transition-transform">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5 sm:gap-4 text-center">
+              <div className="text-[2rem] sm:text-[2.25rem] md:text-4xl leading-none group-hover:scale-105 transition-transform">
                 🪹
               </div>
-              <div>
-                <p className="text-base sm:text-lg md:text-xl font-bold text-navy leading-relaxed">
+              <div className="min-w-0">
+                <p className="text-lg sm:text-xl md:text-[1.35rem] lg:text-[1.4rem] font-bold text-navy leading-snug sm:leading-relaxed">
                   Keep a water bowl for birds this summer.
                 </p>
-                <p className="text-navy/75 font-medium text-xs sm:text-sm md:text-base mt-1">
+                <p className="text-navy/75 font-medium text-sm sm:text-[0.9375rem] md:text-lg mt-1.5 sm:mt-2">
                   💙 Place it outside & become a saviour.
                 </p>
               </div>

@@ -100,7 +100,7 @@ function BrandInitiativeName({
     sm: 'text-lg sm:text-xl font-extrabold',
     md: 'text-xl sm:text-2xl font-extrabold',
     lg: 'text-2xl sm:text-3xl font-extrabold',
-    hero: 'text-xl sm:text-2xl md:text-[1.625rem] lg:text-[1.75rem] xl:text-[1.875rem] font-semibold',
+    hero: 'text-[1.125rem] sm:text-[1.375rem] md:text-[1.8125rem] lg:text-[2rem] xl:text-[2.125rem] font-bold tracking-tight',
   };
 
   return (
@@ -131,8 +131,10 @@ export function HeroInitiativeBlock({
   className?: string;
 }) {
   return (
-    <div className={`flex flex-col items-center text-center ${className}`}>
-      <span className="text-navy/40 text-[10px] sm:text-[11px] tracking-[0.2em] uppercase font-medium mb-1 sm:mb-1.5">
+    <div
+      className={`flex flex-col items-center text-center gap-0.5 sm:gap-1 max-w-md mx-auto w-full ${className}`}
+    >
+      <span className="text-navy/45 text-[11px] sm:text-xs tracking-[0.2em] uppercase font-semibold">
         Introducing
       </span>
       <BrandInitiativeName size="hero" />
