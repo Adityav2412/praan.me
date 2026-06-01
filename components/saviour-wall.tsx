@@ -1,256 +1,116 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 
-import {
-  fetchSaviours,
-  formatTimeAgo,
-  type Saviour,
-} from '@/lib/storage';
+import SaviourCard from '@/components/saviour-card';
+import { fetchLatestSaviours, type Saviour } from '@/lib/saviours';
+
+const HOME_PREVIEW_COUNT = 9;
 
 export default function SaviourWall() {
-  const [saviours, setSaviours] =
-    useState<Saviour[]>([]);
-
-  const [loading, setLoading] =
-    useState(true);
-
-  const [
-    visibleCount,
-    setVisibleCount,
-  ] = useState(9);
+  const [saviours, setSaviours] = useState<Saviour[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     let mounted = true;
 
-    const updateSaviours =
-      async (
-        showLoader = false
-      ) => {
-        try {
-          if (showLoader) {
-            setLoading(true);
-          }
-
-          const data =
-            await fetchSaviours();
-
-          // remove broken entries
-          const cleanData =
-            data.filter(
-              (saviour) =>
-                saviour.name &&
-                saviour.colony &&
-                saviour.timestamp &&
-                saviour.saviourNumber
-            );
-
-          // newest first
-          const latest =
-            [...cleanData].sort(
-              (
-                a,
-                b
-              ) =>
-                b.saviourNumber -
-                a.saviourNumber
-            );
-
-          if (mounted) {
-            setSaviours(latest);
-          }
-        } catch (error) {
-          console.error(
-            'Failed to fetch saviours:',
-            error
-          );
-        } finally {
-          if (mounted) {
-            setLoading(false);
-          }
+    const updateSaviours = async (showLoader = false) => {
+      try {
+        if (showLoader) {
+          setLoading(true);
         }
-      };
 
-    // instant initial load
+        const latest = await fetchLatestSaviours(HOME_PREVIEW_COUNT);
+
+        if (mounted) {
+          setSaviours(latest);
+        }
+      } catch (error) {
+        console.error('Failed to fetch saviours:', error);
+      } finally {
+        if (mounted) {
+          setLoading(false);
+        }
+      }
+    };
+
     updateSaviours(true);
 
-    // faster sync refresh
-    const interval =
-      setInterval(() => {
-        updateSaviours(false);
-      }, 4000);
+    const interval = setInterval(() => {
+      updateSaviours(false);
+    }, 4000);
 
-    // auto refresh when tab focused
-    const handleFocus =
-      () => {
-        updateSaviours(false);
-      };
+    const handleFocus = () => {
+      updateSaviours(false);
+    };
 
-    window.addEventListener(
-      'focus',
-      handleFocus
-    );
+    window.addEventListener('focus', handleFocus);
 
     return () => {
       mounted = false;
-
-      clearInterval(
-        interval
-      );
-
-      window.removeEventListener(
-        'focus',
-        handleFocus
-      );
+      clearInterval(interval);
+      window.removeEventListener('focus', handleFocus);
     };
   }, []);
 
-  const visibleSaviours =
-    saviours.slice(
-      0,
-      visibleCount
-    );
-
   return (
-    <section
-      id="saviours"
-      className="py-16 px-4 bg-cream"
-    >
+    <section id="saviours" className="py-16 px-4 bg-cream">
       <div className="max-w-6xl mx-auto">
-
         <h2 className="text-4xl font-extrabold text-navy text-center mb-4">
           Our Saviours 💙
         </h2>
 
         <p className="text-navy/70 text-center mb-10 max-w-2xl mx-auto">
-          Heroes who have joined
-          the mission to save
-          Delhi&apos;s birds
+          Heroes who have joined the mission to save Delhi&apos;s birds
         </p>
 
         {loading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-
-            {[1, 2, 3].map(
-              (item) => (
-                <div
-                  key={item}
-                  className="bg-cream-dark rounded-xl p-5 animate-pulse"
-                >
-                  <div className="h-5 w-32 bg-navy/10 rounded mb-3" />
-
-                  <div className="h-4 w-20 bg-navy/10 rounded mb-6" />
-
-                  <div className="flex justify-between">
-                    <div className="h-4 w-24 bg-navy/10 rounded" />
-
-                    <div className="h-4 w-16 bg-navy/10 rounded" />
-                  </div>
+            {[1, 2, 3].map((item) => (
+              <div
+                key={item}
+                className="bg-cream-dark rounded-xl p-5 animate-pulse"
+              >
+                <div className="h-5 w-32 bg-navy/10 rounded mb-3" />
+                <div className="h-4 w-20 bg-navy/10 rounded mb-6" />
+                <div className="flex justify-between">
+                  <div className="h-4 w-24 bg-navy/10 rounded" />
+                  <div className="h-4 w-16 bg-navy/10 rounded" />
                 </div>
-              )
-            )}
+              </div>
+            ))}
           </div>
-        ) : saviours.length ===
-          0 ? (
+        ) : saviours.length === 0 ? (
           <div className="text-center py-16 bg-cream-dark rounded-2xl">
-
-            <span className="text-6xl mb-4 block">
-              🐦
-            </span>
-
+            <span className="text-6xl mb-4 block">🐦</span>
             <p className="text-xl text-navy font-medium">
-              Be the first
-              Saviour in Delhi!
+              Be the first Saviour in Delhi!
             </p>
-
             <p className="text-navy/60 mt-2">
-              Join the mission
-              and see your name
-              here
+              Join the mission and see your name here
             </p>
           </div>
         ) : (
           <>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-
-              {visibleSaviours.map(
-                (
-                  saviour,
-                  index
-                ) => (
-                  <div
-                    key={`${saviour.id}-${saviour.saviourNumber}`}
-                    className={`bg-cream-dark border-2 border-transparent hover:border-navy/20 rounded-xl p-5 transition-all hover:shadow-lg ${
-                      index === 0
-                        ? 'animate-slide-up'
-                        : ''
-                    }`}
-                  >
-                    <div className="flex items-start justify-between mb-3">
-
-                      <div>
-                        <h3 className="font-bold text-navy text-lg">
-                          {
-                            saviour.name
-                          }
-                        </h3>
-
-                        <p className="text-navy/60 text-sm">
-                          {
-                            saviour.colony
-                          }
-                        </p>
-                      </div>
-
-                      <span className="bg-navy text-cream text-xs font-bold px-3 py-1 rounded-full">
-                        #
-                        {
-                          saviour.saviourNumber
-                        }
-                      </span>
-                    </div>
-
-                    <div className="flex items-center justify-between text-sm">
-
-                      <span className="text-navy/70">
-                        🫙{' '}
-                        {
-                          saviour.stationType
-                        }
-                      </span>
-
-                      <span className="text-navy/50">
-                        {formatTimeAgo(
-                          saviour.timestamp
-                        )}
-                      </span>
-                    </div>
-                  </div>
-                )
-              )}
+              {saviours.map((saviour, index) => (
+                <SaviourCard
+                  key={`${saviour.id}-${saviour.saviourNumber}`}
+                  saviour={saviour}
+                  animate={index === 0}
+                />
+              ))}
             </div>
 
-            {/* Load More Button */}
-            {visibleCount <
-              saviours.length && (
-              <div className="flex justify-center mt-10">
-
-                <button
-                  onClick={() =>
-                    setVisibleCount(
-                      (
-                        prev
-                      ) =>
-                        prev + 9
-                    )
-                  }
-                  className="bg-navy text-cream px-8 py-4 rounded-2xl font-bold shadow-lg hover:bg-navy-dark hover:scale-105 transition-all duration-300"
-                >
-                  Load More Saviours 💙
-                </button>
-
-              </div>
-            )}
+            <div className="flex justify-center mt-10">
+              <Link
+                href="/saviours"
+                className="bg-navy text-cream px-8 py-4 rounded-2xl font-bold shadow-lg hover:bg-navy-dark hover:scale-105 transition-all duration-300"
+              >
+                View Full Leaderboard 💙
+              </Link>
+            </div>
           </>
         )}
       </div>
