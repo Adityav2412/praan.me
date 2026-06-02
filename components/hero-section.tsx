@@ -12,6 +12,7 @@ import {
 
 interface HeroSectionProps {
   onBecomeSaviour: () => void;
+  saviourCount: number | null;
 }
 
 interface WeatherData {
@@ -63,6 +64,7 @@ function FlyingBird({
 
 export default function HeroSection({
   onBecomeSaviour,
+  saviourCount,
 }: HeroSectionProps) {
   const [weather, setWeather] = useState<WeatherData>({
     temperature: 0,
@@ -130,24 +132,40 @@ export default function HeroSection({
       <FlyingBird delay={4} top="22%" duration={24} />
 
       {/* Hero — content-height on desktop; no flex centering (avoids empty space below CTA) */}
-      <div className="relative z-10 flex flex-col items-center text-center w-full px-4 sm:px-6 lg:px-2 pt-14 pb-8 md:pb-10 lg:pt-[4.75rem] lg:pb-5 lg:mt-14 lg:-translate-y-10 xl:-translate-y-12 2xl:-translate-y-14">
+      <div className="relative z-10 flex flex-col items-center text-center w-full px-4 sm:px-6 lg:px-2 pt-10 pb-6 md:pb-8 lg:pt-[3.5rem] lg:pb-4 lg:mt-10 lg:-translate-y-7 xl:-translate-y-9 2xl:-translate-y-10">
         <PraanLogo
           className="h-auto w-[min(94vw,26rem)] sm:w-[min(92vw,34rem)] md:w-[min(90vw,46rem)] lg:w-[99vw] xl:w-[99.5vw] 2xl:w-[99vw] lg:max-w-none shrink-0 mb-2 lg:mb-2.5"
           sizes="(min-width: 1536px) 99vw, (min-width: 1280px) 99.5vw, (min-width: 1024px) 99vw, 94vw"
           priority
         />
 
-        {/* PRAAN voice → initiative → weather & CTA */}
+        {/* PRAAN voice → initiative → 3-step flow → social proof → CTAs */}
         <div className="flex flex-col items-center w-full max-w-[36rem] mx-auto lg:mt-1">
-          <BrandTagline className="mb-1.5 md:mb-2" />
+          <BrandTagline className="mb-1 md:mb-1.5" />
 
-          <BrandStatement className="mb-2 md:mb-2.5 lg:mb-2.5 max-w-lg text-sm md:text-[0.9375rem]" />
+          <BrandStatement className="mb-1.5 md:mb-2 lg:mb-2 max-w-lg text-sm md:text-[0.9375rem]" />
 
-          <HeartDivider className="mb-2.5 md:mb-3 lg:mb-3" />
+          <HeartDivider className="mb-2 md:mb-2.5 lg:mb-2.5" />
 
-          <HeroInitiativeBlock className="mb-3.5 md:mb-4 lg:mb-4" />
+          <HeroInitiativeBlock className="mb-2 md:mb-2.5 lg:mb-2.5" />
 
-          <div className="inline-flex items-center gap-3 sm:gap-3.5 bg-cream/90 backdrop-blur-sm px-5 sm:px-7 py-2.5 sm:py-3 rounded-full shadow-md mb-2 md:mb-2.5 border border-white/40">
+          {/* 3-Step Flow */}
+          <div className="flex flex-wrap sm:flex-nowrap items-center justify-center gap-2 sm:gap-3 mb-3 md:mb-4 lg:mb-4 text-center">
+            <span className="text-navy font-semibold text-sm sm:text-base md:text-lg">
+              Place Water
+            </span>
+            <span className="text-navy/40 text-lg sm:text-xl">→</span>
+            <span className="text-navy font-semibold text-sm sm:text-base md:text-lg">
+              Register Contribution
+            </span>
+            <span className="text-navy/40 text-lg sm:text-xl">→</span>
+            <span className="text-navy font-semibold text-sm sm:text-base md:text-lg">
+              Join The Saviour Wall
+            </span>
+          </div>
+
+          {/* Weather Display */}
+          <div className="inline-flex items-center gap-3 sm:gap-3.5 bg-cream/90 backdrop-blur-sm px-5 sm:px-7 py-2.5 sm:py-3 rounded-full shadow-md mb-2 md:mb-3 border border-white/40">
             <span className="text-xl sm:text-2xl leading-none">🌡️</span>
             <span className="font-semibold text-navy text-[0.9375rem] sm:text-lg">
               {weather.loading
@@ -158,31 +176,40 @@ export default function HeroSection({
             </span>
           </div>
 
-          <p className="text-navy/70 font-medium text-sm sm:text-[0.9375rem] md:text-base mb-2.5 md:mb-3 max-w-md mx-auto leading-snug">
+          <p className="text-navy/70 font-medium text-sm sm:text-[0.9375rem] md:text-base mb-2 md:mb-3 max-w-md mx-auto leading-snug">
             {weather.loading || weather.error
               ? 'Birds still need fresh water daily.'
               : getWeatherMessage(weather.temperature)}
           </p>
 
-          <button
-            type="button"
-            onClick={onBecomeSaviour}
-            className="w-full max-w-xl mx-auto bg-cream/85 backdrop-blur-md border border-white/50 rounded-3xl px-6 py-4 sm:py-4.5 lg:py-3.5 shadow-lg hover:bg-cream/95 hover:shadow-xl transition-all text-left sm:text-center cursor-pointer group"
-          >
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5 sm:gap-4 text-center">
-              <div className="text-[2rem] sm:text-[2.25rem] md:text-4xl leading-none group-hover:scale-105 transition-transform">
-                🪹
+          {/* Social Proof - Prominent Metric */}
+          {saviourCount !== null && (
+            <div className="mb-3 md:mb-4">
+              <div className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-navy leading-none mb-1">
+                {saviourCount}
               </div>
-              <div className="min-w-0">
-                <p className="text-lg sm:text-xl md:text-[1.35rem] lg:text-[1.4rem] font-bold text-navy leading-snug sm:leading-relaxed">
-                  Keep a water bowl for birds this summer.
-                </p>
-                <p className="text-navy/75 font-medium text-sm sm:text-[0.9375rem] md:text-lg mt-1.5 sm:mt-2">
-                  💙 Place it outside & become a saviour.
-                </p>
+              <div className="text-navy/70 font-semibold text-sm sm:text-base md:text-lg uppercase tracking-wide">
+                Saviours Joined
               </div>
             </div>
-          </button>
+          )}
+
+          {/* CTAs */}
+          <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 w-full max-w-xl mx-auto">
+            <button
+              type="button"
+              onClick={onBecomeSaviour}
+              className="w-full sm:flex-1 bg-navy text-cream font-bold text-base sm:text-lg md:text-xl px-6 py-3.5 sm:py-4 rounded-2xl shadow-lg hover:bg-navy-dark hover:shadow-xl transition-all cursor-pointer"
+            >
+              Join The Saviour Wall
+            </button>
+            <a
+              href="/saviours"
+              className="w-full sm:flex-1 bg-cream/85 backdrop-blur-md border-2 border-navy/30 text-navy font-bold text-base sm:text-lg md:text-xl px-6 py-3.5 sm:py-4 rounded-2xl shadow-md hover:bg-cream/95 hover:shadow-lg hover:border-navy/50 transition-all text-center cursor-pointer"
+            >
+              View Saviours
+            </a>
+          </div>
         </div>
       </div>
 

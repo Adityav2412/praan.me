@@ -24,13 +24,6 @@ const sourceOptions = [
   'Other',
 ];
 
-const stationOptions = [
-  'Clay Matka',
-  'Bowl',
-  'Bird Bath',
-  'Plate',
-  'Other',
-];
 
 const colonyOptions = [
   'Dwarka',
@@ -61,7 +54,6 @@ export default function FormModal({
       name: '',
       colony: '',
       source: '',
-      stationType: '',
     });
 
   const [errors, setErrors] =
@@ -156,10 +148,6 @@ export default function FormModal({
             source:
               formData.source ||
               'Not specified',
-
-            stationType:
-              formData.stationType ||
-              'Not specified',
           }),
         }
       );
@@ -195,7 +183,6 @@ export default function FormModal({
         name: '',
         colony: '',
         source: '',
-        stationType: '',
       });
 
       onClose();
@@ -359,32 +346,6 @@ export default function FormModal({
               </select>
             </div>
 
-            {/* Station Type */}
-            <div>
-              <label className="block text-sm font-semibold text-navy mb-1">
-                Type of Water Station
-              </label>
-
-              <select
-                name="stationType"
-                value={formData.stationType}
-                onChange={handleChange}
-                className="w-full px-4 py-3 bg-cream-dark border-2 border-transparent rounded-xl focus:outline-none focus:ring-2 focus:ring-navy-light transition-all appearance-none cursor-pointer"
-              >
-                <option value="">
-                  Select an option
-                </option>
-
-                {stationOptions.map((opt) => (
-                  <option
-                    key={opt}
-                    value={opt}
-                  >
-                    {opt}
-                  </option>
-                ))}
-              </select>
-            </div>
 
             {/* Submit */}
             <button

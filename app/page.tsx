@@ -184,6 +184,7 @@ export default function Home() {
           onBecomeSaviour={
             handleBecomeSaviour
           }
+          saviourCount={saviourCount}
         />
 
         {/* About */}
