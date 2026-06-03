@@ -187,16 +187,14 @@ export default function HeroSection({
           </div>
 
           {/* Social Proof - Saviour Counter */}
-          {saviourCount !== null && (
-            <div className="mb-3 md:mb-3.5 text-center">
-              <div className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-navy leading-none">
-                {saviourCount}
-              </div>
-              <div className="text-navy/70 font-semibold text-sm sm:text-base uppercase tracking-wide">
-                Saviours Joined
-              </div>
+          <div className={`mb-3 md:mb-3.5 text-center transition-opacity duration-300 ${saviourCount === null ? 'opacity-0' : 'opacity-100'}`}>
+            <div className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-navy leading-none">
+              {saviourCount ?? 0}
             </div>
-          )}
+            <div className="text-navy/70 font-semibold text-sm sm:text-base uppercase tracking-wide">
+              Saviours Joined
+            </div>
+          </div>
 
           {/* CTAs */}
           <div className="flex flex-col sm:flex-row items-center gap-2.5 sm:gap-3 w-full max-w-xl mx-auto">
