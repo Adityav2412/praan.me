@@ -14,6 +14,7 @@ import ImpactCounter from '@/components/impact-counter';
 import Footer from '@/components/footer';
 import { BRAND_COPY } from '@/lib/brand';
 import { NAVBAR_HEIGHT_PX } from '@/lib/navigation';
+import { useScrollAnimation } from '@/hooks/use-scroll-animation';
 
 import {
   fetchSaviours,
@@ -63,6 +64,8 @@ export default function Home() {
 
     return null;
   });
+
+  const { ref: aboutRef, hasMounted: aboutMounted, isVisible: aboutVisible } = useScrollAnimation({ threshold: 0.1 });
 
   // live sync
   useEffect(() => {
@@ -192,10 +195,10 @@ export default function Home() {
           id="about"
           className="pt-24 md:pt-28 pb-16 px-4 bg-cream-dark"
         >
-          <div className="max-w-4xl mx-auto text-center">
+          <div ref={aboutRef} className={`max-w-4xl mx-auto text-center ${aboutMounted ? `motion-reveal ${aboutVisible ? 'is-visible' : ''}` : ''}`}>
 
             <h2 className="text-4xl font-extrabold text-navy mb-6">
-              About Water For Wings 🐦
+              About Water For Wings
             </h2>
 
             <p className="text-base text-navy/65 leading-relaxed mb-6 max-w-2xl mx-auto">

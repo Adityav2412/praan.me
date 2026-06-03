@@ -5,12 +5,14 @@ import Link from 'next/link';
 
 import SaviourCard from '@/components/saviour-card';
 import { fetchLatestSaviours, type Saviour } from '@/lib/saviours';
+import { useScrollAnimation } from '@/hooks/use-scroll-animation';
 
 const HOME_PREVIEW_COUNT = 9;
 
 export default function SaviourWall() {
   const [saviours, setSaviours] = useState<Saviour[]>([]);
   const [loading, setLoading] = useState(true);
+  const { ref: sectionRef, hasMounted, isVisible } = useScrollAnimation({ threshold: 0.1 });
 
   useEffect(() => {
     let mounted = true;
@@ -56,9 +58,9 @@ export default function SaviourWall() {
 
   return (
     <section id="saviours" className="py-16 px-4 bg-cream">
-      <div className="max-w-6xl mx-auto">
+      <div ref={sectionRef} className={`max-w-6xl mx-auto ${hasMounted ? `motion-reveal ${isVisible ? 'is-visible' : ''}` : ''}`}>
         <h2 className="text-4xl font-extrabold text-navy text-center mb-4">
-          Our Saviours 💙
+          Our Saviours
         </h2>
 
         <p className="text-navy/70 text-center mb-10 max-w-2xl mx-auto">
@@ -93,7 +95,7 @@ export default function SaviourWall() {
           </div>
         ) : (
           <>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 ${hasMounted ? `motion-stagger ${isVisible ? 'is-visible' : ''}` : ''}`}>
               {saviours.map((saviour, index) => (
                 <SaviourCard
                   key={`${saviour.id}-${saviour.saviourNumber}`}
@@ -106,9 +108,9 @@ export default function SaviourWall() {
             <div className="flex justify-center mt-10">
               <Link
                 href="/saviours"
-                className="bg-navy text-cream px-8 py-4 rounded-2xl font-bold shadow-lg hover:bg-navy-dark hover:scale-105 transition-all duration-300"
+                className="bg-navy text-cream px-8 py-4 rounded-2xl font-bold shadow-lg hover:bg-navy-dark transition-all duration-300 motion-cta"
               >
-                View Full Leaderboard 💙
+                View Full Leaderboard
               </Link>
             </div>
           </>

@@ -1,6 +1,10 @@
 'use client';
 
+import { useScrollAnimation } from '@/hooks/use-scroll-animation';
+
 export default function WhyItMatters() {
+  const { ref: sectionRef, hasMounted, isVisible } = useScrollAnimation({ threshold: 0.1 });
+  
   const cards = [
     {
       icon: '🌡️',
@@ -24,7 +28,7 @@ export default function WhyItMatters() {
 
   return (
     <section id="why-it-matters" className="py-16 px-4 bg-cream">
-      <div className="max-w-6xl mx-auto">
+      <div ref={sectionRef} className={`max-w-6xl mx-auto ${hasMounted ? `motion-reveal ${isVisible ? 'is-visible' : ''}` : ''}`}>
         <h2 className="text-4xl font-extrabold text-navy text-center mb-4">
           Why It Matters
         </h2>
@@ -32,11 +36,11 @@ export default function WhyItMatters() {
           Understanding the crisis our feathered friends face
         </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className={`grid grid-cols-1 md:grid-cols-3 gap-6 ${hasMounted ? `motion-stagger ${isVisible ? 'is-visible' : ''}` : ''}`}>
           {cards.map((card, index) => (
             <div
               key={index}
-              className="bg-cream-dark rounded-2xl p-8 text-center hover:shadow-xl transition-all hover:-translate-y-1"
+              className="bg-cream-dark rounded-2xl p-8 text-center hover:shadow-xl transition-all motion-cta"
             >
               <span className="text-6xl mb-4 block">{card.icon}</span>
               <h3 className="text-xl font-bold text-navy mb-3">{card.title}</h3>
