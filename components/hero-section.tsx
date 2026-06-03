@@ -73,9 +73,9 @@ export default function HeroSection({
     error: false,
   });
 
-  const { ref: heroRef, isVisible: heroVisible } = useScrollAnimation({ threshold: 0.1 });
-  const { ref: counterRef, isVisible: counterVisible } = useScrollAnimation({ threshold: 0.5 });
-  const animatedCount = useAnimatedCounter(saviourCount, 1200, counterVisible);
+  const { ref: heroRef, hasMounted: heroMounted, isVisible: heroVisible } = useScrollAnimation({ threshold: 0.1 });
+  const { ref: counterRef, hasMounted: counterMounted, isVisible: counterVisible } = useScrollAnimation({ threshold: 0.5 });
+  const animatedCount = useAnimatedCounter(saviourCount, 1200, counterVisible, counterMounted);
 
   useEffect(() => {
     const fetchWeather = async () => {
@@ -139,7 +139,7 @@ export default function HeroSection({
       {/* Hero — content-height on desktop; no flex centering (avoids empty space below CTA) */}
       <div 
         ref={heroRef}
-        className={`relative z-10 flex flex-col items-center text-center w-full px-4 sm:px-6 lg:px-2 pt-6 pb-4 md:pb-6 lg:pt-[2.5rem] lg:pb-3 lg:mt-6 lg:-translate-y-5 xl:-translate-y-7 2xl:-translate-y-8 motion-reveal ${heroVisible ? 'is-visible' : ''}`}
+        className={`relative z-10 flex flex-col items-center text-center w-full px-4 sm:px-6 lg:px-2 pt-6 pb-4 md:pb-6 lg:pt-[2.5rem] lg:pb-3 lg:mt-6 lg:-translate-y-5 xl:-translate-y-7 2xl:-translate-y-8 ${heroMounted ? `motion-reveal ${heroVisible ? 'is-visible' : ''}` : ''}`}
       >
         <PraanLogo
           className="h-auto w-[min(50vw,14rem)] sm:w-[min(48vw,18rem)] md:w-[min(46vw,24rem)] lg:w-[52vw] xl:w-[52vw] 2xl:w-[52vw] lg:max-w-none shrink-0 mb-1 lg:mb-1"
@@ -200,7 +200,7 @@ export default function HeroSection({
             className={`mb-3 md:mb-3.5 text-center transition-opacity duration-300 ${saviourCount === null ? 'opacity-0' : 'opacity-100'}`}
           >
             <div className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-navy leading-none">
-              {animatedCount}
+              {counterMounted ? animatedCount : (saviourCount ?? 0)}
             </div>
             <div className="text-navy/70 font-semibold text-sm sm:text-base uppercase tracking-wide">
               Saviours Joined

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 interface UseScrollAnimationOptions {
   threshold?: number;
@@ -8,12 +8,26 @@ interface UseScrollAnimationOptions {
   once?: boolean;
 }
 
+/**
+ * Hook for scroll-triggered animations.
+ * Returns `hasMounted` to gate animation classes (prevents hydration mismatch).
+ * On server and before mount, `hasMounted` is false so no animation classes are applied.
+ * After mount, `hasMounted` becomes true and `isVisible` tracks intersection.
+ */
 export function useScrollAnimation(options: UseScrollAnimationOptions = {}) {
   const { threshold = 0.1, rootMargin = '0px 0px -50px 0px', once = true } = options;
   const ref = useRef<HTMLDivElement>(null);
+  const [hasMounted, setHasMounted] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
 
+  // Mark as mounted after hydration
   useEffect(() => {
+    setHasMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!hasMounted) return;
+
     // Respect prefers-reduced-motion
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReducedMotion) {
@@ -43,21 +57,29 @@ export function useScrollAnimation(options: UseScrollAnimationOptions = {}) {
     return () => {
       observer.unobserve(element);
     };
-  }, [threshold, rootMargin, once]);
+  }, [hasMounted, threshold, rootMargin, once]);
 
-  return { ref, isVisible };
+  return { ref, hasMounted, isVisible };
 }
 
-// Hook for animated counter
+/**
+ * Hook for animated counter.
+ * Only animates after mount and when visible to prevent hydration mismatch.
+ * Returns 0 on server, animates to target on client when visible.
+ */
 export function useAnimatedCounter(
   targetValue: number | null,
   duration: number = 1200,
-  isVisible: boolean = true
+  isVisible: boolean = true,
+  hasMounted: boolean = true
 ) {
   const [count, setCount] = useState(0);
   const hasAnimated = useRef(false);
 
   useEffect(() => {
+    // Don't run on server or before mount
+    if (!hasMounted) return;
+    
     // Respect prefers-reduced-motion
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     
@@ -93,7 +115,7 @@ export function useAnimatedCounter(
     };
 
     requestAnimationFrame(animate);
-  }, [targetValue, duration, isVisible]);
+  }, [targetValue, duration, isVisible, hasMounted]);
 
   return count;
 }

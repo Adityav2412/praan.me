@@ -26,7 +26,7 @@ export default function AreaLeaderboard() {
   const [loading, setLoading] =
     useState(true);
 
-  const { ref: sectionRef, isVisible } = useScrollAnimation({ threshold: 0.1 });
+  const { ref: sectionRef, hasMounted, isVisible } = useScrollAnimation({ threshold: 0.1 });
 
   useEffect(() => {
     let mounted = true;
@@ -145,7 +145,7 @@ export default function AreaLeaderboard() {
       id="leaderboard"
       className="py-16 px-4 bg-cream-dark"
     >
-      <div ref={sectionRef} className={`max-w-4xl mx-auto motion-reveal ${isVisible ? 'is-visible' : ''}`}>
+      <div ref={sectionRef} className={`max-w-4xl mx-auto ${hasMounted ? `motion-reveal ${isVisible ? 'is-visible' : ''}` : ''}`}>
 
         <h2 className="text-4xl font-extrabold text-navy text-center mb-2">
           Delhi Colony Leaderboard 🏆

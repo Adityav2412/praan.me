@@ -12,7 +12,7 @@ const HOME_PREVIEW_COUNT = 9;
 export default function SaviourWall() {
   const [saviours, setSaviours] = useState<Saviour[]>([]);
   const [loading, setLoading] = useState(true);
-  const { ref: sectionRef, isVisible } = useScrollAnimation({ threshold: 0.1 });
+  const { ref: sectionRef, hasMounted, isVisible } = useScrollAnimation({ threshold: 0.1 });
 
   useEffect(() => {
     let mounted = true;
@@ -58,7 +58,7 @@ export default function SaviourWall() {
 
   return (
     <section id="saviours" className="py-16 px-4 bg-cream">
-      <div ref={sectionRef} className={`max-w-6xl mx-auto motion-reveal ${isVisible ? 'is-visible' : ''}`}>
+      <div ref={sectionRef} className={`max-w-6xl mx-auto ${hasMounted ? `motion-reveal ${isVisible ? 'is-visible' : ''}` : ''}`}>
         <h2 className="text-4xl font-extrabold text-navy text-center mb-4">
           Our Saviours
         </h2>
@@ -95,7 +95,7 @@ export default function SaviourWall() {
           </div>
         ) : (
           <>
-            <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 motion-stagger ${isVisible ? 'is-visible' : ''}`}>
+            <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 ${hasMounted ? `motion-stagger ${isVisible ? 'is-visible' : ''}` : ''}`}>
               {saviours.map((saviour, index) => (
                 <SaviourCard
                   key={`${saviour.id}-${saviour.saviourNumber}`}

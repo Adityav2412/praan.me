@@ -12,16 +12,16 @@ export default function ImpactCounter({
   const count = saviourCount ?? 0;
   const estimatedBirds = count * 25;
   
-  const { ref: sectionRef, isVisible } = useScrollAnimation({ threshold: 0.2 });
-  const animatedBirds = useAnimatedCounter(estimatedBirds, 1200, isVisible);
-  const animatedSaviours = useAnimatedCounter(saviourCount, 1200, isVisible);
+  const { ref: sectionRef, hasMounted, isVisible } = useScrollAnimation({ threshold: 0.2 });
+  const animatedBirds = useAnimatedCounter(estimatedBirds, 1200, isVisible, hasMounted);
+  const animatedSaviours = useAnimatedCounter(saviourCount, 1200, isVisible, hasMounted);
 
   return (
     <section
       id="impact"
       className="py-16 px-4 bg-cream"
     >
-      <div ref={sectionRef} className={`max-w-4xl mx-auto motion-reveal ${isVisible ? 'is-visible' : ''}`}>
+      <div ref={sectionRef} className={`max-w-4xl mx-auto ${hasMounted ? `motion-reveal ${isVisible ? 'is-visible' : ''}` : ''}`}>
 
         <h2 className="text-4xl font-extrabold text-navy text-center mb-10">
           Estimated Birds Helped
@@ -38,11 +38,11 @@ export default function ImpactCounter({
           ) : (
             <>
               <p className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-navy mb-4">
-                ≈ {animatedBirds}+ Birds Helped
+                ≈ {hasMounted ? animatedBirds : estimatedBirds}+ Birds Helped
               </p>
 
               <p className="text-lg md:text-xl font-semibold text-navy/80 mb-8">
-                {animatedSaviours} Saviours Across Delhi
+                {hasMounted ? animatedSaviours : (saviourCount ?? 0)} Saviours Across Delhi
               </p>
             </>
           )}

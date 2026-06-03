@@ -65,7 +65,7 @@ export default function Home() {
     return null;
   });
 
-  const { ref: aboutRef, isVisible: aboutVisible } = useScrollAnimation({ threshold: 0.1 });
+  const { ref: aboutRef, hasMounted: aboutMounted, isVisible: aboutVisible } = useScrollAnimation({ threshold: 0.1 });
 
   // live sync
   useEffect(() => {
@@ -195,7 +195,7 @@ export default function Home() {
           id="about"
           className="pt-24 md:pt-28 pb-16 px-4 bg-cream-dark"
         >
-          <div ref={aboutRef} className={`max-w-4xl mx-auto text-center motion-reveal ${aboutVisible ? 'is-visible' : ''}`}>
+          <div ref={aboutRef} className={`max-w-4xl mx-auto text-center ${aboutMounted ? `motion-reveal ${aboutVisible ? 'is-visible' : ''}` : ''}`}>
 
             <h2 className="text-4xl font-extrabold text-navy mb-6">
               About Water For Wings
