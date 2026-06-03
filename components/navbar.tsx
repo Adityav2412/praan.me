@@ -35,7 +35,7 @@ interface NavbarProps {
 
 const navLinkClass =
 
-  'px-2 xl:px-2.5 py-2 text-cream/75 hover:text-cream text-[10px] xl:text-[11px] 2xl:text-xs uppercase tracking-[0.1em] xl:tracking-[0.12em] font-medium transition-colors whitespace-nowrap';
+  'px-2 xl:px-2.5 py-2 text-cream/75 hover:text-cream text-[10px] xl:text-[11px] 2xl:text-xs uppercase tracking-[0.1em] xl:tracking-[0.12em] font-medium transition-colors whitespace-nowrap motion-nav-link';
 
 
 

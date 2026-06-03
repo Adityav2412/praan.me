@@ -9,6 +9,7 @@ import {
   HeartDivider,
   HeroInitiativeBlock,
 } from '@/components/brand-labels';
+import { useScrollAnimation, useAnimatedCounter } from '@/hooks/use-scroll-animation';
 
 interface HeroSectionProps {
   onBecomeSaviour: () => void;
@@ -72,6 +73,10 @@ export default function HeroSection({
     error: false,
   });
 
+  const { ref: heroRef, isVisible: heroVisible } = useScrollAnimation({ threshold: 0.1 });
+  const { ref: counterRef, isVisible: counterVisible } = useScrollAnimation({ threshold: 0.5 });
+  const animatedCount = useAnimatedCounter(saviourCount, 1200, counterVisible);
+
   useEffect(() => {
     const fetchWeather = async () => {
       try {
@@ -132,7 +137,10 @@ export default function HeroSection({
       <FlyingBird delay={4} top="22%" duration={24} />
 
       {/* Hero — content-height on desktop; no flex centering (avoids empty space below CTA) */}
-      <div className="relative z-10 flex flex-col items-center text-center w-full px-4 sm:px-6 lg:px-2 pt-6 pb-4 md:pb-6 lg:pt-[2.5rem] lg:pb-3 lg:mt-6 lg:-translate-y-5 xl:-translate-y-7 2xl:-translate-y-8">
+      <div 
+        ref={heroRef}
+        className={`relative z-10 flex flex-col items-center text-center w-full px-4 sm:px-6 lg:px-2 pt-6 pb-4 md:pb-6 lg:pt-[2.5rem] lg:pb-3 lg:mt-6 lg:-translate-y-5 xl:-translate-y-7 2xl:-translate-y-8 motion-reveal ${heroVisible ? 'is-visible' : ''}`}
+      >
         <PraanLogo
           className="h-auto w-[min(50vw,14rem)] sm:w-[min(48vw,18rem)] md:w-[min(46vw,24rem)] lg:w-[52vw] xl:w-[52vw] 2xl:w-[52vw] lg:max-w-none shrink-0 mb-1 lg:mb-1"
           sizes="(min-width: 1536px) 52vw, (min-width: 1280px) 52vw, (min-width: 1024px) 52vw, 50vw"
@@ -170,7 +178,7 @@ export default function HeroSection({
           </div>
 
           {/* Weather Display - subtle context */}
-          <div className="inline-flex items-center gap-2 bg-cream/60 backdrop-blur-sm px-4 py-1.5 rounded-full border border-white/40 mb-2.5 md:mb-3">
+          <div className="inline-flex items-center gap-2 bg-cream/60 backdrop-blur-sm px-4 py-1.5 rounded-full border border-white/40 mb-2.5 md:mb-3 motion-weather">
             <span className="text-base sm:text-lg leading-none">🌡️</span>
             <span className="font-medium text-navy/80 text-sm sm:text-[0.9375rem]">
               {weather.loading
@@ -187,9 +195,12 @@ export default function HeroSection({
           </div>
 
           {/* Social Proof - Saviour Counter */}
-          <div className={`mb-3 md:mb-3.5 text-center transition-opacity duration-300 ${saviourCount === null ? 'opacity-0' : 'opacity-100'}`}>
+          <div 
+            ref={counterRef}
+            className={`mb-3 md:mb-3.5 text-center transition-opacity duration-300 ${saviourCount === null ? 'opacity-0' : 'opacity-100'}`}
+          >
             <div className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-navy leading-none">
-              {saviourCount ?? 0}
+              {animatedCount}
             </div>
             <div className="text-navy/70 font-semibold text-sm sm:text-base uppercase tracking-wide">
               Saviours Joined
@@ -201,13 +212,13 @@ export default function HeroSection({
             <button
               type="button"
               onClick={onBecomeSaviour}
-              className="w-full sm:flex-1 bg-navy text-cream font-bold text-base sm:text-lg md:text-xl px-6 py-3 sm:py-3.5 rounded-2xl shadow-lg hover:bg-navy-dark hover:shadow-xl transition-all cursor-pointer"
+              className="w-full sm:flex-1 bg-navy text-cream font-bold text-base sm:text-lg md:text-xl px-6 py-3 sm:py-3.5 rounded-2xl shadow-lg hover:bg-navy-dark hover:shadow-xl transition-all cursor-pointer motion-cta"
             >
               Join The Saviour Wall
             </button>
             <a
               href="/saviours"
-              className="w-full sm:flex-1 bg-cream/85 backdrop-blur-md border-2 border-navy/30 text-navy font-bold text-base sm:text-lg md:text-xl px-6 py-3 sm:py-3.5 rounded-2xl shadow-md hover:bg-cream/95 hover:shadow-lg hover:border-navy/50 transition-all text-center cursor-pointer"
+              className="w-full sm:flex-1 bg-cream/85 backdrop-blur-md border-2 border-navy/30 text-navy font-bold text-base sm:text-lg md:text-xl px-6 py-3 sm:py-3.5 rounded-2xl shadow-md hover:bg-cream/95 hover:shadow-lg hover:border-navy/50 transition-all text-center cursor-pointer motion-cta"
             >
               View Saviours
             </a>

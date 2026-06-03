@@ -70,6 +70,13 @@
   --radius-xl: calc(var(--radius) + 4px);
 }
 
+/* Smooth scrolling — respects prefers-reduced-motion */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -222,6 +229,105 @@
 
 .animate-scroll-hint {
   animation: scroll-hint 2.8s ease-in-out infinite;
+}
+
+/* Premium motion system — respect prefers-reduced-motion */
+@media (prefers-reduced-motion: no-preference) {
+  /* Fade-up reveal animation */
+  .motion-reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 600ms cubic-bezier(0.16, 1, 0.3, 1), 
+                transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  
+  .motion-reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Stagger children */
+  .motion-stagger > * {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 500ms cubic-bezier(0.16, 1, 0.3, 1), 
+                transform 500ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  
+  .motion-stagger.is-visible > *:nth-child(1) { transition-delay: 0ms; opacity: 1; transform: translateY(0); }
+  .motion-stagger.is-visible > *:nth-child(2) { transition-delay: 80ms; opacity: 1; transform: translateY(0); }
+  .motion-stagger.is-visible > *:nth-child(3) { transition-delay: 160ms; opacity: 1; transform: translateY(0); }
+  .motion-stagger.is-visible > *:nth-child(4) { transition-delay: 240ms; opacity: 1; transform: translateY(0); }
+  .motion-stagger.is-visible > *:nth-child(5) { transition-delay: 320ms; opacity: 1; transform: translateY(0); }
+  .motion-stagger.is-visible > *:nth-child(6) { transition-delay: 400ms; opacity: 1; transform: translateY(0); }
+  .motion-stagger.is-visible > *:nth-child(7) { transition-delay: 480ms; opacity: 1; transform: translateY(0); }
+  .motion-stagger.is-visible > *:nth-child(8) { transition-delay: 560ms; opacity: 1; transform: translateY(0); }
+  .motion-stagger.is-visible > *:nth-child(9) { transition-delay: 640ms; opacity: 1; transform: translateY(0); }
+  .motion-stagger.is-visible > *:nth-child(10) { transition-delay: 720ms; opacity: 1; transform: translateY(0); }
+
+  /* CTA hover lift — no scale, subtle shadow */
+  .motion-cta {
+    transition: transform 200ms cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 200ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  
+  .motion-cta:hover {
+    transform: translateY(-3px);
+  }
+
+  /* Weather widget hover */
+  .motion-weather {
+    transition: transform 200ms cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 200ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  
+  .motion-weather:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(27, 58, 107, 0.08);
+  }
+
+  /* Nav link hover underline */
+  .motion-nav-link {
+    position: relative;
+    transition: color 200ms ease;
+  }
+  
+  .motion-nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 1px;
+    background: currentColor;
+    transition: width 200ms cubic-bezier(0.16, 1, 0.3, 1),
+                left 200ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  
+  .motion-nav-link:hover::after {
+    width: 100%;
+    left: 0;
+  }
+
+  /* Subtle bird float */
+  @keyframes bird-float {
+    0%, 100% {
+      transform: translateX(var(--bird-x, 100vw)) translateY(0px);
+    }
+    25% {
+      transform: translateX(calc(var(--bird-x, 100vw) - 25vw)) translateY(-6px);
+    }
+    50% {
+      transform: translateX(calc(var(--bird-x, 100vw) - 50vw)) translateY(3px);
+    }
+    75% {
+      transform: translateX(calc(var(--bird-x, 100vw) - 75vw)) translateY(-4px);
+    }
+  }
+  
+  .motion-bird {
+    animation: fly-bird linear infinite;
+  }
 }
 
 /* Premium hero background — replace __image url when final art is ready */

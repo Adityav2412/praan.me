@@ -8,9 +8,11 @@ import Navbar from '@/components/navbar';
 import Sidebar from '@/components/sidebar';
 import Footer from '@/components/footer';
 import { BRAND_COPY } from '@/lib/brand';
+import { useScrollAnimation } from '@/hooks/use-scroll-animation';
 
 export default function FoundersMessagePage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { ref: contentRef, isVisible } = useScrollAnimation({ threshold: 0.05 });
 
   const handleNavigate = (section: string) => {
     if (typeof window !== 'undefined') {
@@ -46,7 +48,7 @@ export default function FoundersMessagePage() {
           </a>
 
           {/* Main Layout */}
-          <div className="relative max-w-6xl mx-auto">
+          <div ref={contentRef} className={`relative max-w-6xl mx-auto motion-reveal ${isVisible ? 'is-visible' : ''}`}>
             {/* LEFT CONTENT */}
             <div className="relative z-20 max-w-2xl">
               {/* Heading */}
@@ -181,7 +183,7 @@ export default function FoundersMessagePage() {
               <div className="mt-8 flex flex-wrap items-center gap-4">
                 <a
                   href="mailto:Akshay1092001@yahoo.com"
-                  className="inline-flex items-center gap-2 bg-navy text-cream text-sm font-semibold px-6 py-3 rounded-full hover:bg-navy-dark transition-colors"
+                  className="inline-flex items-center gap-2 bg-navy text-cream text-sm font-semibold px-6 py-3 rounded-full hover:bg-navy-dark transition-colors motion-cta"
                 >
                   Let&apos;s Talk →
                 </a>
