@@ -134,8 +134,8 @@ export default function HeroSection({
       {/* Hero — content-height on desktop; no flex centering (avoids empty space below CTA) */}
       <div className="relative z-10 flex flex-col items-center text-center w-full px-4 sm:px-6 lg:px-2 pt-6 pb-4 md:pb-6 lg:pt-[2.5rem] lg:pb-3 lg:mt-6 lg:-translate-y-5 xl:-translate-y-7 2xl:-translate-y-8">
         <PraanLogo
-          className="h-auto w-[min(66vw,18rem)] sm:w-[min(64vw,24rem)] md:w-[min(62vw,32rem)] lg:w-[70vw] xl:w-[70vw] 2xl:w-[70vw] lg:max-w-none shrink-0 mb-1 lg:mb-1"
-          sizes="(min-width: 1536px) 70vw, (min-width: 1280px) 70vw, (min-width: 1024px) 70vw, 66vw"
+          className="h-auto w-[min(50vw,14rem)] sm:w-[min(48vw,18rem)] md:w-[min(46vw,24rem)] lg:w-[52vw] xl:w-[52vw] 2xl:w-[52vw] lg:max-w-none shrink-0 mb-1 lg:mb-1"
+          sizes="(min-width: 1536px) 52vw, (min-width: 1280px) 52vw, (min-width: 1024px) 52vw, 50vw"
           priority
         />
 
@@ -169,39 +169,34 @@ export default function HeroSection({
             </span>
           </div>
 
-          {/* Trust Section - Weather + Counter + Message grouped together */}
-          <div className="flex flex-col items-center bg-cream/80 backdrop-blur-sm rounded-2xl px-6 py-4 shadow-md border border-white/50 mb-3 md:mb-3.5">
-            {/* Weather Display */}
-            <div className="inline-flex items-center gap-2.5 sm:gap-3 mb-2">
-              <span className="text-xl sm:text-2xl leading-none">🌡️</span>
-              <span className="font-semibold text-navy text-base sm:text-lg">
-                {weather.loading
-                  ? 'Fetching Delhi temp...'
-                  : weather.error
-                  ? 'Delhi Weather'
-                  : `Delhi Right Now: ${weather.temperature}°C`}
-              </span>
-            </div>
-
-            {/* Social Proof - Saviour Counter */}
-            {saviourCount !== null && (
-              <div className="mb-1.5">
-                <div className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-navy leading-none">
-                  {saviourCount}
-                </div>
-                <div className="text-navy/70 font-semibold text-xs sm:text-sm uppercase tracking-wide">
-                  Saviours Joined
-                </div>
-              </div>
-            )}
-
-            {/* Weather Message */}
-            <p className="text-navy/70 font-medium text-sm sm:text-[0.9375rem] max-w-sm mx-auto leading-snug text-center">
-              {weather.loading || weather.error
-                ? 'Birds still need fresh water daily.'
-                : getWeatherMessage(weather.temperature)}
-            </p>
+          {/* Weather Display - subtle context */}
+          <div className="inline-flex items-center gap-2 bg-cream/60 backdrop-blur-sm px-4 py-1.5 rounded-full border border-white/40 mb-2.5 md:mb-3">
+            <span className="text-base sm:text-lg leading-none">🌡️</span>
+            <span className="font-medium text-navy/80 text-sm sm:text-[0.9375rem]">
+              {weather.loading
+                ? 'Fetching Delhi temp...'
+                : weather.error
+                ? 'Delhi Weather'
+                : `Delhi: ${weather.temperature}°C`}
+              {!weather.loading && !weather.error && (
+                <span className="text-navy/60 ml-1.5">
+                  — {weather.temperature > 40 ? 'Birds need you NOW' : weather.temperature >= 35 ? 'Dangerously hot' : 'Fresh water needed'}
+                </span>
+              )}
+            </span>
           </div>
+
+          {/* Social Proof - Saviour Counter */}
+          {saviourCount !== null && (
+            <div className="mb-3 md:mb-3.5 text-center">
+              <div className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-navy leading-none">
+                {saviourCount}
+              </div>
+              <div className="text-navy/70 font-semibold text-sm sm:text-base uppercase tracking-wide">
+                Saviours Joined
+              </div>
+            </div>
+          )}
 
           {/* CTAs */}
           <div className="flex flex-col sm:flex-row items-center gap-2.5 sm:gap-3 w-full max-w-xl mx-auto">
