@@ -1,14 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 
-import {
-  PraanLogo,
-  BrandTagline,
-  BrandStatement,
-  HeartDivider,
-  HeroInitiativeBlock,
-} from '@/components/brand-labels';
 import { useScrollAnimation, useAnimatedCounter } from '@/hooks/use-scroll-animation';
 
 interface HeroSectionProps {
@@ -20,47 +14,6 @@ interface WeatherData {
   temperature: number;
   loading: boolean;
   error: boolean;
-}
-
-function Bird({
-  className,
-}: {
-  className?: string;
-}) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="currentColor"
-      className={className}
-    >
-      <path d="M4.5 9.5C6.5 7 9 6 12 6c4 0 7.5 2 9.5 4.5.5.6.3 1.5-.5 1.8l-6 2.2c-.3.1-.7.1-1 0l-6-2.2c-.8-.3-1-1.2-.5-1.8z" />
-      <path d="M12 6c-1.5-2-3-3-5-3 1 1.5 1.5 3 1 4.5" />
-      <circle cx="15" cy="9" r="0.5" />
-    </svg>
-  );
-}
-
-function FlyingBird({
-  delay,
-  top,
-  duration,
-}: {
-  delay: number;
-  top: string;
-  duration: number;
-}) {
-  return (
-    <div
-      className="absolute text-navy/25 animate-fly-bird pointer-events-none"
-      style={{
-        top,
-        animationDelay: `${delay}s`,
-        animationDuration: `${duration}s`,
-      }}
-    >
-      <Bird className="w-5 h-5 md:w-6 md:h-6" />
-    </div>
-  );
 }
 
 export default function HeroSection({
@@ -117,124 +70,90 @@ export default function HeroSection({
   }, []);
 
   const getWeatherMessage = (temp: number) => {
-    if (temp > 40) return 'Birds are suffering. They need you NOW.';
-    if (temp >= 35) return "It's dangerously hot for birds.";
-    return 'Birds still need fresh water daily.';
+    if (temp > 40) return 'Dangerously hot today';
+    if (temp >= 35) return 'Dangerously hot';
+    return 'Fresh water needed';
   };
 
   return (
-    <section className="relative min-h-0 flex flex-col overflow-hidden">
-      {/* Premium background — swap hero-background__image for a photo later */}
-      <div className="absolute inset-0 hero-background">
-        <div className="hero-background__image" aria-hidden="true" />
-        <div className="hero-background__sky" aria-hidden="true" />
-        <div className="hero-background__horizon" aria-hidden="true" />
-        <div className="hero-background__overlay" aria-hidden="true" />
-      </div>
-
-      <FlyingBird delay={0} top="18%" duration={22} />
-      <FlyingBird delay={2} top="28%" duration={26} />
-      <FlyingBird delay={4} top="22%" duration={24} />
-
-      {/* Hero — content-height on desktop; no flex centering (avoids empty space below CTA) */}
-      <div 
+    <section className="relative min-h-[100svh] overflow-hidden bg-cream pt-14 lg:pt-20">
+      <div
         ref={heroRef}
-        className={`relative z-10 flex flex-col items-center text-center w-full px-4 sm:px-6 lg:px-2 pt-6 pb-4 md:pb-6 lg:pt-[2.5rem] lg:pb-3 lg:mt-6 lg:-translate-y-5 xl:-translate-y-7 2xl:-translate-y-8 ${heroMounted ? `motion-reveal ${heroVisible ? 'is-visible' : ''}` : ''}`}
+        className={`relative z-10 grid min-h-[calc(100svh-3.5rem)] grid-cols-1 gap-8 px-6 pb-12 pt-7 sm:px-8 md:pt-9 lg:min-h-[calc(100vh-5rem)] lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:items-center lg:gap-14 lg:px-24 lg:pb-8 lg:pt-8 xl:px-30 2xl:px-36 ${heroMounted ? `motion-reveal ${heroVisible ? 'is-visible' : ''}` : ''}`}
       >
-        <PraanLogo
-          className="h-auto w-[min(50vw,14rem)] sm:w-[min(48vw,18rem)] md:w-[min(46vw,24rem)] lg:w-[52vw] xl:w-[52vw] 2xl:w-[52vw] lg:max-w-none shrink-0 mb-1 lg:mb-1"
-          sizes="(min-width: 1536px) 52vw, (min-width: 1280px) 52vw, (min-width: 1024px) 52vw, 50vw"
-          priority
-        />
-
-        {/* PRAAN voice → initiative → 3-step flow → social proof → CTAs */}
-        <div className="flex flex-col items-center w-full max-w-[36rem] mx-auto lg:mt-0">
-          <BrandTagline className="mb-0" />
-
-          <BrandStatement className="mb-1 md:mb-1 lg:mb-1 max-w-lg text-sm md:text-[0.9375rem]" />
-
-          <HeartDivider className="mb-1 md:mb-1.5 lg:mb-1.5" />
-
-          <HeroInitiativeBlock className="mb-0.5 md:mb-1 lg:mb-1" />
-          
-          {/* Supporting line */}
-          <p className="text-navy/60 text-sm sm:text-base md:text-lg font-medium italic mb-2 md:mb-2.5">
-            A simple bowl of water can save a life.
-          </p>
-
-          {/* 3-Step Flow */}
-          <div className="flex flex-wrap sm:flex-nowrap items-center justify-center gap-1.5 sm:gap-2 mb-2.5 md:mb-3 lg:mb-3 text-center">
-            <span className="text-navy font-semibold text-[0.9375rem] sm:text-base md:text-lg px-2 py-0.5">
-              Place Water
-            </span>
-            <span className="text-navy/40 text-base sm:text-lg">→</span>
-            <span className="text-navy font-semibold text-[0.9375rem] sm:text-base md:text-lg px-2 py-0.5">
-              Register Contribution
-            </span>
-            <span className="text-navy/40 text-base sm:text-lg">→</span>
-            <span className="text-navy font-semibold text-[0.9375rem] sm:text-base md:text-lg px-2 py-0.5">
-              Join The Saviour Wall
-            </span>
-          </div>
-
-          {/* Weather Display - subtle context */}
-          <div className="inline-flex items-center gap-2 bg-cream/60 backdrop-blur-sm px-4 py-1.5 rounded-full border border-white/40 mb-2.5 md:mb-3 motion-weather">
-            <span className="text-base sm:text-lg leading-none">🌡️</span>
-            <span className="font-medium text-navy/80 text-sm sm:text-[0.9375rem]">
+        <div className="flex max-w-xl flex-col items-start text-left lg:pt-6">
+          <div className="motion-weather mb-8 inline-flex items-center gap-2 rounded-full border border-navy/10 bg-navy/[0.07] px-3.5 py-2 text-[13px] font-medium text-navy/80 shadow-sm sm:mb-9 sm:px-4 lg:mb-7">
+            <span className="h-1.5 w-1.5 rounded-full bg-red-500 animate-pulse" aria-hidden="true" />
+            <span>
               {weather.loading
                 ? 'Fetching Delhi temp...'
                 : weather.error
                 ? 'Delhi Weather'
-                : `Delhi: ${weather.temperature}°C`}
+                : `Delhi - ${weather.temperature}\u00b0C`}
               {!weather.loading && !weather.error && (
-                <span className="text-navy/60 ml-1.5">
-                  — {weather.temperature > 40 ? 'Birds need you NOW' : weather.temperature >= 35 ? 'Dangerously hot' : 'Fresh water needed'}
+                <span className="ml-1.5 text-navy/60">
+                  - {getWeatherMessage(weather.temperature)}
                 </span>
               )}
             </span>
           </div>
 
-          {/* Social Proof - Saviour Counter */}
-          <div 
+          <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-3">
+            <span className="text-[11px] font-semibold uppercase leading-none tracking-[0.16em] text-navy/45">
+              PRAAN
+            </span>
+            <span className="hidden h-px w-8 bg-navy/25 sm:block" aria-hidden="true" />
+            <span className="text-[11px] font-semibold uppercase leading-none tracking-[0.16em] text-navy/65">
+              Current initiative - Water For Wings
+            </span>
+          </div>
+
+          <h1 className="max-w-[12ch] text-[2.65rem] font-extrabold leading-[1.04] tracking-normal text-navy sm:text-[3.45rem] lg:text-[3.7rem] xl:text-[4.15rem]">
+            A simple bowl of water can save a bird&apos;s life.
+          </h1>
+
+          <p className="mt-6 max-w-[34rem] text-base leading-7 text-navy/65 sm:text-lg sm:leading-8 lg:mt-5">
+            Delhi&apos;s summer heat kills birds. One bowl outside your door
+            changes that.
+          </p>
+
+          <div
             ref={counterRef}
-            className={`mb-3 md:mb-3.5 text-center transition-opacity duration-300 ${saviourCount === null ? 'opacity-0' : 'opacity-100'}`}
+            className={`mt-8 transition-opacity duration-300 lg:mt-7 ${saviourCount === null ? 'opacity-0' : 'opacity-100'}`}
           >
-            <div className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-navy leading-none">
+            <div className="text-[2.65rem] font-extrabold leading-none text-navy sm:text-5xl lg:text-[3.05rem]">
               {counterMounted ? animatedCount : (saviourCount ?? 0)}
             </div>
-            <div className="text-navy/70 font-semibold text-sm sm:text-base uppercase tracking-wide">
-              Saviours Joined
+            <div className="mt-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-navy/55">
+              Saviours have acted
             </div>
           </div>
 
-          {/* CTAs */}
-          <div className="flex flex-col sm:flex-row items-center gap-2.5 sm:gap-3 w-full max-w-xl mx-auto">
-            <button
-              type="button"
-              onClick={onBecomeSaviour}
-              className="w-full sm:flex-1 bg-navy text-cream font-bold text-base sm:text-lg md:text-xl px-6 py-3 sm:py-3.5 rounded-2xl shadow-lg hover:bg-navy-dark hover:shadow-xl transition-all cursor-pointer motion-cta"
-            >
-              Join The Saviour Wall
-            </button>
-            <a
-              href="/saviours"
-              className="w-full sm:flex-1 bg-cream/85 backdrop-blur-md border-2 border-navy/30 text-navy font-bold text-base sm:text-lg md:text-xl px-6 py-3 sm:py-3.5 rounded-2xl shadow-md hover:bg-cream/95 hover:shadow-lg hover:border-navy/50 transition-all text-center cursor-pointer motion-cta"
-            >
-              View Saviours
-            </a>
+          <button
+            type="button"
+            onClick={onBecomeSaviour}
+            className="motion-cta mt-7 h-[52px] w-full rounded-md bg-navy px-8 text-base font-semibold text-cream shadow-lg shadow-navy/15 transition-all hover:bg-navy-dark sm:w-auto sm:min-w-60 lg:mt-6"
+          >
+            Place Your Water Bowl
+          </button>
+        </div>
+
+        <div
+          className="relative h-[160px] min-h-[160px] w-full overflow-hidden sm:h-[210px] lg:h-full lg:min-h-[560px]"
+          aria-hidden="true"
+        >
+          <div className="absolute bottom-0 right-[-1.5rem] h-full w-[82%] opacity-[0.72] mix-blend-multiply sm:right-0 sm:w-[74%] lg:bottom-12 lg:right-[-5rem] lg:h-[58%] lg:w-[88%] xl:right-[-7rem] xl:h-[62%]">
+            <Image
+              src="/hero-bowl-sketch.png"
+              alt=""
+              fill
+              sizes="(min-width: 1280px) 44vw, (min-width: 1024px) 48vw, 76vw"
+              className="object-contain object-[right_bottom]"
+              priority
+            />
           </div>
         </div>
       </div>
-
-      {/* Scroll indicator */}
-      <div
-        className="absolute bottom-4 md:bottom-5 lg:bottom-3 left-1/2 -translate-x-1/2 z-10 text-navy/40 text-xl animate-scroll-hint pointer-events-none"
-        aria-hidden="true"
-      >
-        ⌄
-      </div>
-
-      <div className="absolute bottom-0 left-0 right-0 h-20 lg:h-14 bg-gradient-to-t from-cream to-transparent pointer-events-none" />
     </section>
   );
 }
