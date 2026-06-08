@@ -2,7 +2,7 @@
   "id": "FEAT-001",
   "type": "refactor",
   "description": "Replace the design system foundation: update fonts (Playfair Display + DM Sans via next/font/google), color tokens (warm beige/sage palette), and Tailwind theme config in globals.css. Update layout.tsx to load new fonts and expose CSS variables. This is the base layer all other features depend on.",
-  "status": "in_progress",
+  "status": "completed",
   "steps": [
     "In app/layout.tsx: Replace Poppins and Montserrat imports with Playfair_Display and DM_Sans from 'next/font/google'. Configure Playfair Display with weights 400,700 and italic subsets. Configure DM Sans with weights 400,500,600,700. Expose as --font-playfair and --font-dm-sans CSS variables. Update the html className to use the new variable names.",
     "In app/globals.css: Replace :root color tokens with the new palette: --bg-base: #FAF8F4, --bg-surface: #F2EEE6, --bg-card: #FFFFFF, --accent: #5C7A5A, --text-primary: #1A1A18, --text-muted: #7A7468, --border: rgba(26,26,24,0.1). Keep backward-compat aliases for --cream (map to --bg-base), --cream-dark (map to --bg-surface), --navy (map to --text-primary), --navy-light (map to --accent). Update --background, --foreground, --card, --primary, etc to new values.",
@@ -26,5 +26,5 @@
     "Read app/globals.css and confirm new :root tokens and @theme inline config"
   ],
   "blocked_reason": null,
-  "findings": ""
+  "findings": "Successfully replaced design system foundation. No build/test verification possible due to INTEGRATIONS_ONLY network mode (no node_modules, cannot run next build or pnpm). Changes verified by reading final file contents. All backward-compat aliases preserved so existing component classes (bg-cream, text-navy, etc.) will continue working."
 }
