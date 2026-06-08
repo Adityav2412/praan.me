@@ -1,16 +1,11 @@
 export const NAV_ITEMS = [
   { label: 'About', section: 'about' },
-  { label: 'Why It Matters', section: 'why-it-matters' },
+  { label: 'How it works', section: 'how-it-works' },
   { label: 'Saviours', section: 'saviours' },
-  { label: 'Area Leaderboard', section: 'leaderboard' },
 ] as const;
 
-/** Split for centered-logo desktop navbar — avoids overlap with wordmark */
-export const NAV_ITEMS_LEFT = NAV_ITEMS.slice(0, 3);
-export const NAV_ITEMS_RIGHT = NAV_ITEMS.slice(3);
-
-/** Fixed navbar height (px) — keep in sync with navbar.tsx desktop h-20 */
-export const NAVBAR_HEIGHT_PX = 80;
+/** Fixed navbar height (px) — keep in sync with navbar.tsx desktop h-16 */
+export const NAVBAR_HEIGHT_PX = 64;
 
 export const SOCIAL_LINKS = {
   instagram: 'https://instagram.com/officalwaterforwings',

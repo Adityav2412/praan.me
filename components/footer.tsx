@@ -1,45 +1,81 @@
 'use client';
 
-import {
-  PraanLogo,
-  BrandTagline,
-  BrandStatement,
-  FooterInitiativeBlock,
-} from '@/components/brand-labels';
-import { SocialIcons } from '@/components/social-icons';
-import { BRAND, currentInitiative } from '@/lib/brand';
+import Link from 'next/link';
 
-export default function Footer() {
+interface FooterProps {
+  onBecomeSaviour?: () => void;
+}
+
+export default function Footer({ onBecomeSaviour }: FooterProps) {
+  const handleCTA = () => {
+    if (onBecomeSaviour) {
+      onBecomeSaviour();
+    } else {
+      const event = new CustomEvent('open-form-modal');
+      window.dispatchEvent(event);
+    }
+  };
+
   return (
-    <footer className="bg-navy text-cream py-12 px-4">
+    <footer className="bg-[var(--bg-surface)] py-16 lg:py-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto text-center">
-        <PraanLogo className="h-9 sm:h-10 w-auto max-w-[220px] mx-auto mb-5" variant="on-dark" />
+        {/* Main headline */}
+        <h2 className="font-display italic text-3xl sm:text-4xl text-[var(--text-primary)] mb-4 leading-snug">
+          The birds can&apos;t wait for next summer.
+        </h2>
 
-        <BrandTagline variant="dark" className="mb-4" />
-
-        <BrandStatement variant="dark" className="mb-8" />
-
-        <FooterInitiativeBlock className="mb-6" />
-
-        <p className="text-cream/80 mb-4 text-lg leading-relaxed">
-          Saving Delhi&apos;s birds, One water station is all it takes.
+        <p className="font-body text-base text-[var(--text-muted)] mb-8 max-w-xl mx-auto">
+          Every day without water is another life lost. Take two minutes today and place a bowl outside.
         </p>
 
-        <p className="text-cream/60 mb-2">praan.me</p>
+        {/* Primary CTA */}
+        <button
+          type="button"
+          onClick={handleCTA}
+          className="bg-[var(--accent)] text-white font-body font-semibold text-base px-8 py-3.5 rounded-lg hover:opacity-90 transition-opacity motion-cta mb-6 inline-block"
+        >
+          Place a bowl today
+        </button>
 
-        <p className="text-navy-light font-semibold mb-6">
-          #DelhiBirdsNeedWater
-        </p>
+        {/* Founder link */}
+        <div className="mb-12">
+          <Link
+            href="/founders-message"
+            className="font-body text-sm text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors"
+          >
+            A letter from our founder &rarr;
+          </Link>
+        </div>
 
-        <SocialIcons
-          className="justify-center mb-8"
-          iconClassName="w-7 h-7"
-        />
+        {/* Bottom links */}
+        <div className="border-t border-[var(--border)] pt-6">
+          <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 mb-4 text-sm text-[var(--text-muted)]">
+            <Link href="#about" className="hover:text-[var(--text-primary)] transition-colors">
+              About
+            </Link>
+            <span className="text-[var(--border)]">&middot;</span>
+            <Link href="/privacy" className="hover:text-[var(--text-primary)] transition-colors">
+              Privacy
+            </Link>
+            <span className="text-[var(--border)]">&middot;</span>
+            <a
+              href="https://instagram.com/officalwaterforwings"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-[var(--text-primary)] transition-colors"
+            >
+              Instagram
+            </a>
+            <span className="text-[var(--border)]">&middot;</span>
+            <a href="mailto:hello@praan.me" className="hover:text-[var(--text-primary)] transition-colors">
+              Contact
+            </a>
+          </div>
 
-        <p className="text-cream/50 text-sm">
-          © 2026 {BRAND.platform}. {currentInitiative.name} is our first
-          initiative. Made with 💙 for Delhi&apos;s birds.
-        </p>
+          <p className="text-xs text-[var(--text-muted)]">
+            &copy; 2025 praan.me. All rights reserved.
+          </p>
+        </div>
       </div>
     </footer>
   );
