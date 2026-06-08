@@ -1,0 +1,42 @@
+{
+  "id": "FEAT-002",
+  "type": "feat",
+  "description": "Rewrite the homepage (app/page.tsx) and all homepage section components to match the new warm editorial design. This includes: new Navbar, Hero, Live Stats Bar, Story blocks, How It Works, Saviours preview, and Footer CTA. Preserve all existing data fetching (saviours from Google Sheets, weather from Open-Meteo) and modal functionality (FormModal + CertificateModal).",
+  "status": "completed",
+  "steps": [
+    "Rewrite components/navbar.tsx: Light/transparent navbar with logo 'praan.' in font-display (Playfair Display), links (About, How it works, Saviours) using font-body (DM Sans), and a CTA button 'Place a bowl' with bg-accent (#5C7A5A) and white text. Mobile: hamburger menu. Sticky top, border-bottom using --border. White/cream bg not navy.",
+    "Rewrite components/hero-section.tsx: Full-width section with bg-base. Left side: eyebrow 'Delhi . Summer 2025' in small caps accent color, headline in Playfair Display 56px italic dark ('Delhi's birds are dying of thirst. You can fix that.'), subtext in DM Sans 16px muted, two CTAs (primary 'Place a bowl today' with accent bg + ghost 'See how it works' with arrow). Right side: existing hero-bowl-sketch.png image (keep as-is). Remove the weather pill from hero - it moves to stats bar. Remove the animated counter from hero - it moves to stats bar. Keep onBecomeSaviour prop for primary CTA.",
+    "Create a new component components/live-stats-bar.tsx: Horizontal row of 3 stat cards with dividers. LEFT: 'Live Saviours' with animated count-up number (use existing useAnimatedCounter hook) + green pulsing dot. MIDDLE: 'Live Delhi Temp' fetching from Open-Meteo API (reuse existing fetch logic from current hero-section.tsx, lat 28.6139, lon 77.2090, refresh every 5 min) showing degrees C. RIGHT: 'Bowls placed' static or from data. Warm card style (bg-card, subtle border using --border). Pass saviourCount prop.",
+    "Create components/story-section.tsx: A reusable alternating layout component. Props: heading, text, imagePosition ('left'|'right'), imageSrc (optional, use 300x240 placeholder div if not provided). Used for 'The Problem' and 'The Solution' blocks. Left-right alternating grid layout. Use font-display for heading, font-body for paragraph text.",
+    "Rewrite components/why-it-matters.tsx into a 'How it works' 3-step section: Horizontal grid of 3 step cards. Each card has a large serif number (01/02/03) in Playfair Display, a title in DM Sans bold, and description in muted text. Content: Step 1 'Fill a bowl' - description about filling a bowl with fresh water. Step 2 'Place it outside' - description about placement. Step 3 'Save a life' - description about impact. Section heading 'How it works' in Playfair Display.",
+    "Rewrite components/saviour-wall.tsx: Section header 'Meet Delhi's Saviours' in Playfair Display + 'View all' link to /saviours. Grid of saviour cards showing avatar initials circle, name, location, bowl count placeholder, badge. Last card in grid = dashed-border CTA card 'Become a saviour' that triggers onBecomeSaviour. Pulls from existing fetchLatestSaviours(). Preserve loading skeleton pattern.",
+    "Rewrite components/saviour-card.tsx: New card design with bg-card (#FFFFFF), subtle border, avatar initials circle (colored bg with first letter), name in DM Sans semibold, location text muted, saviour number badge. Keep the same props interface (saviour: Saviour, dateStyle, className, animate).",
+    "Rewrite components/footer.tsx: Large serif headline 'The birds can't wait for next summer.' in Playfair Display italic. Subtext + primary CTA button (accent bg). Link 'A letter from our founder' pointing to /founder. Bottom row: About, Privacy, Instagram, Contact links. Use bg-surface for footer bg, not navy.",
+    "Rewrite app/page.tsx: Server-rendered where possible, but keep 'use client' since FormModal and state management need it. Compose sections in order: Navbar, Hero, LiveStatsBar, StorySection (Problem), StorySection (Solution), HowItWorks, SavioursPreview, FooterCTA. Keep all existing state: sidebarOpen, formOpen, certificateOpen, newSaviour, saviourCount. Keep all existing effects: fetchSaviours interval, localStorage cache. Keep FormModal and CertificateModal rendered. Remove AreaLeaderboard, ImpactCounter sections (replaced by live stats bar). Pass saviourCount to LiveStatsBar.",
+    "Update components/sidebar.tsx: Update colors from navy bg to bg-surface/bg-base warm palette. Update text colors to text-primary/text-muted. Update CTA button to accent color. Keep all existing functionality (nav items, founder link, become saviour button).",
+    "Update lib/navigation.ts: Change NAV_ITEMS to match new design - About, How it works (section: 'how-it-works'), Saviours (section: 'saviours'). Update NAVBAR_HEIGHT_PX if needed for new nav height."
+  ],
+  "acceptance_criteria": [
+    "Homepage renders Nav, Hero, LiveStatsBar, two Story sections, HowItWorks, Saviours preview, and Footer CTA in correct order",
+    "Navbar uses 'praan.' text logo in Playfair Display, light/cream background, accent CTA button",
+    "Hero has eyebrow, headline in Playfair Display, two CTA buttons, and hero-bowl-sketch.png on right",
+    "LiveStatsBar shows 3 stats: live saviours count with pulsing dot, Delhi temperature from Open-Meteo, bowls placed",
+    "How It Works has 3 step cards with serif numbers 01/02/03",
+    "Saviours section pulls from existing fetchLatestSaviours() and shows grid with CTA card",
+    "Footer has large serif headline, CTA, link to /founder, and bottom links",
+    "FormModal and CertificateModal still work - Place a bowl triggers form, form success shows certificate",
+    "All colors use new warm palette (--bg-base, --bg-surface, --accent, --text-primary, --text-muted)",
+    "No dark backgrounds anywhere on homepage",
+    "Mobile responsive - sections stack vertically on small screens"
+  ],
+  "verification": [
+    "Read app/page.tsx and confirm it imports and renders all new sections",
+    "Read components/navbar.tsx and confirm warm palette + Playfair logo text",
+    "Read components/hero-section.tsx and confirm new layout with eyebrow, headline, CTAs, sketch image",
+    "Read components/live-stats-bar.tsx and confirm 3 stat cards with Open-Meteo fetch",
+    "Read components/footer.tsx and confirm serif headline and /founder link",
+    "Confirm FormModal and CertificateModal are still imported and rendered in page.tsx"
+  ],
+  "blocked_reason": null,
+  "findings": "All 11 components implemented. Network mode INTEGRATIONS_ONLY prevented running tsc or next build for verification. Manual review confirms: all imports resolve, props interfaces are backward-compatible with saviours page and founders-message page. CustomEvent pattern used for navbar CTA to communicate with page-level state. StorySection given optional id prop to avoid duplicate DOM ids. Footer onBecomeSaviour is optional with fallback CustomEvent."
+}
