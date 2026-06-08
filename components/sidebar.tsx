@@ -24,7 +24,7 @@ export default function Sidebar({
   const handleFounderMessage = () => {
     onClose();
     setTimeout(() => {
-      window.location.href = '/founders-message';
+      window.location.href = '/founder';
     }, 300);
   };
 

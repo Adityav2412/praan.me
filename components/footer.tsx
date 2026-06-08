@@ -40,7 +40,7 @@ export default function Footer({ onBecomeSaviour }: FooterProps) {
         {/* Founder link */}
         <div className="mb-12">
           <Link
-            href="/founders-message"
+            href="/founder"
             className="font-body text-sm text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors"
           >
             A letter from our founder &rarr;
