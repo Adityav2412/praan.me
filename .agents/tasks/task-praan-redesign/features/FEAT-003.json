@@ -1,0 +1,35 @@
+{
+  "id": "FEAT-003",
+  "type": "feat",
+  "description": "Create the /founder page route with the existing founder content in a warm editorial layout. The existing content from app/founders-message/page.tsx must be preserved exactly (text, images, signature) but restyled with the new warm palette and typography.",
+  "status": "completed",
+  "steps": [
+    "Create app/founder/page.tsx: New route at /founder. This is a full editorial page with generous whitespace, warm bg-base background. Keep 'use client' since it uses scroll animations.",
+    "Migrate all content from app/founders-message/page.tsx to the new page: Keep the exact same founder message text (Hello, intro about Akshay, the body paragraphs about birds dying, the bowl of water, starting something, the quote, Why Praan section, signature). Keep the same images: /akshay-blend-transparent.png (mobile), /akshay-blend.png (desktop), /akshay-signature.png.",
+    "Restyle with new design system: Use Playfair Display for the 'Hello' heading and 'Why Praan?' subheading. Use DM Sans for body text. Replace navy colors with text-primary (#1A1A18), navy/50 with text-muted (#7A7468). Replace bg-cream with bg-base (#FAF8F4). Replace border-navy with border using --border token. Update the back button, blockquote, divider, connect button, and social links to use accent color (#5C7A5A) instead of navy.",
+    "Keep the image positioning exactly as-is: Desktop large portrait right-aligned, mobile in-flow portrait. Keep the same sizing and absolute positioning for desktop. Keep the existing scroll animation (useScrollAnimation hook, motion-reveal class).",
+    "Keep the contact/connect section: email link, Instagram, LinkedIn icons. Update button to accent color bg instead of navy.",
+    "Include simplified Navbar at top (import from components/navbar.tsx) and Footer at bottom (import from components/footer.tsx) - these will already be updated from FEAT-002.",
+    "Optionally keep app/founders-message/page.tsx as a redirect to /founder for backward compatibility, OR remove it. Simpler: add a simple redirect component that does router.push('/founder')."
+  ],
+  "acceptance_criteria": [
+    "app/founder/page.tsx exists and renders at /founder route",
+    "All founder message text content is preserved exactly (Hello, intro, body paragraphs, quote, Why Praan section)",
+    "Images preserved: /akshay-blend-transparent.png, /akshay-blend.png, /akshay-signature.png in same positions",
+    "Signature section preserved with 'with love for Delhi's birds', signature image, 'Akshay', 'Founder, PRAAN'",
+    "Styled with new palette: bg-base background, text-primary headings, accent color for CTA button and borders",
+    "Typography uses Playfair Display for headings and DM Sans for body",
+    "Desktop portrait image positioned absolute right, mobile shows in-flow",
+    "app/founders-message/page.tsx redirects to /founder or is preserved as fallback",
+    "Navbar and Footer rendered on the page"
+  ],
+  "verification": [
+    "Read app/founder/page.tsx and confirm all founder text content is present",
+    "Confirm images reference /akshay-blend-transparent.png, /akshay-blend.png, /akshay-signature.png",
+    "Confirm app/founders-message/page.tsx redirects to /founder",
+    "Confirm new palette colors are used (no raw navy bg, uses accent and text-primary)",
+    "Confirm Navbar and Footer are imported and rendered"
+  ],
+  "blocked_reason": null,
+  "findings": "Created app/founder/page.tsx with all original text content preserved. Restyled with font-display for headings (Hello, blockquote, Why Praan?), font-body for body text, bg-navy-light (accent green #5C7A5A) for CTA button/blockquote border/divider. All three images preserved in same positions. Converted app/founders-message/page.tsx to a client-side redirect using router.replace('/founder'). INTEGRATIONS_ONLY network so no build/test verification possible."
+}
