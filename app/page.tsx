@@ -3,18 +3,14 @@
 import { useState, useEffect } from 'react';
 
 import Navbar from '@/components/navbar';
-import Sidebar from '@/components/sidebar';
 import HeroSection from '@/components/hero-section';
+import LiveStatsBar from '@/components/live-stats-bar';
+import StorySection from '@/components/story-section';
+import HowItWorks from '@/components/how-it-works';
+import SavioursSection from '@/components/saviours-section';
+import Footer from '@/components/footer';
 import FormModal from '@/components/form-modal';
 import CertificateModal from '@/components/certificate-modal';
-import SaviourWall from '@/components/saviour-wall';
-import AreaLeaderboard from '@/components/area-leaderboard';
-import WhyItMatters from '@/components/why-it-matters';
-import ImpactCounter from '@/components/impact-counter';
-import Footer from '@/components/footer';
-import { BRAND_COPY } from '@/lib/brand';
-import { NAVBAR_HEIGHT_PX } from '@/lib/navigation';
-import { useScrollAnimation } from '@/hooks/use-scroll-animation';
 
 import {
   fetchSaviours,
@@ -22,250 +18,111 @@ import {
 } from '@/lib/storage';
 
 export default function Home() {
-  const [
-    sidebarOpen,
-    setSidebarOpen,
-  ] = useState(false);
-
-  const [
-    formOpen,
-    setFormOpen,
-  ] = useState(false);
-
-  const [
-    certificateOpen,
-    setCertificateOpen,
-  ] = useState(false);
-
-  const [
-    newSaviour,
-    setNewSaviour,
-  ] = useState<Saviour | null>(
-    null
-  );
-
-  const [
-    saviourCount,
-    setSaviourCount,
-  ] = useState<number | null>(() => {
-    if (
-      typeof window !==
-      'undefined'
-    ) {
-      const savedCount =
-        localStorage.getItem(
-          'saviourCount'
-        );
-
-      return savedCount
-        ? Number(savedCount)
-        : null;
+  const [formOpen, setFormOpen] = useState(false);
+  const [certificateOpen, setCertificateOpen] = useState(false);
+  const [newSaviour, setNewSaviour] = useState<Saviour | null>(null);
+  const [saviours, setSaviours] = useState<Saviour[]>([]);
+  const [saviourCount, setSaviourCount] = useState<number | null>(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('saviourCount');
+      return saved ? Number(saved) : null;
     }
-
     return null;
   });
 
-  const { ref: aboutRef, hasMounted: aboutMounted, isVisible: aboutVisible } = useScrollAnimation({ threshold: 0.1 });
-
-  // live sync
+  // Live sync saviours data
   useEffect(() => {
-    const updateData =
-      async () => {
-        try {
-          const data =
-            await fetchSaviours();
-
-          const latestCount =
-            data.length;
-
-          setSaviourCount(
-            latestCount
-          );
-
-          localStorage.setItem(
-            'saviourCount',
-            latestCount.toString()
-          );
-        } catch (error) {
-          console.error(
-            'Failed to fetch saviours:',
-            error
-          );
-        }
-      };
-
-    updateData();
-
-    const interval =
-      setInterval(
-        updateData,
-        3000
-      );
-
-    return () =>
-      clearInterval(interval);
-  }, []);
-
-  const handleBecomeSaviour =
-    () => {
-      setFormOpen(true);
+    const updateData = async () => {
+      try {
+        const data = await fetchSaviours();
+        setSaviours(data);
+        setSaviourCount(data.length);
+        localStorage.setItem('saviourCount', data.length.toString());
+      } catch (error) {
+        console.error('Failed to fetch saviours:', error);
+      }
     };
 
-  const handleFormSuccess = (
-    saviour: Saviour
-  ) => {
-    setFormOpen(false);
+    updateData();
+    const interval = setInterval(updateData, 5000);
+    return () => clearInterval(interval);
+  }, []);
 
-    setNewSaviour(
-      saviour
-    );
+  // Listen for 'open-form-modal' custom event from Navbar CTA
+  useEffect(() => {
+    const handler = () => setFormOpen(true);
+    window.addEventListener('open-form-modal', handler);
+    return () => window.removeEventListener('open-form-modal', handler);
+  }, []);
 
-    setCertificateOpen(
-      true
-    );
-
-    // instant UI update
-    setSaviourCount(
-      saviour.saviourNumber
-    );
-
-    localStorage.setItem(
-      'saviourCount',
-      saviour.saviourNumber.toString()
-    );
+  const handleBecomeSaviour = () => {
+    setFormOpen(true);
   };
 
-  const handleNavigate = (
-    section: string
-  ) => {
-    const element =
-      document.getElementById(
-        section
-      );
+  const handleFormSuccess = (saviour: Saviour) => {
+    setFormOpen(false);
+    setNewSaviour(saviour);
+    setCertificateOpen(true);
+    setSaviourCount(saviour.saviourNumber);
+    localStorage.setItem('saviourCount', saviour.saviourNumber.toString());
+  };
 
+  const handleNavigate = (section: string) => {
+    // "cta" section triggers form open
+    if (section === 'cta') {
+      handleBecomeSaviour();
+      return;
+    }
+
+    const element = document.getElementById(section);
     if (element) {
-      const y =
-        element.getBoundingClientRect().top +
-        window.scrollY -
-        NAVBAR_HEIGHT_PX;
-
-      window.scrollTo({
-        top: Math.max(0, y),
-        behavior: 'smooth',
-      });
+      const y = element.getBoundingClientRect().top + window.scrollY - 64;
+      window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
     }
   };
 
   return (
     <>
-      <main className="min-h-screen bg-cream overflow-x-hidden">
-
-        {/* Navbar */}
-        <Navbar
-          onMenuClick={() =>
-            setSidebarOpen(true)
-          }
-          onNavigate={handleNavigate}
-        />
-
-        {/* Sidebar */}
-        <Sidebar
-          isOpen={sidebarOpen}
-          onClose={() =>
-            setSidebarOpen(false)
-          }
-          onBecomeSaviour={
-            handleBecomeSaviour
-          }
-          onNavigate={
-            handleNavigate
-          }
-        />
+      <main className="min-h-screen bg-bg-base overflow-x-hidden">
+        {/* Nav */}
+        <Navbar onNavigate={handleNavigate} />
 
         {/* Hero */}
         <HeroSection
-          onBecomeSaviour={
-            handleBecomeSaviour
-          }
-          saviourCount={saviourCount}
+          onBecomeSaviour={handleBecomeSaviour}
+          onNavigate={handleNavigate}
         />
 
-        {/* About */}
-        <section
-          id="about"
-          className="pt-24 md:pt-28 pb-16 px-4 bg-cream-dark"
-        >
-          <div ref={aboutRef} className={`max-w-4xl mx-auto text-center ${aboutMounted ? `motion-reveal ${aboutVisible ? 'is-visible' : ''}` : ''}`}>
+        {/* Live Stats Bar */}
+        <LiveStatsBar saviourCount={saviourCount} />
 
-            <h2 className="text-4xl font-extrabold text-navy mb-6">
-              About Water For Wings
-            </h2>
+        {/* Story — The Problem + The Solution */}
+        <StorySection />
 
-            <p className="text-base text-navy/65 leading-relaxed mb-6 max-w-2xl mx-auto">
-              {BRAND_COPY.homeClarity}
-            </p>
+        {/* How It Works */}
+        <HowItWorks />
 
-            <p className="text-lg text-navy/80 leading-relaxed mb-6">
-              Every summer,
-              Delhi&apos;s
-              temperatures soar
-              above 45°C. While
-              we seek refuge in
-              air-conditioned
-              spaces, thousands
-              of birds struggle
-              to find even a drop
-              of water.
-            </p>
-
-            <p className="text-lg text-navy/80 leading-relaxed">
-              <span className="font-bold">
-                Water For Wings
-              </span>{' '}
-              is a
-              community-driven
-              initiative to
-              create a network
-              of water stations
-              across Delhi.
-            </p>
-          </div>
-        </section>
-
-        <WhyItMatters />
-
-        <SaviourWall />
-
-        <AreaLeaderboard />
-
-        <ImpactCounter
-          saviourCount={saviourCount}
+        {/* Saviours */}
+        <SavioursSection
+          saviours={saviours}
+          onBecomeSaviour={handleBecomeSaviour}
         />
 
-        <Footer />
+        {/* Footer CTA + Bottom */}
+        <Footer onBecomeSaviour={handleBecomeSaviour} />
       </main>
 
       {/* Form Modal */}
       <FormModal
         isOpen={formOpen}
-        onClose={() =>
-          setFormOpen(false)
-        }
-        onSuccess={
-          handleFormSuccess
-        }
+        onClose={() => setFormOpen(false)}
+        onSuccess={handleFormSuccess}
       />
 
-      {/* Certificate */}
+      {/* Certificate Modal */}
       <CertificateModal
-        isOpen={
-          certificateOpen
-        }
-        onClose={() =>
-          setCertificateOpen(
-            false
-          )
-        }
+        isOpen={certificateOpen}
+        onClose={() => setCertificateOpen(false)}
         saviour={newSaviour}
       />
     </>

@@ -1,157 +1,72 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import Image from 'next/image';
-
-import { useScrollAnimation, useAnimatedCounter } from '@/hooks/use-scroll-animation';
+import { useScrollAnimation } from '@/hooks/use-scroll-animation';
 
 interface HeroSectionProps {
   onBecomeSaviour: () => void;
-  saviourCount: number | null;
-}
-
-interface WeatherData {
-  temperature: number;
-  loading: boolean;
-  error: boolean;
+  onNavigate?: (section: string) => void;
 }
 
 export default function HeroSection({
   onBecomeSaviour,
-  saviourCount,
+  onNavigate,
 }: HeroSectionProps) {
-  const [weather, setWeather] = useState<WeatherData>({
-    temperature: 0,
-    loading: true,
-    error: false,
-  });
-
-  const { ref: heroRef, hasMounted: heroMounted, isVisible: heroVisible } = useScrollAnimation({ threshold: 0.1 });
-  const { ref: counterRef, hasMounted: counterMounted, isVisible: counterVisible } = useScrollAnimation({ threshold: 0.5 });
-  const animatedCount = useAnimatedCounter(saviourCount, 1200, counterVisible, counterMounted);
-
-  useEffect(() => {
-    const fetchWeather = async () => {
-      try {
-        const controller = new AbortController();
-        const timeout = setTimeout(() => {
-          controller.abort();
-        }, 5000);
-
-        const res = await fetch(
-          'https://api.open-meteo.com/v1/forecast?latitude=28.6139&longitude=77.2090&current_weather=true',
-          { signal: controller.signal }
-        );
-
-        clearTimeout(timeout);
-        const data = await res.json();
-
-        setWeather({
-          temperature: Math.round(data.current_weather.temperature),
-          loading: false,
-          error: false,
-        });
-
-        return;
-      } catch {}
-
-      setWeather({
-        temperature: 0,
-        loading: false,
-        error: true,
-      });
-    };
-
-    fetchWeather();
-
-    const interval = setInterval(fetchWeather, 10 * 60 * 1000);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  const getWeatherMessage = (temp: number) => {
-    if (temp > 40) return 'Dangerously hot today';
-    if (temp >= 35) return 'Dangerously hot';
-    return 'Fresh water needed';
-  };
+  const { ref: heroRef, hasMounted, isVisible } = useScrollAnimation({ threshold: 0.1 });
 
   return (
-    <section className="relative min-h-[100svh] overflow-hidden bg-cream pt-14 lg:pt-20">
+    <section className="relative min-h-[100svh] bg-bg-base pt-16 overflow-hidden">
       <div
         ref={heroRef}
-        className={`relative z-10 grid min-h-[calc(100svh-3.5rem)] grid-cols-1 gap-8 px-6 pb-12 pt-7 sm:px-8 md:pt-9 lg:min-h-[calc(100vh-5rem)] lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:items-center lg:gap-14 lg:px-24 lg:pb-8 lg:pt-8 xl:px-30 2xl:px-36 ${heroMounted ? `motion-reveal ${heroVisible ? 'is-visible' : ''}` : ''}`}
+        className={`relative z-10 max-w-6xl mx-auto px-6 pt-16 pb-20 lg:pt-24 lg:pb-28 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center min-h-[calc(100svh-4rem)] ${hasMounted ? `motion-reveal ${isVisible ? 'is-visible' : ''}` : ''}`}
       >
-        <div className="flex max-w-xl flex-col items-start text-left lg:pt-6">
-          <div className="motion-weather mb-8 inline-flex items-center gap-2 rounded-full border border-navy/10 bg-navy/[0.07] px-3.5 py-2 text-[13px] font-medium text-navy/80 shadow-sm sm:mb-9 sm:px-4 lg:mb-7">
-            <span className="h-1.5 w-1.5 rounded-full bg-red-500 animate-pulse" aria-hidden="true" />
-            <span>
-              {weather.loading
-                ? 'Fetching Delhi temp...'
-                : weather.error
-                ? 'Delhi Weather'
-                : `Delhi - ${weather.temperature}\u00b0C`}
-              {!weather.loading && !weather.error && (
-                <span className="ml-1.5 text-navy/60">
-                  - {getWeatherMessage(weather.temperature)}
-                </span>
-              )}
-            </span>
-          </div>
+        {/* Left content */}
+        <div className="flex flex-col items-start">
+          {/* Eyebrow */}
+          <span className="inline-block text-xs font-semibold uppercase tracking-[0.2em] text-accent mb-6">
+            Delhi · Summer 2025
+          </span>
 
-          <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-3">
-            <span className="text-[11px] font-semibold uppercase leading-none tracking-[0.16em] text-navy/45">
-              PRAAN
-            </span>
-            <span className="hidden h-px w-8 bg-navy/25 sm:block" aria-hidden="true" />
-            <span className="text-[11px] font-semibold uppercase leading-none tracking-[0.16em] text-navy/65">
-              Current initiative - Water For Wings
-            </span>
-          </div>
-
-          <h1 className="max-w-[12ch] text-[2.65rem] font-extrabold leading-[1.04] tracking-normal text-navy sm:text-[3.45rem] lg:text-[3.7rem] xl:text-[4.15rem]">
-            A simple bowl of water can save a bird&apos;s life.
+          {/* Headline */}
+          <h1 className="font-display text-[2.75rem] sm:text-[3.25rem] lg:text-[3.5rem] font-bold leading-[1.1] text-text-primary mb-6">
+            Delhi&apos;s birds are dying of thirst.{' '}
+            <span className="font-display italic">You can fix that.</span>
           </h1>
 
-          <p className="mt-6 max-w-[34rem] text-base leading-7 text-navy/65 sm:text-lg sm:leading-8 lg:mt-5">
-            Delhi&apos;s summer heat kills birds. One bowl outside your door
-            changes that.
+          {/* Subtext */}
+          <p className="text-base sm:text-lg leading-relaxed text-text-muted max-w-lg mb-10">
+            Every summer, thousands of birds die from dehydration in Delhi&apos;s 45°C+ heat. 
+            One bowl of water outside your door can save dozens of lives.
           </p>
 
-          <div
-            ref={counterRef}
-            className={`mt-8 transition-opacity duration-300 lg:mt-7 ${saviourCount === null ? 'opacity-0' : 'opacity-100'}`}
-          >
-            <div className="text-[2.65rem] font-extrabold leading-none text-navy sm:text-5xl lg:text-[3.05rem]">
-              {counterMounted ? animatedCount : (saviourCount ?? 0)}
-            </div>
-            <div className="mt-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-navy/55">
-              Saviours have acted
-            </div>
+          {/* CTAs */}
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+            <button
+              onClick={onBecomeSaviour}
+              className="motion-cta bg-accent text-white font-semibold text-base px-7 py-3.5 rounded-lg hover:bg-accent-hover transition-colors shadow-sm"
+            >
+              Place a bowl today
+            </button>
+            <button
+              onClick={() => onNavigate?.('how-it-works')}
+              className="text-text-muted hover:text-text-primary font-medium text-base transition-colors group"
+            >
+              See how it works{' '}
+              <span className="inline-block transition-transform group-hover:translate-x-1">→</span>
+            </button>
           </div>
-
-          <button
-            type="button"
-            onClick={onBecomeSaviour}
-            className="motion-cta mt-7 h-[52px] w-full rounded-md bg-navy px-8 text-base font-semibold text-cream shadow-lg shadow-navy/15 transition-all hover:bg-navy-dark sm:w-auto sm:min-w-60 lg:mt-6"
-          >
-            Place Your Water Bowl
-          </button>
         </div>
 
-        <div
-          className="relative h-[160px] min-h-[160px] w-full overflow-hidden sm:h-[210px] lg:h-full lg:min-h-[560px]"
-          aria-hidden="true"
-        >
-          <div className="absolute bottom-0 right-[-1.5rem] h-full w-[82%] opacity-[0.72] mix-blend-multiply sm:right-0 sm:w-[74%] lg:bottom-12 lg:right-[-5rem] lg:h-[58%] lg:w-[88%] xl:right-[-7rem] xl:h-[62%]">
-            <Image
-              src="/hero-bowl-sketch.png"
-              alt=""
-              fill
-              sizes="(min-width: 1280px) 44vw, (min-width: 1024px) 48vw, 76vw"
-              className="object-contain object-[right_bottom]"
-              priority
-            />
-          </div>
+        {/* Right side — sketch image */}
+        <div className="relative h-[280px] sm:h-[360px] lg:h-[480px] w-full" aria-hidden="true">
+          <Image
+            src="/hero-bowl-sketch.png"
+            alt=""
+            fill
+            sizes="(min-width: 1024px) 45vw, 80vw"
+            className="object-contain object-center opacity-80"
+            priority
+          />
         </div>
       </div>
     </section>

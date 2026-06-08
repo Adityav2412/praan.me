@@ -1,12 +1,7 @@
-import {
-  formatSaviourDate,
-  formatTimeAgo,
-  type Saviour,
-} from '@/lib/saviours';
+import { type Saviour, formatTimeAgo, formatSaviourDate } from '@/lib/saviours';
 
 interface SaviourCardProps {
   saviour: Saviour;
-  /** Show relative time (homepage) vs calendar date (leaderboard) */
   dateStyle?: 'relative' | 'calendar';
   className?: string;
   animate?: boolean;
@@ -18,37 +13,43 @@ export default function SaviourCard({
   className = '',
   animate = false,
 }: SaviourCardProps) {
-  const dateLabel =
-    dateStyle === 'calendar'
-      ? formatSaviourDate(saviour.timestamp)
-      : formatTimeAgo(saviour.timestamp);
+  const initial = saviour.name.charAt(0).toUpperCase();
 
   return (
     <article
-      className={`bg-cream-dark border-2 border-transparent hover:border-navy/20 rounded-xl p-5 transition-all hover:shadow-lg ${
+      className={`bg-[var(--bg-card)] border border-[var(--border)] rounded-xl p-5 transition-all hover:shadow-md ${
         animate ? 'animate-slide-up' : ''
       } ${className}`}
     >
-      <div className="flex items-start justify-between mb-3 gap-3">
-        <div className="min-w-0">
-          <h3 className="font-bold text-navy text-lg truncate">
+      <div className="flex items-center gap-3 mb-3">
+        {/* Avatar circle */}
+        <div className="w-10 h-10 rounded-full bg-[var(--bg-surface)] flex items-center justify-center shrink-0">
+          <span className="font-display text-base text-[var(--accent)]">
+            {initial}
+          </span>
+        </div>
+
+        <div className="min-w-0 flex-1">
+          <h3 className="font-body font-semibold text-[var(--text-primary)] text-sm truncate">
             {saviour.name}
           </h3>
-          <p className="text-navy/60 text-sm truncate">
+          <p className="text-xs text-[var(--text-muted)] truncate">
             {saviour.colony}
           </p>
         </div>
-        <span className="bg-navy text-cream text-xs font-bold px-3 py-1 rounded-full shrink-0">
+
+        {/* Saviour number badge */}
+        <span className="bg-[var(--accent)] text-white text-xs font-bold px-2.5 py-1 rounded-full shrink-0">
           #{saviour.saviourNumber}
         </span>
       </div>
 
-      <div className="flex items-center justify-between gap-2 text-sm">
-        <span className="text-navy/70 truncate">
-          🫙 {saviour.stationType || '—'}
-        </span>
-        <span className="text-navy/50 shrink-0">{dateLabel}</span>
-      </div>
+      {/* Date display */}
+      <p className="text-xs text-[var(--text-muted)] mt-2">
+        {dateStyle === 'calendar'
+          ? formatSaviourDate(saviour.timestamp)
+          : formatTimeAgo(saviour.timestamp)}
+      </p>
     </article>
   );
 }

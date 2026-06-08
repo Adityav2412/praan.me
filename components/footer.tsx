@@ -1,45 +1,79 @@
 'use client';
 
-import {
-  PraanLogo,
-  BrandTagline,
-  BrandStatement,
-  FooterInitiativeBlock,
-} from '@/components/brand-labels';
-import { SocialIcons } from '@/components/social-icons';
-import { BRAND, currentInitiative } from '@/lib/brand';
+import Link from 'next/link';
+import { useScrollAnimation } from '@/hooks/use-scroll-animation';
 
-export default function Footer() {
+interface FooterProps {
+  onBecomeSaviour?: () => void;
+}
+
+export default function Footer({ onBecomeSaviour }: FooterProps) {
+  const { ref: ctaRef, hasMounted, isVisible } = useScrollAnimation({ threshold: 0.2 });
+
   return (
-    <footer className="bg-navy text-cream py-12 px-4">
-      <div className="max-w-4xl mx-auto text-center">
-        <PraanLogo className="h-9 sm:h-10 w-auto max-w-[220px] mx-auto mb-5" variant="on-dark" />
+    <footer id="cta">
+      {/* Large CTA Section */}
+      <section className="py-20 lg:py-28 px-6 bg-bg-base">
+        <div
+          ref={ctaRef}
+          className={`max-w-3xl mx-auto text-center ${hasMounted ? `motion-reveal ${isVisible ? 'is-visible' : ''}` : ''}`}
+        >
+          <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-text-primary leading-tight mb-6">
+            The birds can&apos;t wait for next summer.
+          </h2>
+          <p className="text-base sm:text-lg text-text-muted max-w-xl mx-auto mb-10 leading-relaxed">
+            Every day without water is a day too many. Join hundreds of Delhi residents 
+            who&apos;ve already placed their bowls. It takes 2 minutes.
+          </p>
+          <button
+            onClick={onBecomeSaviour}
+            className="motion-cta bg-accent text-white font-semibold text-base px-8 py-4 rounded-lg hover:bg-accent-hover transition-colors shadow-sm"
+          >
+            Place a bowl today
+          </button>
+        </div>
+      </section>
 
-        <BrandTagline variant="dark" className="mb-4" />
+      {/* Bottom bar */}
+      <div className="border-t border-[var(--border)] bg-bg-surface">
+        <div className="max-w-5xl mx-auto px-6 py-8">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
+            {/* Left — Brand */}
+            <div className="flex flex-col items-center sm:items-start gap-1">
+              <span className="font-display text-lg font-bold text-text-primary">praan.</span>
+              <span className="text-xs text-text-muted">A platform for meaningful community initiatives.</span>
+            </div>
 
-        <BrandStatement variant="dark" className="mb-8" />
+            {/* Center — Links */}
+            <nav className="flex items-center gap-6 text-sm text-text-muted">
+              <Link href="/founder" className="hover:text-text-primary transition-colors">
+                A letter from our founder →
+              </Link>
+            </nav>
 
-        <FooterInitiativeBlock className="mb-6" />
+            {/* Right — Bottom links */}
+            <nav className="flex items-center gap-4 text-xs text-text-muted">
+              <button onClick={() => {}} className="hover:text-text-primary transition-colors">
+                About
+              </button>
+              <span className="text-text-muted/30">·</span>
+              <a href="https://instagram.com/waterforwings" target="_blank" rel="noopener noreferrer" className="hover:text-text-primary transition-colors">
+                Instagram
+              </a>
+              <span className="text-text-muted/30">·</span>
+              <a href="mailto:Akshay1092001@yahoo.com" className="hover:text-text-primary transition-colors">
+                Contact
+              </a>
+            </nav>
+          </div>
 
-        <p className="text-cream/80 mb-4 text-lg leading-relaxed">
-          Saving Delhi&apos;s birds, One water station is all it takes.
-        </p>
-
-        <p className="text-cream/60 mb-2">praan.me</p>
-
-        <p className="text-navy-light font-semibold mb-6">
-          #DelhiBirdsNeedWater
-        </p>
-
-        <SocialIcons
-          className="justify-center mb-8"
-          iconClassName="w-7 h-7"
-        />
-
-        <p className="text-cream/50 text-sm">
-          © 2026 {BRAND.platform}. {currentInitiative.name} is our first
-          initiative. Made with 💙 for Delhi&apos;s birds.
-        </p>
+          {/* Copyright */}
+          <div className="mt-6 pt-6 border-t border-[var(--border)] text-center">
+            <p className="text-xs text-text-muted/60">
+              © 2025 Praan. Made with care for Delhi&apos;s birds.
+            </p>
+          </div>
+        </div>
       </div>
     </footer>
   );

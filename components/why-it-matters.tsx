@@ -2,49 +2,52 @@
 
 import { useScrollAnimation } from '@/hooks/use-scroll-animation';
 
-export default function WhyItMatters() {
+const steps = [
+  {
+    number: '01',
+    title: 'Fill a bowl',
+    description:
+      'Take any shallow bowl or container and fill it with fresh, clean water. Change the water daily to keep it safe for birds.',
+  },
+  {
+    number: '02',
+    title: 'Place it outside',
+    description:
+      'Put the bowl in a shaded spot on your balcony, terrace, or near a tree. Birds will find it quickly.',
+  },
+  {
+    number: '03',
+    title: 'Save a life',
+    description:
+      'A single bowl of water can hydrate dozens of birds each day. Your small act becomes their lifeline in the scorching heat.',
+  },
+];
+
+export default function HowItWorks() {
   const { ref: sectionRef, hasMounted, isVisible } = useScrollAnimation({ threshold: 0.1 });
-  
-  const cards = [
-    {
-      icon: '🌡️',
-      title: '45°C Heat',
-      description:
-        'Delhi summers are brutal. Birds struggle to find water as temperatures soar, leading to dehydration and death.',
-    },
-    {
-      icon: '🏙️',
-      title: 'Shrinking Water Sources',
-      description:
-        'Urbanization has dried up ponds and lakes. Natural water sources are disappearing, leaving birds with nowhere to drink.',
-    },
-    {
-      icon: '💧',
-      title: 'One Bowl Saves Many',
-      description:
-        'A single bowl of water can save dozens of birds daily. Your small action creates a ripple of life.',
-    },
-  ];
 
   return (
-    <section id="why-it-matters" className="py-16 px-4 bg-cream">
-      <div ref={sectionRef} className={`max-w-6xl mx-auto ${hasMounted ? `motion-reveal ${isVisible ? 'is-visible' : ''}` : ''}`}>
-        <h2 className="text-4xl font-extrabold text-navy text-center mb-4">
-          Why It Matters
+    <section id="how-it-works" className="py-16 lg:py-20 px-4 sm:px-6 lg:px-8 bg-[var(--bg-surface)]">
+      <div ref={sectionRef} className={`max-w-5xl mx-auto ${hasMounted ? `motion-reveal ${isVisible ? 'is-visible' : ''}` : ''}`}>
+        <h2 className="font-display text-3xl sm:text-4xl text-[var(--text-primary)] text-center mb-12">
+          How it works
         </h2>
-        <p className="text-navy/70 text-center mb-12 max-w-2xl mx-auto">
-          Understanding the crisis our feathered friends face
-        </p>
 
         <div className={`grid grid-cols-1 md:grid-cols-3 gap-6 ${hasMounted ? `motion-stagger ${isVisible ? 'is-visible' : ''}` : ''}`}>
-          {cards.map((card, index) => (
+          {steps.map((step) => (
             <div
-              key={index}
-              className="bg-cream-dark rounded-2xl p-8 text-center hover:shadow-xl transition-all motion-cta"
+              key={step.number}
+              className="bg-[var(--bg-card)] border border-[var(--border)] rounded-xl p-6 sm:p-8"
             >
-              <span className="text-6xl mb-4 block">{card.icon}</span>
-              <h3 className="text-xl font-bold text-navy mb-3">{card.title}</h3>
-              <p className="text-navy/70">{card.description}</p>
+              <span className="font-display text-4xl text-[var(--accent)] block mb-3">
+                {step.number}
+              </span>
+              <h3 className="font-body font-semibold text-lg text-[var(--text-primary)] mb-2">
+                {step.title}
+              </h3>
+              <p className="font-body text-sm text-[var(--text-muted)] leading-relaxed">
+                {step.description}
+              </p>
             </div>
           ))}
         </div>

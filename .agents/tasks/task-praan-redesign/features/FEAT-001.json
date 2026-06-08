@@ -1,0 +1,30 @@
+{
+  "id": "FEAT-001",
+  "type": "refactor",
+  "description": "Replace the design system foundation: update fonts (Playfair Display + DM Sans via next/font/google), color tokens (warm beige/sage palette), and Tailwind theme config in globals.css. Update layout.tsx to load new fonts and expose CSS variables. This is the base layer all other features depend on.",
+  "status": "completed",
+  "steps": [
+    "In app/layout.tsx: Replace Poppins and Montserrat imports with Playfair_Display and DM_Sans from 'next/font/google'. Configure Playfair Display with weights 400,700 and italic subsets. Configure DM Sans with weights 400,500,600,700. Expose as --font-playfair and --font-dm-sans CSS variables. Update the html className to use the new variable names.",
+    "In app/globals.css: Replace :root color tokens with the new palette: --bg-base: #FAF8F4, --bg-surface: #F2EEE6, --bg-card: #FFFFFF, --accent: #5C7A5A, --text-primary: #1A1A18, --text-muted: #7A7468, --border: rgba(26,26,24,0.1). Keep backward-compat aliases for --cream (map to --bg-base), --cream-dark (map to --bg-surface), --navy (map to --text-primary), --navy-light (map to --accent). Update --background, --foreground, --card, --primary, etc to new values.",
+    "In app/globals.css @theme inline block: Update --font-sans to var(--font-dm-sans). Add --font-display mapped to var(--font-playfair). Update --font-heading to var(--font-playfair). Update --font-body to var(--font-dm-sans). Update all --color-* mappings to use new token names.",
+    "In app/globals.css body rule: Update to use bg-[var(--bg-base)] and text-[var(--text-primary)] or the mapped Tailwind classes.",
+    "Remove dark mode variant (@custom-variant dark) since the redesign is light-mode only.",
+    "Keep all existing animation keyframes and motion-* utility classes intact - they will still be used.",
+    "Update hero-background gradient to use the new warm palette colors instead of navy-based blues."
+  ],
+  "acceptance_criteria": [
+    "layout.tsx imports Playfair_Display and DM_Sans from next/font/google with correct weights",
+    "CSS variables --font-playfair and --font-dm-sans are exposed on html element",
+    "@theme inline block references the new font variables",
+    ":root has new color tokens (--bg-base, --bg-surface, --bg-card, --accent, --text-primary, --text-muted, --border)",
+    "Backward-compatible aliases exist so existing components don't break immediately (--cream, --navy mapped to new values)",
+    "No dark mode variant definition remains",
+    "All existing animation classes are preserved"
+  ],
+  "verification": [
+    "Read app/layout.tsx and confirm Playfair_Display and DM_Sans imports from next/font/google",
+    "Read app/globals.css and confirm new :root tokens and @theme inline config"
+  ],
+  "blocked_reason": null,
+  "findings": "Successfully replaced design system foundation. No build/test verification possible due to INTEGRATIONS_ONLY network mode (no node_modules, cannot run next build or pnpm). Changes verified by reading final file contents. All backward-compat aliases preserved so existing component classes (bg-cream, text-navy, etc.) will continue working."
+}
