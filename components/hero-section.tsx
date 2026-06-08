@@ -5,67 +5,66 @@ import { useScrollAnimation } from '@/hooks/use-scroll-animation';
 
 interface HeroSectionProps {
   onBecomeSaviour: () => void;
+  onNavigate?: (section: string) => void;
 }
 
-export default function HeroSection({ onBecomeSaviour }: HeroSectionProps) {
+export default function HeroSection({
+  onBecomeSaviour,
+  onNavigate,
+}: HeroSectionProps) {
   const { ref: heroRef, hasMounted, isVisible } = useScrollAnimation({ threshold: 0.1 });
 
-  const scrollToHowItWorks = () => {
-    const el = document.getElementById('how-it-works');
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
   return (
-    <section className="relative bg-[var(--bg-base)] pt-20 lg:pt-24 pb-12 lg:pb-20">
+    <section className="relative min-h-[100svh] bg-bg-base pt-16 overflow-hidden">
       <div
         ref={heroRef}
-        className={`max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center ${
-          hasMounted ? `motion-reveal ${isVisible ? 'is-visible' : ''}` : ''
-        }`}
+        className={`relative z-10 max-w-6xl mx-auto px-6 pt-16 pb-20 lg:pt-24 lg:pb-28 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center min-h-[calc(100svh-4rem)] ${hasMounted ? `motion-reveal ${isVisible ? 'is-visible' : ''}` : ''}`}
       >
-        {/* Left: Copy */}
+        {/* Left content */}
         <div className="flex flex-col items-start">
-          <span className="text-xs font-medium uppercase tracking-[0.2em] text-[var(--accent)] mb-4">
-            Delhi &middot; Summer 2025
+          {/* Eyebrow */}
+          <span className="inline-block text-xs font-semibold uppercase tracking-[0.2em] text-accent mb-6">
+            Delhi · Summer 2025
           </span>
 
-          <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl text-[var(--text-primary)] leading-tight mb-5">
-            Delhi&apos;s birds are dying of thirst. You can fix that.
+          {/* Headline */}
+          <h1 className="font-display text-[2.75rem] sm:text-[3.25rem] lg:text-[3.5rem] font-bold leading-[1.1] text-text-primary mb-6">
+            Delhi&apos;s birds are dying of thirst.{' '}
+            <span className="font-display italic">You can fix that.</span>
           </h1>
 
-          <p className="font-body text-base sm:text-lg text-[var(--text-muted)] leading-relaxed mb-8 max-w-lg">
-            One bowl of water outside your door can save dozens of birds this summer. Join the movement.
+          {/* Subtext */}
+          <p className="text-base sm:text-lg leading-relaxed text-text-muted max-w-lg mb-10">
+            Every summer, thousands of birds die from dehydration in Delhi&apos;s 45°C+ heat. 
+            One bowl of water outside your door can save dozens of lives.
           </p>
 
-          <div className="flex flex-wrap items-center gap-4">
+          {/* CTAs */}
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
             <button
-              type="button"
               onClick={onBecomeSaviour}
-              className="bg-[var(--accent)] text-white font-body font-semibold text-base px-7 py-3.5 rounded-lg hover:opacity-90 transition-opacity motion-cta"
+              className="motion-cta bg-accent text-white font-semibold text-base px-7 py-3.5 rounded-lg hover:bg-accent-hover transition-colors shadow-sm"
             >
               Place a bowl today
             </button>
-
             <button
-              type="button"
-              onClick={scrollToHowItWorks}
-              className="font-body text-base text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors"
+              onClick={() => onNavigate?.('how-it-works')}
+              className="text-text-muted hover:text-text-primary font-medium text-base transition-colors group"
             >
-              See how it works &rarr;
+              See how it works{' '}
+              <span className="inline-block transition-transform group-hover:translate-x-1">→</span>
             </button>
           </div>
         </div>
 
-        {/* Right: Image */}
-        <div className="relative h-[240px] sm:h-[320px] lg:h-[420px] w-full" aria-hidden="true">
+        {/* Right side — sketch image */}
+        <div className="relative h-[280px] sm:h-[360px] lg:h-[480px] w-full" aria-hidden="true">
           <Image
             src="/hero-bowl-sketch.png"
-            alt="Illustration of a water bowl for birds"
+            alt=""
             fill
-            sizes="(min-width: 1024px) 50vw, 90vw"
-            className="object-contain object-center opacity-80 mix-blend-multiply"
+            sizes="(min-width: 1024px) 45vw, 80vw"
+            className="object-contain object-center opacity-80"
             priority
           />
         </div>

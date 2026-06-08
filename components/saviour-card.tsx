@@ -1,4 +1,4 @@
-import { type Saviour } from '@/lib/saviours';
+import { type Saviour, formatTimeAgo, formatSaviourDate } from '@/lib/saviours';
 
 interface SaviourCardProps {
   saviour: Saviour;
@@ -43,6 +43,13 @@ export default function SaviourCard({
           #{saviour.saviourNumber}
         </span>
       </div>
+
+      {/* Date display */}
+      <p className="text-xs text-[var(--text-muted)] mt-2">
+        {dateStyle === 'calendar'
+          ? formatSaviourDate(saviour.timestamp)
+          : formatTimeAgo(saviour.timestamp)}
+      </p>
     </article>
   );
 }
