@@ -48,6 +48,13 @@ export default function Home() {
     return () => clearInterval(interval);
   }, []);
 
+  // Listen for 'open-form-modal' custom event from Navbar CTA
+  useEffect(() => {
+    const handler = () => setFormOpen(true);
+    window.addEventListener('open-form-modal', handler);
+    return () => window.removeEventListener('open-form-modal', handler);
+  }, []);
+
   const handleBecomeSaviour = () => {
     setFormOpen(true);
   };
@@ -69,7 +76,7 @@ export default function Home() {
 
     const element = document.getElementById(section);
     if (element) {
-      const y = element.getBoundingClientRect().top + window.scrollY - 80;
+      const y = element.getBoundingClientRect().top + window.scrollY - 64;
       window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
     }
   };

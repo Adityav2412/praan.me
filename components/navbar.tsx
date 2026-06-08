@@ -1,16 +1,17 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Menu } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { NAV_ITEMS } from '@/lib/navigation';
 
 interface NavbarProps {
-  onMenuClick: () => void;
+  onMenuClick?: () => void;
   onNavigate: (section: string) => void;
 }
 
 export default function Navbar({ onMenuClick, onNavigate }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -23,8 +24,22 @@ export default function Navbar({ onMenuClick, onNavigate }: NavbarProps) {
   // Custom event contract: 'open-form-modal' is listened to in app/page.tsx
   // Keep this event name in sync with the listener there.
   const handlePlaceBowl = () => {
+    setMobileOpen(false);
     const event = new CustomEvent('open-form-modal');
     window.dispatchEvent(event);
+  };
+
+  const handleMobileToggle = () => {
+    if (onMenuClick) {
+      onMenuClick();
+    } else {
+      setMobileOpen(!mobileOpen);
+    }
+  };
+
+  const handleMobileNav = (section: string) => {
+    setMobileOpen(false);
+    onNavigate(section);
   };
 
   return (
@@ -70,14 +85,43 @@ export default function Navbar({ onMenuClick, onNavigate }: NavbarProps) {
 
           <button
             type="button"
-            onClick={onMenuClick}
+            onClick={handleMobileToggle}
             className="p-2 rounded-lg hover:bg-[var(--bg-surface)] transition-colors"
-            aria-label="Open menu"
+            aria-label="Toggle menu"
           >
-            <Menu className="w-6 h-6 text-[var(--text-primary)]" />
+            {mobileOpen ? (
+              <X className="w-6 h-6 text-[var(--text-primary)]" />
+            ) : (
+              <Menu className="w-6 h-6 text-[var(--text-primary)]" />
+            )}
           </button>
         </div>
       </div>
+
+      {/* Mobile dropdown (shown when no external sidebar handler) */}
+      {!onMenuClick && mobileOpen && (
+        <div className="lg:hidden border-t border-[var(--border)] bg-[var(--bg-base)] animate-slide-up">
+          <div className="px-4 py-4 space-y-1">
+            {NAV_ITEMS.map((item) => (
+              <button
+                key={item.section}
+                type="button"
+                onClick={() => handleMobileNav(item.section)}
+                className="w-full text-left px-3 py-2.5 font-body text-base text-[var(--text-primary)] rounded-lg hover:bg-[var(--bg-surface)] transition-colors"
+              >
+                {item.label}
+              </button>
+            ))}
+            <button
+              type="button"
+              onClick={handlePlaceBowl}
+              className="w-full mt-2 bg-[var(--accent)] text-white font-body text-sm font-semibold px-5 py-3 rounded-lg"
+            >
+              Place a bowl
+            </button>
+          </div>
+        </div>
+      )}
     </nav>
   );
 }
