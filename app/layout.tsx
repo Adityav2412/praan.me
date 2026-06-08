@@ -36,7 +36,7 @@ export const metadata: Metadata = {
   },
 
   description:
-    'Praan is a platform for meaningful community initiatives. Join Water For Wings — our first initiative — and help birds survive Delhi's extreme summer heat.',
+    "Praan is a platform for meaningful community initiatives. Join Water For Wings — our first initiative — and help birds survive Delhi's extreme summer heat.",
 
   keywords: [
     'Water For Wings',
@@ -60,7 +60,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Praan | Water For Wings',
     description:
-      'Praan turns kindness into action. Join Water For Wings and help birds survive Delhi's deadly summer heat.',
+      "Praan turns kindness into action. Join Water For Wings and help birds survive Delhi's deadly summer heat.",
     url: 'https://www.praan.me',
     siteName: 'Praan',
     locale: 'en_IN',
@@ -79,7 +79,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Praan | Water For Wings',
     description:
-      'Praan is a platform for community initiatives. Water For Wings helps save Delhi's birds this summer.',
+      "Praan is a platform for community initiatives. Water For Wings helps save Delhi's birds this summer.",
     creator: '@waterforwings',
     images: ['/android-chrome-512x512.png'],
   },
