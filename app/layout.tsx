@@ -4,41 +4,28 @@ import type {
 } from 'next';
 
 import {
-  Poppins,
-  Montserrat,
+  Playfair_Display,
+  DM_Sans,
 } from 'next/font/google';
 
 import { Analytics } from '@vercel/analytics/next';
 
 import './globals.css';
 
-const poppins = Poppins({
+const playfairDisplay = Playfair_Display({
   subsets: ['latin'],
-  weight: [
-    '400',
-    '500',
-    '600',
-    '700',
-    '800',
-  ],
-  variable:
-    '--font-poppins',
+  weight: ['400', '700'],
+  style: ['normal', 'italic'],
+  variable: '--font-playfair',
   display: 'swap',
 });
 
-const montserrat =
-  Montserrat({
-    subsets: ['latin'],
-    weight: [
-      '400',
-      '500',
-      '600',
-      '700',
-    ],
-    variable:
-      '--font-montserrat',
-    display: 'swap',
-  });
+const dmSans = DM_Sans({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-dm-sans',
+  display: 'swap',
+});
 
 export const metadata: Metadata =
   {
@@ -173,7 +160,7 @@ export const metadata: Metadata =
 export const viewport: Viewport =
   {
     themeColor:
-      '#1B3A6B',
+      '#FAF8F4',
   };
 
 export default function RootLayout({
@@ -184,7 +171,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${poppins.variable} ${montserrat.variable}`}
+      className={`${playfairDisplay.variable} ${dmSans.variable}`}
     >
 
       <head>
