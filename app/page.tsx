@@ -8,6 +8,7 @@ import LiveStatsBar from '@/components/live-stats-bar';
 import StorySection from '@/components/story-section';
 import HowItWorks from '@/components/how-it-works';
 import SavioursSection from '@/components/saviours-section';
+import CertificateTeaser from '@/components/certificate-teaser';
 import Footer from '@/components/footer';
 import FormModal from '@/components/form-modal';
 import CertificateModal from '@/components/certificate-modal';
@@ -107,6 +108,9 @@ export default function Home() {
           saviours={saviours}
           onBecomeSaviour={handleBecomeSaviour}
         />
+
+        {/* Certificate Teaser */}
+        <CertificateTeaser onBecomeSaviour={handleBecomeSaviour} />
 
         {/* Footer CTA + Bottom */}
         <Footer onBecomeSaviour={handleBecomeSaviour} />

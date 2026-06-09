@@ -35,7 +35,7 @@ export default function SavioursSection({ saviours, onBecomeSaviour }: SavioursS
     <section id="saviours" className="py-20 lg:py-28 px-6 bg-bg-surface">
       <div className="max-w-5xl mx-auto">
         {/* Header */}
-        <div className="flex items-center justify-between mb-12">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-3">
           <h2 className="font-display text-3xl sm:text-4xl font-bold text-text-primary">
             Meet Delhi&apos;s Saviours
           </h2>
@@ -47,6 +47,11 @@ export default function SavioursSection({ saviours, onBecomeSaviour }: SavioursS
             <span className="inline-block transition-transform group-hover:translate-x-1">→</span>
           </Link>
         </div>
+
+        {/* Emotional hook — italic subline */}
+        <p className="font-display italic text-lg text-text-muted mb-12">
+          Each one started with a single bowl.
+        </p>
 
         {/* Grid */}
         <div

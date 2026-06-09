@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useScrollAnimation } from '@/hooks/use-scroll-animation';
 
 export default function StorySection() {
@@ -33,23 +34,23 @@ export default function StorySection() {
             </p>
           </div>
 
-          {/* Right — Visual placeholder */}
+          {/* Right — Bowl sketch image */}
           <div className="flex justify-center lg:justify-end">
-            <div className="w-[300px] h-[240px] rounded-2xl bg-bg-surface border border-[var(--border)] flex items-center justify-center">
-              <div className="text-center px-6">
-                <svg className="w-12 h-12 mx-auto mb-3 text-text-muted/40" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
-                </svg>
-                <p className="text-sm text-text-muted/60 font-medium">45°C+ summers</p>
-                <p className="text-xs text-text-muted/40 mt-1">Water sources vanish</p>
-              </div>
+            <div className="w-[300px] h-[240px] rounded-2xl overflow-hidden border border-[var(--border)]">
+              <Image
+                src="/hero-bowl-sketch.png"
+                alt="Water bowl for birds"
+                width={300}
+                height={240}
+                className="w-full h-full object-cover"
+              />
             </div>
           </div>
         </div>
       </section>
 
       {/* Story Block 2 — The Solution */}
-      <section className="py-20 lg:py-28 px-6 bg-bg-surface">
+      <section className="py-20 lg:py-28 px-6 bg-[#FAF8F4]">
         <div
           ref={solutionRef}
           className={`max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center ${solutionMounted ? `motion-reveal ${solutionVisible ? 'is-visible' : ''}` : ''}`}

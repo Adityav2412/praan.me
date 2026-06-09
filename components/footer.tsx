@@ -36,7 +36,7 @@ export default function Footer({ onBecomeSaviour }: FooterProps) {
       </section>
 
       {/* Bottom bar */}
-      <div className="relative border-t border-[var(--border)] bg-bg-surface">
+      <div className="relative border-t border-[var(--border)] bg-bg-surface overflow-hidden">
         {/* Footer content — above trees (higher z-index) */}
         <div className="relative z-10 max-w-5xl mx-auto px-6 py-8">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
@@ -88,7 +88,7 @@ export default function Footer({ onBecomeSaviour }: FooterProps) {
         <img
           src="/footer-trees.svg"
           alt=""
-          style={{ width: '100%', height: '200px', objectFit: 'cover', display: 'block' }}
+          style={{ width: '100%', height: '160px', objectFit: 'cover', display: 'block' }}
         />
       </div>
     </footer>
