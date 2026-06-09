@@ -46,7 +46,7 @@ export default function HeroSection({
           One bowl of water outside your door can save dozens of lives.
         </p>
 
-        {/* CTAs */}
+        {/* CTAs — dark pill style */}
         <div className="flex flex-col sm:flex-row items-center gap-4">
           <button
             onClick={onBecomeSaviour}
@@ -63,14 +63,14 @@ export default function HeroSection({
         </div>
       </div>
 
-      {/* Bowl sketch image — full width below content */}
-      <div className="relative w-full h-[280px] sm:h-[340px] lg:h-[400px] mt-4">
+      {/* Hero illustration — full width, bleeding to edges */}
+      <div className="relative w-full mt-4">
         <Image
-          src="/hero-bowl-sketch.png"
-          alt="Water bowl sketch"
-          fill
-          sizes="100vw"
-          className="object-cover"
+          src="/hero-illustration.svg"
+          alt=""
+          width={1920}
+          height={600}
+          className="w-full h-auto block"
           priority
         />
       </div>

@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { useScrollAnimation } from '@/hooks/use-scroll-animation';
 
@@ -11,7 +12,7 @@ export default function Footer({ onBecomeSaviour }: FooterProps) {
   const { ref: ctaRef, hasMounted, isVisible } = useScrollAnimation({ threshold: 0.2 });
 
   return (
-    <footer id="cta">
+    <footer id="cta" className="relative">
       {/* Large CTA Section */}
       <section className="py-20 lg:py-28 px-6 bg-bg-base">
         <div
@@ -22,25 +23,43 @@ export default function Footer({ onBecomeSaviour }: FooterProps) {
             The birds can&apos;t wait for next summer.
           </h2>
           <p className="text-base sm:text-lg text-text-muted max-w-xl mx-auto mb-10 leading-relaxed">
-            Every day without water is a day too many. Join hundreds of Delhi residents 
+            Every day without water is a day too many. Join hundreds of Delhi residents
             who&apos;ve already placed their bowls. It takes 2 minutes.
           </p>
           <button
             onClick={onBecomeSaviour}
-            className="motion-cta bg-accent text-white font-semibold text-base px-8 py-4 rounded-lg hover:bg-accent-hover transition-colors shadow-sm"
+            className="motion-cta bg-[#1A1A18] text-white font-semibold text-base px-8 py-4 rounded-full hover:bg-[#2a2a28] transition-colors shadow-sm"
           >
             Place a bowl today
           </button>
         </div>
       </section>
 
-      {/* Bottom bar */}
-      <div className="border-t border-[var(--border)] bg-bg-surface">
-        <div className="max-w-5xl mx-auto px-6 py-8">
+      {/* Bottom bar — with footer-trees.svg behind */}
+      <div className="relative border-t border-[var(--border)] bg-bg-surface overflow-hidden">
+        {/* Footer trees — absolute, behind text */}
+        <div className="absolute bottom-0 left-0 right-0 pointer-events-none select-none">
+          <Image
+            src="/footer-trees.svg"
+            alt=""
+            width={1920}
+            height={300}
+            className="w-full h-auto block opacity-100"
+          />
+        </div>
+
+        {/* Footer content — above trees */}
+        <div className="relative z-10 max-w-5xl mx-auto px-6 py-8">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
-            {/* Left — Brand */}
-            <div className="flex flex-col items-center sm:items-start gap-1">
-              <span className="font-display text-lg font-bold text-text-primary">praan.</span>
+            {/* Left — Logo SVG */}
+            <div className="flex flex-col items-center sm:items-start gap-2">
+              <Image
+                src="/praan-footer.svg"
+                alt="praan."
+                width={120}
+                height={36}
+                className="h-9 w-auto"
+              />
               <span className="text-xs text-text-muted">A platform for meaningful community initiatives.</span>
             </div>
 
