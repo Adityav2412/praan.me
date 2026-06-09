@@ -23,7 +23,7 @@ export default function Navbar({ onNavigate }: NavbarProps) {
   return (
     <header className="sticky top-4 z-50 mx-auto max-w-[900px] px-4">
       <nav
-        className="flex items-center justify-between h-14 px-5 bg-white rounded-full"
+        className="flex items-center justify-between h-14 px-6 bg-white rounded-full"
         style={{ boxShadow: '0 2px 16px rgba(0,0,0,0.08)' }}
       >
         {/* Left — Logo SVG */}
@@ -38,8 +38,8 @@ export default function Navbar({ onNavigate }: NavbarProps) {
           />
         </Link>
 
-        {/* Center — Nav Links */}
-        <div className="hidden md:flex items-center gap-7">
+        {/* Right — Nav Links (no CTA button) */}
+        <div className="hidden md:flex items-center gap-8">
           <button
             onClick={() => handleNavClick('about')}
             className="motion-nav-link text-sm font-medium text-text-muted hover:text-text-primary transition-colors"
@@ -56,23 +56,13 @@ export default function Navbar({ onNavigate }: NavbarProps) {
             href="/founder"
             className="motion-nav-link text-sm font-medium text-text-muted hover:text-text-primary transition-colors"
           >
-            Founder
+            Founder&apos;s Message
           </a>
           <button
             onClick={() => handleNavClick('saviours')}
             className="motion-nav-link text-sm font-medium text-text-muted hover:text-text-primary transition-colors"
           >
             Saviours
-          </button>
-        </div>
-
-        {/* Right — CTA dark pill */}
-        <div className="hidden md:block">
-          <button
-            onClick={() => handleNavClick('cta')}
-            className="motion-cta bg-[#1A1A18] text-white text-sm font-semibold px-[22px] py-[10px] rounded-full hover:bg-[#2a2a28] transition-colors"
-          >
-            Place a bowl
           </button>
         </div>
 
@@ -108,19 +98,13 @@ export default function Navbar({ onNavigate }: NavbarProps) {
             href="/founder"
             className="text-left text-base font-medium text-text-primary py-2 block"
           >
-            Founder
+            Founder&apos;s Message
           </a>
           <button
             onClick={() => handleNavClick('saviours')}
             className="text-left text-base font-medium text-text-primary py-2"
           >
             Saviours
-          </button>
-          <button
-            onClick={() => handleNavClick('cta')}
-            className="mt-2 bg-[#1A1A18] text-white text-sm font-semibold px-[22px] py-[10px] rounded-full w-full"
-          >
-            Place a bowl
           </button>
         </div>
       )}
