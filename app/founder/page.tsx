@@ -60,7 +60,7 @@ export default function FounderPage() {
                 priority
                 sizes="70vw"
                 className="object-contain object-top scale-[1.18]"
-                style={{ mixBlendMode: 'luminosity', filter: 'contrast(1.1) brightness(1.02)' }}
+                style={{ mixBlendMode: 'multiply' }}
               />
             </div>
 
@@ -229,7 +229,7 @@ export default function FounderPage() {
                 fill
                 priority
                 className="object-contain object-top"
-                style={{ mixBlendMode: 'luminosity', filter: 'contrast(1.1) brightness(1.02)' }}
+                style={{ mixBlendMode: 'multiply' }}
               />
             </div>
           </div>
