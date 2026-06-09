@@ -49,7 +49,8 @@ export default function Footer({ onBecomeSaviour }: FooterProps) {
                 height={120}
                 className="w-[400px] h-auto"
               />
-              <span className="text-xs text-text-muted">A platform for meaningful community initiatives.</span>
+              <span className="text-[10px] uppercase tracking-widest text-text-muted/60 font-medium">A Praan Initiative</span>
+              <span className="text-xs text-text-muted">Water for Wings · Saving Delhi&apos;s birds</span>
             </div>
 
             {/* Center — Links */}
