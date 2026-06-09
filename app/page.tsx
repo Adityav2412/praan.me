@@ -85,7 +85,37 @@ export default function Home() {
 
   return (
     <>
-      <main className="min-h-screen bg-bg-base overflow-x-hidden">
+      <main className="min-h-screen bg-bg-base overflow-x-hidden relative">
+        {/* Scattered birds — global decorative elements */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/bird-icon.png"
+          alt=""
+          className="absolute top-[18%] left-[6%] w-7 h-7 opacity-20 pointer-events-none select-none animate-float-bird z-0"
+          style={{ transform: 'rotate(-8deg)' }}
+        />
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/bird-icon.png"
+          alt=""
+          className="absolute top-[38%] right-[4%] w-10 h-10 opacity-15 pointer-events-none select-none animate-float-bird z-0"
+          style={{ animationDelay: '1.5s', transform: 'rotate(12deg) scaleX(-1)' }}
+        />
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/bird-icon.png"
+          alt=""
+          className="absolute top-[62%] left-[3%] w-6 h-6 opacity-25 pointer-events-none select-none animate-float-bird z-0"
+          style={{ animationDelay: '0.8s', transform: 'rotate(-5deg)' }}
+        />
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/bird-icon.png"
+          alt=""
+          className="absolute top-[78%] right-[7%] w-8 h-8 opacity-18 pointer-events-none select-none animate-float-bird z-0"
+          style={{ animationDelay: '2.2s', transform: 'rotate(6deg)' }}
+        />
+
         {/* Nav */}
         <Navbar onNavigate={handleNavigate} />
 

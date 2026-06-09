@@ -27,13 +27,16 @@ const steps = [
 ];
 
 export default function HowItWorks() {
-  const { ref: sectionRef, hasMounted, isVisible } = useScrollAnimation({ threshold: 0.15 });
+  const { ref: sectionRef, hasMounted, isVisible } = useScrollAnimation({ threshold: 0.1 });
 
   return (
-    <section id="how-it-works" className="py-20 lg:py-28 px-6 bg-[#F5EDE0]">
+    <section id="how-it-works" className="py-24 lg:py-32 px-6 bg-[#F5EDE0] relative overflow-hidden">
       <div className="max-w-5xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-14">
+        <div
+          ref={sectionRef}
+          className={`text-center mb-16 ${hasMounted ? `motion-reveal ${isVisible ? 'is-visible' : ''}` : ''}`}
+        >
           <span className="inline-block text-xs font-semibold uppercase tracking-[0.2em] text-accent mb-4">
             How it works
           </span>
@@ -42,51 +45,78 @@ export default function HowItWorks() {
           </h2>
         </div>
 
-        {/* Step cards with dashed connector line behind */}
+        {/* Step cards with bird illustrations and curved arrows */}
         <div className="relative">
-          {/* Dashed connector line — horizontal, behind cards */}
-          <div className="hidden md:block absolute top-1/2 left-0 right-0 -translate-y-1/2 z-0">
-            <div className="border-t-2 border-dashed border-text-muted/15 w-full" />
-          </div>
-
-          <div
-            ref={sectionRef}
-            className={`relative z-10 grid grid-cols-1 md:grid-cols-[1fr_auto_1fr_auto_1fr] gap-4 lg:gap-6 items-stretch ${hasMounted ? `motion-stagger ${isVisible ? 'is-visible' : ''}` : ''}`}
+          {/* SVG curved dashed arrows connecting cards — desktop only */}
+          <svg
+            className="hidden md:block absolute inset-0 w-full h-full pointer-events-none z-0"
+            viewBox="0 0 1000 300"
+            fill="none"
+            preserveAspectRatio="none"
           >
-            {steps.map((step, index) => (
-              <>
-                <div
-                  key={step.number}
-                  className="bg-bg-card rounded-2xl border border-[var(--border)] p-8 hover:shadow-md transition-shadow flex flex-col"
-                >
-                  {/* Large serif number */}
-                  <span className="font-display text-5xl font-bold text-accent/30 mb-1 block">
-                    {step.number}
-                  </span>
+            {/* Arrow 01 → 02 */}
+            <path
+              d="M 280 150 C 350 80, 450 80, 520 150"
+              stroke="var(--accent)"
+              strokeWidth="2"
+              strokeDasharray="8 6"
+              opacity="0.3"
+              fill="none"
+            />
+            {/* Arrow 02 → 03 */}
+            <path
+              d="M 580 150 C 650 220, 750 220, 820 150"
+              stroke="var(--accent)"
+              strokeWidth="2"
+              strokeDasharray="8 6"
+              opacity="0.3"
+              fill="none"
+            />
+          </svg>
 
-                  {/* Outcome subtext */}
-                  <span className="text-xs font-medium text-accent italic mb-4 block">
-                    {step.outcome}
-                  </span>
+          {/* Bird logos between cards — desktop only */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/bird-logo.png"
+            alt=""
+            className="hidden md:block absolute top-[20%] left-[30%] w-10 h-10 opacity-30 pointer-events-none select-none animate-float-bird"
+            style={{ animationDelay: '0.3s' }}
+          />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/bird-logo.png"
+            alt=""
+            className="hidden md:block absolute top-[25%] right-[28%] w-8 h-8 opacity-25 pointer-events-none select-none animate-float-bird"
+            style={{ animationDelay: '1s', transform: 'scaleX(-1)' }}
+          />
 
-                  {/* Title */}
-                  <h3 className="text-lg font-semibold text-text-primary mb-3">
-                    {step.title}
-                  </h3>
+          {/* Cards grid with stagger */}
+          <div className={`relative z-10 grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 ${hasMounted ? `motion-stagger ${isVisible ? 'is-visible' : ''}` : ''}`}>
+            {steps.map((step) => (
+              <div
+                key={step.number}
+                className="bg-white rounded-2xl border border-[var(--border)] p-8 hover:shadow-lg transition-shadow"
+              >
+                {/* Large serif number */}
+                <span className="font-display text-5xl font-bold text-accent/30 mb-1 block">
+                  {step.number}
+                </span>
 
-                  {/* Description */}
-                  <p className="text-sm leading-relaxed text-text-muted">
-                    {step.description}
-                  </p>
-                </div>
+                {/* Outcome subtext */}
+                <span className="text-xs font-medium text-accent italic mb-4 block">
+                  {step.outcome}
+                </span>
 
-                {/* Arrow between cards (not after the last one) */}
-                {index < steps.length - 1 && (
-                  <div key={`arrow-${index}`} className="hidden md:flex items-center justify-center text-text-muted/30 text-2xl">
-                    →
-                  </div>
-                )}
-              </>
+                {/* Title */}
+                <h3 className="text-lg font-semibold text-text-primary mb-3">
+                  {step.title}
+                </h3>
+
+                {/* Description */}
+                <p className="text-sm leading-relaxed text-text-muted">
+                  {step.description}
+                </p>
+              </div>
             ))}
           </div>
         </div>
