@@ -5,20 +5,21 @@ import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 import { useScrollAnimation } from '@/hooks/use-scroll-animation';
 import { BRAND_COPY } from '@/lib/brand';
+import Navbar from '@/components/navbar';
 
 export default function FounderPage() {
   const { ref: contentRef, hasMounted, isVisible } = useScrollAnimation({ threshold: 0.05 });
 
+  const handleNavigate = (section: string) => {
+    if (typeof window !== 'undefined') {
+      window.location.href = `/#${section}`;
+    }
+  };
+
   return (
-    <main className="min-h-screen bg-bg-base overflow-x-hidden">
-      {/* Minimal nav */}
-      <header className="fixed top-0 left-0 right-0 z-50 glass border-b border-[var(--border)]">
-        <nav className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-          <Link href="/" className="font-display text-2xl font-bold text-text-primary tracking-tight">
-            praan.
-          </Link>
-        </nav>
-      </header>
+    <main className="min-h-screen bg-[#FAF8F4] overflow-x-hidden">
+      {/* Same floating pill navbar as homepage */}
+      <Navbar onNavigate={handleNavigate} />
 
       <section className="relative px-6 md:px-12 lg:px-24 pt-32 pb-24">
         {/* Back Button */}
@@ -50,8 +51,8 @@ export default function FounderPage() {
               </span>
             </p>
 
-            {/* Mobile portrait — in document flow */}
-            <div className="md:hidden relative mx-auto mb-5 w-[70%] aspect-[4/5] overflow-hidden pointer-events-none select-none">
+            {/* Mobile portrait — in document flow, with blend fix */}
+            <div className="md:hidden relative mx-auto mb-5 w-[70%] aspect-[4/5] overflow-hidden pointer-events-none select-none bg-[#FAF8F4]">
               <Image
                 src="/akshay-blend-transparent.png"
                 alt="Akshay - Founder, Praan"
@@ -59,6 +60,7 @@ export default function FounderPage() {
                 priority
                 sizes="70vw"
                 className="object-contain object-top scale-[1.18]"
+                style={{ mixBlendMode: 'multiply', filter: 'contrast(1.1) brightness(1.02)' }}
               />
             </div>
 
@@ -166,7 +168,7 @@ export default function FounderPage() {
             <div className="mt-8 flex flex-wrap items-center gap-4">
               <a
                 href="mailto:Akshay1092001@yahoo.com"
-                className="motion-cta inline-flex items-center gap-2 bg-accent text-white text-sm font-semibold px-6 py-3 rounded-lg hover:bg-accent-hover transition-colors"
+                className="motion-cta inline-flex items-center gap-2 bg-[#1A1A18] text-white text-sm font-semibold px-6 py-3 rounded-full hover:bg-[#2a2a28] transition-colors"
               >
                 Let&apos;s Talk →
               </a>
@@ -218,17 +220,16 @@ export default function FounderPage() {
             </div>
           </div>
 
-          {/* RIGHT EDITORIAL PORTRAIT — desktop only, same position as original */}
+          {/* RIGHT EDITORIAL PORTRAIT — desktop, with blend fix */}
           <div className="hidden md:block absolute top-[-120px] right-[-160px] pointer-events-none select-none">
-            <div className="absolute inset-0 bg-gradient-to-br from-[var(--bg-base)] via-[var(--bg-base)]/60 to-transparent blur-3xl opacity-80 scale-110" />
-
-            <div className="relative w-[760px] h-[760px] opacity-[0.92]">
+            <div className="relative w-[760px] h-[760px] bg-[#FAF8F4]">
               <Image
                 src="/akshay-blend.png"
                 alt="Akshay - Founder, Praan"
                 fill
                 priority
                 className="object-contain object-top"
+                style={{ mixBlendMode: 'multiply', filter: 'contrast(1.1) brightness(1.02)' }}
               />
             </div>
           </div>
