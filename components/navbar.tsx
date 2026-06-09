@@ -26,19 +26,24 @@ export default function Navbar({ onNavigate }: NavbarProps) {
         className="flex items-center justify-between h-14 px-6 bg-white rounded-full"
         style={{ boxShadow: '0 2px 16px rgba(0,0,0,0.08)' }}
       >
-        {/* Left — Logo SVG */}
-        <Link href="/">
-          <Image
-            src="/praan-navbar.svg"
-            alt="praan."
-            width={90}
-            height={24}
-            className="h-6 w-auto"
-            priority
-          />
-        </Link>
+        {/* Left — Logo + Water for Wings pill */}
+        <div className="flex items-center gap-3">
+          <Link href="/">
+            <Image
+              src="/praan-navbar.svg"
+              alt="praan."
+              width={90}
+              height={24}
+              className="h-6 w-auto"
+              priority
+            />
+          </Link>
+          <span className="hidden sm:inline-flex text-[10px] font-medium text-text-muted/70 bg-bg-surface px-2 py-0.5 rounded-full">
+            Water for Wings ↗
+          </span>
+        </div>
 
-        {/* Right — Nav Links (no CTA button) */}
+        {/* Right — Nav Links */}
         <div className="hidden md:flex items-center gap-8">
           <button
             onClick={() => handleNavClick('about')}
