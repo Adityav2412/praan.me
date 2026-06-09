@@ -8,7 +8,7 @@ interface StorySectionProps {
 }
 
 export default function StorySection({ saviourCount }: StorySectionProps) {
-  const { ref: problemRef, hasMounted: problemMounted, isVisible: problemVisible } = useScrollAnimation({ threshold: 0.15 });
+  const { ref: problemRef, hasMounted: problemMounted, isVisible: problemVisible } = useScrollAnimation({ threshold: 0.1 });
   const { ref: solutionRef, hasMounted: solutionMounted, isVisible: solutionVisible } = useScrollAnimation({ threshold: 0.15 });
 
   // Live counter: each saviour = 20 birds helped
@@ -17,159 +17,133 @@ export default function StorySection({ saviourCount }: StorySectionProps) {
 
   return (
     <>
-      {/* Story Block 1 — The Problem (dark terracotta) */}
+      {/* ═══════════════════════════════════════════════════════════
+          PROBLEM SECTION — dark terracotta, massive counter, two-column text
+          ═══════════════════════════════════════════════════════════ */}
       <section id="about" className="py-24 lg:py-32 px-6 bg-[#3D1F0D] relative overflow-hidden">
-        {/* Background watermark — hero-bowl-sketch.png */}
-        <div
-          className="absolute top-1/2 right-[-80px] -translate-y-1/2 w-[500px] h-[500px] pointer-events-none select-none opacity-[0.06]"
-          style={{ transform: 'translateY(-50%) rotate(-10deg)' }}
-        >
+        {/* HUGE watermark — hero-bowl-sketch.png */}
+        <div className="absolute top-1/2 right-[-80px] -translate-y-1/2 w-[600px] h-[600px] pointer-events-none select-none opacity-[0.05]">
           <Image
             src="/hero-bowl-sketch.png"
             alt=""
             fill
-            sizes="500px"
+            sizes="600px"
             className="object-contain invert"
+            style={{ transform: 'rotate(-10deg)' }}
           />
         </div>
 
         <div
           ref={problemRef}
-          className={`relative z-10 max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center ${problemMounted ? `motion-reveal ${problemVisible ? 'is-visible' : ''}` : ''}`}
+          className={`relative z-10 max-w-5xl mx-auto ${problemMounted ? `motion-reveal ${problemVisible ? 'is-visible' : ''}` : ''}`}
         >
-          {/* Left — Text */}
-          <div>
-            <span className="inline-block text-xs font-semibold uppercase tracking-[0.2em] text-amber-300/80 mb-4">
-              The Problem
+          {/* Massive centered counter */}
+          <div className="text-center mb-12">
+            <span className="inline-block text-xs font-semibold uppercase tracking-[0.25em] text-amber-300/70 mb-4">
+              This Summer
             </span>
-            <h2 className="font-display text-3xl sm:text-4xl font-bold text-white leading-tight mb-6">
-              Every summer, Delhi becomes a death trap for birds.
-            </h2>
-            <p className="text-base leading-relaxed text-white/70 mb-4">
-              When temperatures cross 45°C, water sources dry up across the city.
-              Birds — pigeons, sparrows, mynas, parakeets — fly for hours without finding
-              a single drop. Many collapse from dehydration and heat stroke.
-            </p>
-            <p className="text-base leading-relaxed text-white/70">
-              Thousands die every summer. Not from disease or predators, but from
-              something as simple as the lack of water. It&apos;s a crisis that hides in plain sight.
-            </p>
-          </div>
-
-          {/* Right — Animated counter (live: saviourCount × 20) */}
-          <div className="flex flex-col items-center lg:items-end text-center lg:text-right">
-            <span className="font-display text-[100px] sm:text-[120px] font-bold text-white/90 leading-none tabular-nums">
+            <div className="font-display text-[120px] sm:text-[160px] font-bold text-white/90 leading-none tabular-nums">
               {birdsHelped === null ? (
-                <span className="inline-block w-40 h-24 bg-white/10 rounded-xl animate-pulse" />
+                <span className="inline-block w-48 h-32 bg-white/10 rounded-xl animate-pulse" />
               ) : (
                 problemMounted ? animatedBirds : birdsHelped
               )}
-            </span>
-            <p className="text-lg text-white/50 mt-2 font-medium">
+            </div>
+            <p className="text-lg text-white/50 mt-3 font-medium">
               birds helped so far this summer.
             </p>
+          </div>
+
+          {/* Thin horizontal rule */}
+          <div className="w-full max-w-md mx-auto h-px bg-white/15 mb-12" />
+
+          {/* Two-column problem text */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-14">
+            <div>
+              <span className="inline-block text-xs font-semibold uppercase tracking-[0.2em] text-amber-300/80 mb-4">
+                The Problem
+              </span>
+              <h2 className="font-display text-2xl sm:text-3xl font-bold text-white leading-tight mb-5">
+                Every summer, Delhi becomes a death trap for birds.
+              </h2>
+              <p className="text-base leading-relaxed text-white/65">
+                When temperatures cross 45°C, water sources dry up across the city.
+                Birds — pigeons, sparrows, mynas, parakeets — fly for hours without finding
+                a single drop.
+              </p>
+            </div>
+            <div className="flex flex-col justify-end">
+              <p className="text-base leading-relaxed text-white/65 mb-4">
+                Many collapse from dehydration and heat stroke. Thousands die every summer.
+                Not from disease or predators, but from something as simple as the lack of water.
+              </p>
+              <p className="text-base leading-relaxed text-white/65">
+                It&apos;s a crisis that hides in plain sight — and one that anyone can help solve.
+              </p>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Story Block 2 — The Solution (beige, floating widget cards) */}
-      <section className="py-24 lg:py-32 px-6 bg-[#FAF8F4] relative overflow-hidden">
-        {/* Scattered bird icons */}
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="/bird-icon.png"
-          alt=""
-          className="absolute top-16 left-[12%] w-8 h-8 opacity-50 pointer-events-none select-none animate-float-bird"
-          style={{ animationDelay: '0s' }}
-        />
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="/bird-icon.png"
-          alt=""
-          className="absolute top-[40%] right-[10%] w-6 h-6 opacity-40 pointer-events-none select-none animate-float-bird"
-          style={{ animationDelay: '1.2s', transform: 'scaleX(-1)' }}
-        />
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="/bird-icon.png"
-          alt=""
-          className="absolute bottom-20 left-[25%] w-7 h-7 opacity-35 pointer-events-none select-none animate-float-bird"
-          style={{ animationDelay: '0.6s' }}
-        />
-
-        {/* Floating stat widget cards */}
-        <div className="absolute top-20 right-[8%] hidden lg:block pointer-events-none select-none">
-          <div
-            className="bg-white rounded-xl px-4 py-3 shadow-md border border-[var(--border)]"
-            style={{ transform: 'rotate(-2deg)' }}
-          >
-            <p className="text-xs text-text-muted font-medium">Delhi Temp</p>
-            <p className="text-lg font-bold text-text-primary">40°C</p>
-          </div>
-        </div>
-
-        <div className="absolute top-[45%] left-[5%] hidden lg:block pointer-events-none select-none">
-          <div
-            className="bg-white rounded-xl px-4 py-3 shadow-md border border-[var(--border)]"
-            style={{ transform: 'rotate(3deg)' }}
-          >
-            <p className="text-xs text-text-muted font-medium">Saviours active</p>
-            <p className="text-lg font-bold text-accent">19</p>
-          </div>
-        </div>
-
-        <div className="absolute bottom-24 right-[15%] hidden lg:block pointer-events-none select-none">
-          <div
-            className="bg-white rounded-xl px-4 py-3 shadow-md border border-[var(--border)]"
-            style={{ transform: 'rotate(-1deg)' }}
-          >
-            <p className="text-xs text-text-muted font-medium">Lives saved</p>
-            <p className="text-lg font-bold text-text-primary">475</p>
-          </div>
-        </div>
-
+      {/* ═══════════════════════════════════════════════════════════
+          SOLUTION SECTION — split layout: dark left, beige right
+          ═══════════════════════════════════════════════════════════ */}
+      <section className="relative overflow-hidden">
         <div
           ref={solutionRef}
-          className={`relative z-10 max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center ${solutionMounted ? `motion-reveal ${solutionVisible ? 'is-visible' : ''}` : ''}`}
+          className={`grid grid-cols-1 lg:grid-cols-2 min-h-[500px] ${solutionMounted ? `motion-reveal ${solutionVisible ? 'is-visible' : ''}` : ''}`}
         >
-          {/* Left — Visual (map dot grid) */}
-          <div className="flex justify-center lg:justify-start order-2 lg:order-1">
-            <div className="w-[300px] h-[240px] rounded-2xl bg-white border border-[var(--border)] flex items-center justify-center relative overflow-hidden shadow-sm">
-              <div className="absolute inset-4 grid grid-cols-8 grid-rows-6 gap-1">
-                {Array.from({ length: 48 }).map((_, i) => (
-                  <div
-                    key={i}
-                    className={`w-full aspect-square rounded-full ${
-                      [3, 7, 12, 15, 19, 22, 25, 28, 31, 35, 38, 41, 44].includes(i)
-                        ? 'bg-accent/70'
-                        : 'bg-text-muted/10'
-                    }`}
-                  />
-                ))}
-              </div>
-              <div className="absolute bottom-3 left-4 right-4">
-                <p className="text-[10px] text-text-muted/60 font-medium">Bowl stations across Delhi</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Right — Text */}
-          <div className="order-1 lg:order-2">
-            <span className="inline-block text-xs font-semibold uppercase tracking-[0.2em] text-accent mb-4">
+          {/* Left — Dark terracotta with text */}
+          <div className="bg-[#3D1F0D] px-8 sm:px-12 lg:px-16 py-16 lg:py-24 flex flex-col justify-center">
+            <span className="inline-block text-xs font-semibold uppercase tracking-[0.2em] text-amber-300/80 mb-4">
               The Solution
             </span>
-            <h2 className="font-display text-3xl sm:text-4xl font-bold text-text-primary leading-tight mb-6">
+            <h2 className="font-display text-3xl sm:text-4xl font-bold text-white leading-tight mb-6">
               A network of water bowls, placed by people who care.
             </h2>
-            <p className="text-base leading-relaxed text-text-muted mb-4">
+            <p className="text-base leading-relaxed text-white/65 mb-4">
               Water For Wings is building a community-driven network of water stations
               across Delhi. Each participant — a &quot;Saviour&quot; — places a bowl of fresh
               water outside their home, office, or balcony.
             </p>
-            <p className="text-base leading-relaxed text-text-muted">
+            <p className="text-base leading-relaxed text-white/65">
               It takes 2 minutes. It costs nothing. And it can keep dozens of birds
               alive through the hottest months of the year.
             </p>
+          </div>
+
+          {/* Right — Beige with sketch + floating stat pills */}
+          <div className="bg-[#FAF8F4] px-8 sm:px-12 lg:px-16 py-16 lg:py-24 flex items-center justify-center relative overflow-hidden">
+            {/* Bowl sketch */}
+            <div className="relative w-[280px] h-[280px] sm:w-[320px] sm:h-[320px]">
+              <Image
+                src="/hero-bowl-sketch.png"
+                alt="Water bowl"
+                fill
+                sizes="320px"
+                className="object-contain opacity-80"
+              />
+            </div>
+
+            {/* Floating stat pills overlaid on sketch */}
+            <div
+              className="absolute top-[15%] right-[12%] bg-white rounded-full px-4 py-2 shadow-lg border border-[var(--border)] text-xs font-semibold text-text-primary"
+              style={{ transform: 'rotate(-3deg)' }}
+            >
+              🌱 {saviourCount ?? '—'} Saviours
+            </div>
+            <div
+              className="absolute bottom-[20%] left-[10%] bg-white rounded-full px-4 py-2 shadow-lg border border-[var(--border)] text-xs font-semibold text-red-500"
+              style={{ transform: 'rotate(2deg)' }}
+            >
+              🌡️ 40°C Delhi
+            </div>
+            <div
+              className="absolute bottom-[35%] right-[8%] bg-white rounded-full px-4 py-2 shadow-lg border border-[var(--border)] text-xs font-semibold text-accent"
+              style={{ transform: 'rotate(-1deg)' }}
+            >
+              🐦 {birdsHelped ?? '—'} Birds
+            </div>
           </div>
         </div>
       </section>

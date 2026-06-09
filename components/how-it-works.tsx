@@ -5,24 +5,18 @@ import { useScrollAnimation } from '@/hooks/use-scroll-animation';
 const steps = [
   {
     number: '01',
-    outcome: 'You placed a bowl',
     title: 'Fill a bowl with water',
-    description:
-      'Any bowl, plate, or container works. Fill it with fresh water — that\'s all you need.',
+    description: 'Any bowl, plate, or container works. Fill it with fresh water — that\'s all you need.',
   },
   {
     number: '02',
-    outcome: 'You became a Saviour',
     title: 'Place it outside',
-    description:
-      'Put it on your balcony, terrace, windowsill, or near a tree. Somewhere birds can safely access.',
+    description: 'Put it on your balcony, terrace, windowsill, or near a tree. Somewhere birds can safely access.',
   },
   {
     number: '03',
-    outcome: 'You got your certificate',
     title: 'Register & share',
-    description:
-      'Register on the site, get your certificate, and inspire others to join the movement.',
+    description: 'Register on the site, get your certificate, and inspire others to join the movement.',
   },
 ];
 
@@ -31,11 +25,11 @@ export default function HowItWorks() {
 
   return (
     <section id="how-it-works" className="py-24 lg:py-32 px-6 bg-[#F5EDE0] relative overflow-hidden">
-      <div className="max-w-5xl mx-auto">
+      <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div
           ref={sectionRef}
-          className={`text-center mb-16 ${hasMounted ? `motion-reveal ${isVisible ? 'is-visible' : ''}` : ''}`}
+          className={`text-center mb-20 ${hasMounted ? `motion-reveal ${isVisible ? 'is-visible' : ''}` : ''}`}
         >
           <span className="inline-block text-xs font-semibold uppercase tracking-[0.2em] text-accent mb-4">
             How it works
@@ -45,77 +39,61 @@ export default function HowItWorks() {
           </h2>
         </div>
 
-        {/* Step cards with bird illustrations and curved arrows */}
+        {/* Full-width horizontal timeline */}
         <div className="relative">
-          {/* SVG curved dashed arrows connecting cards — desktop only */}
+          {/* Hand-drawn style wavy dashed SVG path — desktop */}
           <svg
-            className="hidden md:block absolute inset-0 w-full h-full pointer-events-none z-0"
-            viewBox="0 0 1000 300"
+            className="hidden md:block absolute top-1/2 left-0 right-0 -translate-y-1/2 w-full h-24 pointer-events-none z-0"
+            viewBox="0 0 1200 100"
             fill="none"
             preserveAspectRatio="none"
           >
-            {/* Arrow 01 → 02 */}
             <path
-              d="M 280 150 C 350 80, 450 80, 520 150"
+              d="M 50 50 C 150 20, 250 80, 400 50 C 550 20, 650 80, 800 50 C 950 20, 1050 80, 1150 50"
               stroke="var(--accent)"
-              strokeWidth="2"
-              strokeDasharray="8 6"
-              opacity="0.3"
-              fill="none"
-            />
-            {/* Arrow 02 → 03 */}
-            <path
-              d="M 580 150 C 650 220, 750 220, 820 150"
-              stroke="var(--accent)"
-              strokeWidth="2"
-              strokeDasharray="8 6"
-              opacity="0.3"
-              fill="none"
+              strokeWidth="2.5"
+              strokeDasharray="10 8"
+              opacity="0.35"
+              strokeLinecap="round"
             />
           </svg>
 
-          {/* Bird logos between cards — desktop only */}
+          {/* Bird icon sitting on path between steps */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/bird-logo.png"
+            src="/bird-icon.png"
             alt=""
-            className="hidden md:block absolute top-[20%] left-[30%] w-10 h-10 opacity-30 pointer-events-none select-none animate-float-bird"
-            style={{ animationDelay: '0.3s' }}
+            className="hidden md:block absolute top-[38%] left-[30%] w-8 h-8 opacity-40 pointer-events-none select-none animate-float-bird z-10"
           />
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/bird-logo.png"
+            src="/bird-icon.png"
             alt=""
-            className="hidden md:block absolute top-[25%] right-[28%] w-8 h-8 opacity-25 pointer-events-none select-none animate-float-bird"
+            className="hidden md:block absolute top-[42%] left-[64%] w-7 h-7 opacity-35 pointer-events-none select-none animate-float-bird z-10"
             style={{ animationDelay: '1s', transform: 'scaleX(-1)' }}
           />
 
-          {/* Cards grid with stagger */}
-          <div className={`relative z-10 grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 ${hasMounted ? `motion-stagger ${isVisible ? 'is-visible' : ''}` : ''}`}>
+          {/* Steps — horizontal timeline */}
+          <div className={`relative z-10 grid grid-cols-1 md:grid-cols-3 gap-10 lg:gap-16 ${hasMounted ? `motion-stagger ${isVisible ? 'is-visible' : ''}` : ''}`}>
             {steps.map((step) => (
-              <div
-                key={step.number}
-                className="bg-white rounded-2xl border border-[var(--border)] p-8 hover:shadow-lg transition-shadow"
-              >
-                {/* Large serif number */}
-                <span className="font-display text-5xl font-bold text-accent/30 mb-1 block">
+              <div key={step.number} className="relative text-center md:text-left">
+                {/* Large background number */}
+                <span className="font-display text-[80px] font-bold text-text-primary/[0.07] leading-none absolute top-[-20px] left-1/2 md:left-0 -translate-x-1/2 md:translate-x-0 select-none pointer-events-none">
                   {step.number}
                 </span>
 
-                {/* Outcome subtext */}
-                <span className="text-xs font-medium text-accent italic mb-4 block">
-                  {step.outcome}
-                </span>
+                {/* Content overlaid */}
+                <div className="relative pt-10">
+                  {/* Small dot indicator */}
+                  <div className="w-3 h-3 rounded-full bg-accent mx-auto md:mx-0 mb-4" />
 
-                {/* Title */}
-                <h3 className="text-lg font-semibold text-text-primary mb-3">
-                  {step.title}
-                </h3>
-
-                {/* Description */}
-                <p className="text-sm leading-relaxed text-text-muted">
-                  {step.description}
-                </p>
+                  <h3 className="text-lg font-semibold text-text-primary mb-3">
+                    {step.title}
+                  </h3>
+                  <p className="text-sm leading-relaxed text-text-muted max-w-[280px] mx-auto md:mx-0">
+                    {step.description}
+                  </p>
+                </div>
               </div>
             ))}
           </div>
