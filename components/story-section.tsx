@@ -10,10 +10,24 @@ export default function StorySection() {
   return (
     <>
       {/* Story Block 1 — The Problem */}
-      <section id="about" className="py-20 lg:py-28 px-6 bg-bg-base">
+      <section id="about" className="py-20 lg:py-28 px-6 bg-bg-base relative overflow-hidden">
+        {/* Background watermark — hero-bowl-sketch.png */}
+        <div
+          className="absolute top-1/2 right-[-60px] -translate-y-1/2 w-[400px] h-[400px] pointer-events-none select-none opacity-[0.07]"
+          style={{ transform: 'translateY(-50%) rotate(-15deg)' }}
+        >
+          <Image
+            src="/hero-bowl-sketch.png"
+            alt=""
+            fill
+            sizes="400px"
+            className="object-contain"
+          />
+        </div>
+
         <div
           ref={problemRef}
-          className={`max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center ${problemMounted ? `motion-reveal ${problemVisible ? 'is-visible' : ''}` : ''}`}
+          className={`relative z-10 max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center ${problemMounted ? `motion-reveal ${problemVisible ? 'is-visible' : ''}` : ''}`}
         >
           {/* Left — Text */}
           <div>
@@ -50,15 +64,28 @@ export default function StorySection() {
       </section>
 
       {/* Story Block 2 — The Solution */}
-      <section className="py-20 lg:py-28 px-6 bg-[#FAF8F4]">
+      <section className="py-20 lg:py-28 px-6 bg-[#FAF8F4] relative overflow-hidden">
+        {/* Scattered bird silhouettes in background */}
+        <svg className="absolute top-12 left-[10%] w-16 h-16 opacity-[0.06] pointer-events-none" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M23 11.5C23 11.5 20.5 5 14 5C13.5 5 13 5.05 12.5 5.15C12 3.85 10.7 3 9.5 3C7.5 3 6 4.5 6 6.5C6 6.67 6.01 6.84 6.04 7C3.8 7.6 2 9.4 2 12C2 14.5 3.5 16 5.5 16H11L15 12L12 11L23 11.5Z"/>
+        </svg>
+        <svg className="absolute top-[30%] right-[8%] w-12 h-12 opacity-[0.06] pointer-events-none" style={{ transform: 'rotate(15deg)' }} viewBox="0 0 24 24" fill="currentColor">
+          <path d="M23 11.5C23 11.5 20.5 5 14 5C13.5 5 13 5.05 12.5 5.15C12 3.85 10.7 3 9.5 3C7.5 3 6 4.5 6 6.5C6 6.67 6.01 6.84 6.04 7C3.8 7.6 2 9.4 2 12C2 14.5 3.5 16 5.5 16H11L15 12L12 11L23 11.5Z"/>
+        </svg>
+        <svg className="absolute bottom-[20%] left-[20%] w-10 h-10 opacity-[0.06] pointer-events-none" style={{ transform: 'rotate(-10deg) scaleX(-1)' }} viewBox="0 0 24 24" fill="currentColor">
+          <path d="M23 11.5C23 11.5 20.5 5 14 5C13.5 5 13 5.05 12.5 5.15C12 3.85 10.7 3 9.5 3C7.5 3 6 4.5 6 6.5C6 6.67 6.01 6.84 6.04 7C3.8 7.6 2 9.4 2 12C2 14.5 3.5 16 5.5 16H11L15 12L12 11L23 11.5Z"/>
+        </svg>
+        <svg className="absolute bottom-16 right-[15%] w-8 h-8 opacity-[0.06] pointer-events-none" style={{ transform: 'rotate(25deg)' }} viewBox="0 0 24 24" fill="currentColor">
+          <path d="M23 11.5C23 11.5 20.5 5 14 5C13.5 5 13 5.05 12.5 5.15C12 3.85 10.7 3 9.5 3C7.5 3 6 4.5 6 6.5C6 6.67 6.01 6.84 6.04 7C3.8 7.6 2 9.4 2 12C2 14.5 3.5 16 5.5 16H11L15 12L12 11L23 11.5Z"/>
+        </svg>
+
         <div
           ref={solutionRef}
-          className={`max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center ${solutionMounted ? `motion-reveal ${solutionVisible ? 'is-visible' : ''}` : ''}`}
+          className={`relative z-10 max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center ${solutionMounted ? `motion-reveal ${solutionVisible ? 'is-visible' : ''}` : ''}`}
         >
           {/* Left — Visual (map dot grid) */}
           <div className="flex justify-center lg:justify-start order-2 lg:order-1">
             <div className="w-[300px] h-[240px] rounded-2xl bg-bg-card border border-[var(--border)] flex items-center justify-center relative overflow-hidden">
-              {/* Dot grid representing Delhi map coverage */}
               <div className="absolute inset-4 grid grid-cols-8 grid-rows-6 gap-1">
                 {Array.from({ length: 48 }).map((_, i) => (
                   <div

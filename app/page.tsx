@@ -8,6 +8,7 @@ import LiveStatsBar from '@/components/live-stats-bar';
 import StorySection from '@/components/story-section';
 import HowItWorks from '@/components/how-it-works';
 import SavioursSection from '@/components/saviours-section';
+import AreaLeaderboard from '@/components/area-leaderboard';
 import CertificateTeaser from '@/components/certificate-teaser';
 import Footer from '@/components/footer';
 import FormModal from '@/components/form-modal';
@@ -108,6 +109,9 @@ export default function Home() {
           saviours={saviours}
           onBecomeSaviour={handleBecomeSaviour}
         />
+
+        {/* Area Leaderboard */}
+        <AreaLeaderboard />
 
         {/* Certificate Teaser */}
         <CertificateTeaser onBecomeSaviour={handleBecomeSaviour} />

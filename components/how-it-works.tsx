@@ -30,7 +30,7 @@ export default function HowItWorks() {
   const { ref: sectionRef, hasMounted, isVisible } = useScrollAnimation({ threshold: 0.15 });
 
   return (
-    <section id="how-it-works" className="py-20 lg:py-28 px-6 bg-bg-base">
+    <section id="how-it-works" className="py-20 lg:py-28 px-6 bg-[#F5EDE0]">
       <div className="max-w-5xl mx-auto">
         {/* Header */}
         <div className="text-center mb-14">
@@ -42,46 +42,53 @@ export default function HowItWorks() {
           </h2>
         </div>
 
-        {/* Step cards with arrows */}
-        <div
-          ref={sectionRef}
-          className={`grid grid-cols-1 md:grid-cols-[1fr_auto_1fr_auto_1fr] gap-4 lg:gap-6 items-stretch ${hasMounted ? `motion-stagger ${isVisible ? 'is-visible' : ''}` : ''}`}
-        >
-          {steps.map((step, index) => (
-            <>
-              <div
-                key={step.number}
-                className="bg-bg-card rounded-2xl border border-[var(--border)] p-8 hover:shadow-md transition-shadow flex flex-col"
-              >
-                {/* Large serif number */}
-                <span className="font-display text-5xl font-bold text-accent/30 mb-1 block">
-                  {step.number}
-                </span>
+        {/* Step cards with dashed connector line behind */}
+        <div className="relative">
+          {/* Dashed connector line — horizontal, behind cards */}
+          <div className="hidden md:block absolute top-1/2 left-0 right-0 -translate-y-1/2 z-0">
+            <div className="border-t-2 border-dashed border-text-muted/15 w-full" />
+          </div>
 
-                {/* Outcome subtext */}
-                <span className="text-xs font-medium text-accent italic mb-4 block">
-                  {step.outcome}
-                </span>
+          <div
+            ref={sectionRef}
+            className={`relative z-10 grid grid-cols-1 md:grid-cols-[1fr_auto_1fr_auto_1fr] gap-4 lg:gap-6 items-stretch ${hasMounted ? `motion-stagger ${isVisible ? 'is-visible' : ''}` : ''}`}
+          >
+            {steps.map((step, index) => (
+              <>
+                <div
+                  key={step.number}
+                  className="bg-bg-card rounded-2xl border border-[var(--border)] p-8 hover:shadow-md transition-shadow flex flex-col"
+                >
+                  {/* Large serif number */}
+                  <span className="font-display text-5xl font-bold text-accent/30 mb-1 block">
+                    {step.number}
+                  </span>
 
-                {/* Title */}
-                <h3 className="text-lg font-semibold text-text-primary mb-3">
-                  {step.title}
-                </h3>
+                  {/* Outcome subtext */}
+                  <span className="text-xs font-medium text-accent italic mb-4 block">
+                    {step.outcome}
+                  </span>
 
-                {/* Description */}
-                <p className="text-sm leading-relaxed text-text-muted">
-                  {step.description}
-                </p>
-              </div>
+                  {/* Title */}
+                  <h3 className="text-lg font-semibold text-text-primary mb-3">
+                    {step.title}
+                  </h3>
 
-              {/* Arrow between cards (not after the last one) */}
-              {index < steps.length - 1 && (
-                <div key={`arrow-${index}`} className="hidden md:flex items-center justify-center text-text-muted/30 text-2xl">
-                  →
+                  {/* Description */}
+                  <p className="text-sm leading-relaxed text-text-muted">
+                    {step.description}
+                  </p>
                 </div>
-              )}
-            </>
-          ))}
+
+                {/* Arrow between cards (not after the last one) */}
+                {index < steps.length - 1 && (
+                  <div key={`arrow-${index}`} className="hidden md:flex items-center justify-center text-text-muted/30 text-2xl">
+                    →
+                  </div>
+                )}
+              </>
+            ))}
+          </div>
         </div>
       </div>
     </section>
