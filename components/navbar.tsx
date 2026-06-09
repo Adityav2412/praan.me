@@ -52,6 +52,12 @@ export default function Navbar({ onNavigate }: NavbarProps) {
           >
             How it works
           </button>
+          <a
+            href="/founder"
+            className="motion-nav-link text-sm font-medium text-text-muted hover:text-text-primary transition-colors"
+          >
+            Founder
+          </a>
           <button
             onClick={() => handleNavClick('saviours')}
             className="motion-nav-link text-sm font-medium text-text-muted hover:text-text-primary transition-colors"
@@ -98,6 +104,12 @@ export default function Navbar({ onNavigate }: NavbarProps) {
           >
             How it works
           </button>
+          <a
+            href="/founder"
+            className="text-left text-base font-medium text-text-primary py-2 block"
+          >
+            Founder
+          </a>
           <button
             onClick={() => handleNavClick('saviours')}
             className="text-left text-base font-medium text-text-primary py-2"
