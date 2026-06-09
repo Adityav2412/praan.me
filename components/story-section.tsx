@@ -3,10 +3,17 @@
 import Image from 'next/image';
 import { useScrollAnimation, useAnimatedCounter } from '@/hooks/use-scroll-animation';
 
-export default function StorySection() {
+interface StorySectionProps {
+  saviourCount: number | null;
+}
+
+export default function StorySection({ saviourCount }: StorySectionProps) {
   const { ref: problemRef, hasMounted: problemMounted, isVisible: problemVisible } = useScrollAnimation({ threshold: 0.15 });
   const { ref: solutionRef, hasMounted: solutionMounted, isVisible: solutionVisible } = useScrollAnimation({ threshold: 0.15 });
-  const animatedBirds = useAnimatedCounter(475, 1500, problemVisible, problemMounted);
+
+  // Live counter: each saviour = 20 birds helped
+  const birdsHelped = saviourCount !== null ? saviourCount * 20 : null;
+  const animatedBirds = useAnimatedCounter(birdsHelped, 1500, problemVisible, problemMounted);
 
   return (
     <>
@@ -49,13 +56,17 @@ export default function StorySection() {
             </p>
           </div>
 
-          {/* Right — Animated counter */}
+          {/* Right — Animated counter (live: saviourCount × 20) */}
           <div className="flex flex-col items-center lg:items-end text-center lg:text-right">
             <span className="font-display text-[100px] sm:text-[120px] font-bold text-white/90 leading-none tabular-nums">
-              {problemMounted ? animatedBirds : 475}
+              {birdsHelped === null ? (
+                <span className="inline-block w-40 h-24 bg-white/10 rounded-xl animate-pulse" />
+              ) : (
+                problemMounted ? animatedBirds : birdsHelped
+              )}
             </span>
             <p className="text-lg text-white/50 mt-2 font-medium">
-              birds helped last summer.
+              birds helped so far this summer.
             </p>
           </div>
         </div>

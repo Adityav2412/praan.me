@@ -129,7 +129,7 @@ export default function Home() {
         <LiveStatsBar saviourCount={saviourCount} />
 
         {/* Story — The Problem + The Solution */}
-        <StorySection />
+        <StorySection saviourCount={saviourCount} />
 
         {/* How It Works */}
         <HowItWorks />
