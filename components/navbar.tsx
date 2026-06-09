@@ -1,127 +1,113 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
 import { Menu, X } from 'lucide-react';
-import { NAV_ITEMS } from '@/lib/navigation';
 
 interface NavbarProps {
   onMenuClick?: () => void;
-  onNavigate: (section: string) => void;
+  onNavigate?: (section: string) => void;
 }
 
-export default function Navbar({ onMenuClick, onNavigate }: NavbarProps) {
-  const [scrolled, setScrolled] = useState(false);
+export default function Navbar({ onNavigate }: NavbarProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 8);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  // Custom event contract: 'open-form-modal' is listened to in app/page.tsx
-  // Keep this event name in sync with the listener there.
-  const handlePlaceBowl = () => {
+  const handleNavClick = (section: string) => {
     setMobileOpen(false);
-    const event = new CustomEvent('open-form-modal');
-    window.dispatchEvent(event);
-  };
-
-  const handleMobileToggle = () => {
-    if (onMenuClick) {
-      onMenuClick();
-    } else {
-      setMobileOpen(!mobileOpen);
+    if (onNavigate) {
+      onNavigate(section);
     }
   };
 
-  const handleMobileNav = (section: string) => {
-    setMobileOpen(false);
-    onNavigate(section);
-  };
-
   return (
-    <nav
-      className={`fixed top-0 left-0 right-0 z-50 bg-[var(--bg-base)] border-b border-[var(--border)] transition-shadow duration-300 ${
-        scrolled ? 'shadow-sm' : ''
-      }`}
-    >
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Desktop */}
-        <div className="hidden lg:flex items-center justify-between h-16">
-          <a href="/" className="font-display italic text-2xl text-[var(--text-primary)]">
-            praan.
-          </a>
+    <header className="fixed top-0 left-0 right-0 z-50 glass border-b border-[var(--border)]">
+      <nav className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+        {/* Logo — SVG */}
+        <Link href="/">
+          <Image
+            src="/praan-navbar.svg"
+            alt="praan."
+            width={100}
+            height={28}
+            className="h-7 w-auto"
+            priority
+          />
+        </Link>
 
-          <div className="flex items-center gap-8">
-            {NAV_ITEMS.map((item) => (
-              <button
-                key={item.section}
-                type="button"
-                onClick={() => onNavigate(item.section)}
-                className="font-body text-sm text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors motion-nav-link"
-              >
-                {item.label}
-              </button>
-            ))}
-          </div>
-
+        {/* Desktop Nav Links */}
+        <div className="hidden md:flex items-center gap-8">
           <button
-            type="button"
-            onClick={handlePlaceBowl}
-            className="bg-[var(--accent)] text-white font-body text-sm font-medium px-5 py-2.5 rounded-lg hover:opacity-90 transition-opacity motion-cta"
+            onClick={() => handleNavClick('about')}
+            className="motion-nav-link text-sm font-medium text-text-muted hover:text-text-primary transition-colors"
+          >
+            About
+          </button>
+          <button
+            onClick={() => handleNavClick('how-it-works')}
+            className="motion-nav-link text-sm font-medium text-text-muted hover:text-text-primary transition-colors"
+          >
+            How it works
+          </button>
+          <button
+            onClick={() => handleNavClick('saviours')}
+            className="motion-nav-link text-sm font-medium text-text-muted hover:text-text-primary transition-colors"
+          >
+            Saviours
+          </button>
+        </div>
+
+        {/* Desktop CTA — dark pill style */}
+        <div className="hidden md:block">
+          <button
+            onClick={() => handleNavClick('cta')}
+            className="motion-cta bg-[#1A1A18] text-white text-sm font-semibold px-[22px] py-[10px] rounded-full hover:bg-[#2a2a28] transition-colors"
           >
             Place a bowl
           </button>
         </div>
 
-        {/* Mobile */}
-        <div className="flex lg:hidden items-center justify-between h-14">
-          <a href="/" className="font-display italic text-xl text-[var(--text-primary)]">
-            praan.
-          </a>
+        {/* Mobile menu button */}
+        <button
+          onClick={() => setMobileOpen(!mobileOpen)}
+          className="md:hidden p-2 text-text-primary"
+          aria-label="Toggle menu"
+        >
+          {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+        </button>
+      </nav>
 
-          <button
-            type="button"
-            onClick={handleMobileToggle}
-            className="p-2 rounded-lg hover:bg-[var(--bg-surface)] transition-colors"
-            aria-label="Toggle menu"
-          >
-            {mobileOpen ? (
-              <X className="w-6 h-6 text-[var(--text-primary)]" />
-            ) : (
-              <Menu className="w-6 h-6 text-[var(--text-primary)]" />
-            )}
-          </button>
-        </div>
-      </div>
-
-      {/* Mobile dropdown (shown when no external sidebar handler) */}
-      {!onMenuClick && mobileOpen && (
-        <div className="lg:hidden border-t border-[var(--border)] bg-[var(--bg-base)] animate-slide-up">
-          <div className="px-4 py-4 space-y-1">
-            {NAV_ITEMS.map((item) => (
-              <button
-                key={item.section}
-                type="button"
-                onClick={() => handleMobileNav(item.section)}
-                className="w-full text-left px-3 py-2.5 font-body text-base text-[var(--text-primary)] rounded-lg hover:bg-[var(--bg-surface)] transition-colors"
-              >
-                {item.label}
-              </button>
-            ))}
+      {/* Mobile menu */}
+      {mobileOpen && (
+        <div className="md:hidden glass border-t border-[var(--border)] animate-slide-up">
+          <div className="px-6 py-6 flex flex-col gap-4">
             <button
-              type="button"
-              onClick={handlePlaceBowl}
-              className="w-full mt-2 bg-[var(--accent)] text-white font-body text-sm font-semibold px-5 py-3 rounded-lg"
+              onClick={() => handleNavClick('about')}
+              className="text-left text-base font-medium text-text-primary py-2"
+            >
+              About
+            </button>
+            <button
+              onClick={() => handleNavClick('how-it-works')}
+              className="text-left text-base font-medium text-text-primary py-2"
+            >
+              How it works
+            </button>
+            <button
+              onClick={() => handleNavClick('saviours')}
+              className="text-left text-base font-medium text-text-primary py-2"
+            >
+              Saviours
+            </button>
+            <button
+              onClick={() => handleNavClick('cta')}
+              className="mt-2 bg-[#1A1A18] text-white text-sm font-semibold px-[22px] py-[10px] rounded-full w-full"
             >
               Place a bowl
             </button>
           </div>
         </div>
       )}
-    </nav>
+    </header>
   );
 }
