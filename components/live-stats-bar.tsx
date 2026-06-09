@@ -1,88 +1,10 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
-import { useScrollAnimation } from '@/hooks/use-scroll-animation';
+import { useState, useEffect } from 'react';
+import { useScrollAnimation, useAnimatedCounter } from '@/hooks/use-scroll-animation';
 
 interface LiveStatsBarProps {
   saviourCount: number | null;
-}
-
-/** Single digit flip cell */
-function FlipDigit({ digit, delay }: { digit: string; delay: number }) {
-  const [current, setCurrent] = useState(digit);
-  const [prev, setPrev] = useState(digit);
-  const [flipping, setFlipping] = useState(false);
-  const isFirstRender = useRef(true);
-
-  useEffect(() => {
-    if (isFirstRender.current) {
-      isFirstRender.current = false;
-      // Initial flip-in animation
-      setPrev('0');
-      setCurrent(digit);
-      const timer = setTimeout(() => setFlipping(true), delay);
-      const endTimer = setTimeout(() => setFlipping(false), delay + 400);
-      return () => { clearTimeout(timer); clearTimeout(endTimer); };
-    }
-
-    if (digit !== current) {
-      setPrev(current);
-      setCurrent(digit);
-      setFlipping(true);
-      const timer = setTimeout(() => setFlipping(false), 400);
-      return () => clearTimeout(timer);
-    }
-  }, [digit, delay, current]);
-
-  return (
-    <span
-      className="relative inline-block w-[1.1em] h-[1.4em] overflow-hidden rounded-sm bg-[#1A1A18]/[0.04]"
-    >
-      {/* Previous digit — slides out */}
-      <span
-        className={`absolute inset-0 flex items-center justify-center transition-transform duration-[400ms] ease-out ${
-          flipping ? 'translate-y-full' : 'translate-y-0'
-        }`}
-        style={{ opacity: flipping ? 0 : 1 }}
-      >
-        {prev}
-      </span>
-      {/* Current digit — slides in */}
-      <span
-        className={`absolute inset-0 flex items-center justify-center transition-transform duration-[400ms] ease-out ${
-          flipping ? 'translate-y-0' : ''
-        }`}
-        style={{
-          transform: flipping ? 'translateY(0)' : 'translateY(0)',
-          opacity: 1,
-        }}
-      >
-        {flipping ? (
-          <span className="animate-flip-in">{current}</span>
-        ) : (
-          current
-        )}
-      </span>
-    </span>
-  );
-}
-
-/** Renders a number as flip-board digits */
-function FlipNumber({ value, suffix }: { value: number | null; suffix?: string }) {
-  if (value === null) {
-    return <span className="inline-block w-20 h-10 bg-bg-surface rounded animate-pulse" />;
-  }
-
-  const digits = value.toString().split('');
-
-  return (
-    <span className="inline-flex items-center gap-[2px] text-3xl sm:text-4xl font-bold text-text-primary tabular-nums">
-      {digits.map((d, i) => (
-        <FlipDigit key={`${i}-${digits.length}`} digit={d} delay={i * 80} />
-      ))}
-      {suffix && <span className="ml-0.5">{suffix}</span>}
-    </span>
-  );
 }
 
 export default function LiveStatsBar({ saviourCount }: LiveStatsBarProps) {
@@ -92,6 +14,10 @@ export default function LiveStatsBar({ saviourCount }: LiveStatsBarProps) {
   const { ref: statsRef, hasMounted, isVisible } = useScrollAnimation({ threshold: 0.3 });
 
   const birdsHelped = saviourCount !== null ? saviourCount * 25 : null;
+
+  const animatedSaviours = useAnimatedCounter(saviourCount, 1500, isVisible, hasMounted);
+  const animatedBirds = useAnimatedCounter(birdsHelped, 1500, isVisible, hasMounted);
+  const animatedTemp = useAnimatedCounter(temperature, 1500, isVisible, hasMounted);
 
   // Fetch Delhi temperature from Open-Meteo
   useEffect(() => {
@@ -135,7 +61,13 @@ export default function LiveStatsBar({ saviourCount }: LiveStatsBarProps) {
                 Live Saviours
               </span>
             </div>
-            <FlipNumber value={saviourCount} />
+            <span className="text-3xl sm:text-4xl font-bold text-text-primary tabular-nums">
+              {saviourCount === null ? (
+                <span className="inline-block w-16 h-9 bg-bg-surface rounded animate-pulse" />
+              ) : (
+                hasMounted ? animatedSaviours : saviourCount
+              )}
+            </span>
           </div>
 
           {/* Live Delhi Temp */}
@@ -146,11 +78,15 @@ export default function LiveStatsBar({ saviourCount }: LiveStatsBarProps) {
                 Live Delhi Temp
               </span>
             </div>
-            {tempLoading ? (
-              <span className="inline-block w-20 h-10 bg-bg-surface rounded animate-pulse" />
-            ) : (
-              <FlipNumber value={temperature} suffix="°C" />
-            )}
+            <span className="text-3xl sm:text-4xl font-bold text-text-primary tabular-nums">
+              {tempLoading ? (
+                <span className="inline-block w-16 h-9 bg-bg-surface rounded animate-pulse" />
+              ) : temperature !== null ? (
+                <>{hasMounted ? animatedTemp : temperature}°C</>
+              ) : (
+                '—'
+              )}
+            </span>
           </div>
 
           {/* Birds Helped */}
@@ -160,7 +96,13 @@ export default function LiveStatsBar({ saviourCount }: LiveStatsBarProps) {
                 Birds Helped
               </span>
             </div>
-            <FlipNumber value={birdsHelped} />
+            <span className="text-3xl sm:text-4xl font-bold text-text-primary tabular-nums">
+              {birdsHelped === null ? (
+                <span className="inline-block w-16 h-9 bg-bg-surface rounded animate-pulse" />
+              ) : (
+                hasMounted ? animatedBirds : birdsHelped
+              )}
+            </span>
           </div>
 
         </div>
