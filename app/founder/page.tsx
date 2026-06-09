@@ -51,8 +51,8 @@ export default function FounderPage() {
               </span>
             </p>
 
-            {/* Mobile portrait — in document flow, with blend fix */}
-            <div className="md:hidden relative mx-auto mb-5 w-[70%] aspect-[4/5] overflow-hidden pointer-events-none select-none bg-[#FAF8F4]">
+            {/* Mobile portrait — transparent bg, no blend needed */}
+            <div className="md:hidden relative mx-auto mb-5 w-[70%] aspect-[4/5] overflow-hidden pointer-events-none select-none">
               <Image
                 src="/akshay-blend-transparent.png"
                 alt="Akshay - Founder, Praan"
@@ -60,7 +60,6 @@ export default function FounderPage() {
                 priority
                 sizes="70vw"
                 className="object-contain object-top scale-[1.18]"
-                style={{ mixBlendMode: 'multiply' }}
               />
             </div>
 
@@ -220,16 +219,15 @@ export default function FounderPage() {
             </div>
           </div>
 
-          {/* RIGHT EDITORIAL PORTRAIT — desktop, with blend fix */}
+          {/* RIGHT EDITORIAL PORTRAIT — desktop, transparent bg version */}
           <div className="hidden md:block absolute top-[-120px] right-[-160px] pointer-events-none select-none">
-            <div className="relative w-[760px] h-[760px] bg-[#FAF8F4]">
+            <div className="relative w-[760px] h-[760px]">
               <Image
-                src="/akshay-blend.png"
+                src="/akshay-blend-transparent.png"
                 alt="Akshay - Founder, Praan"
                 fill
                 priority
                 className="object-contain object-top"
-                style={{ mixBlendMode: 'multiply' }}
               />
             </div>
           </div>
