@@ -40,14 +40,14 @@ export default function Footer({ onBecomeSaviour }: FooterProps) {
         {/* Footer content — above trees (higher z-index) */}
         <div className="relative z-10 max-w-5xl mx-auto px-6 py-8">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
-            {/* Left — Logo SVG */}
+            {/* Left — Logo SVG (larger: 400px wide) */}
             <div className="flex flex-col items-center sm:items-start gap-2">
               <Image
                 src="/praan-footer.svg"
                 alt="praan."
-                width={120}
-                height={36}
-                className="h-9 w-auto"
+                width={400}
+                height={120}
+                className="w-[400px] h-auto"
               />
               <span className="text-xs text-text-muted">A platform for meaningful community initiatives.</span>
             </div>
@@ -83,16 +83,13 @@ export default function Footer({ onBecomeSaviour }: FooterProps) {
           </div>
         </div>
 
-        {/* Footer trees — decorative bottom border, below all content */}
-        <div className="relative w-full h-[200px] overflow-hidden">
-          <Image
-            src="/footer-trees.svg"
-            alt=""
-            fill
-            sizes="100vw"
-            className="object-cover object-bottom"
-          />
-        </div>
+        {/* Footer trees — single image, no repeat, below copyright */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/footer-trees.svg"
+          alt=""
+          style={{ width: '100%', height: '200px', objectFit: 'cover', display: 'block' }}
+        />
       </div>
     </footer>
   );
