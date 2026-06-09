@@ -12,7 +12,7 @@ export default function Footer({ onBecomeSaviour }: FooterProps) {
   const { ref: ctaRef, hasMounted, isVisible } = useScrollAnimation({ threshold: 0.2 });
 
   return (
-    <footer id="cta" className="relative">
+    <footer id="cta">
       {/* Large CTA Section */}
       <section className="py-20 lg:py-28 px-6 bg-bg-base">
         <div
@@ -35,20 +35,9 @@ export default function Footer({ onBecomeSaviour }: FooterProps) {
         </div>
       </section>
 
-      {/* Bottom bar — with footer-trees.svg behind */}
-      <div className="relative border-t border-[var(--border)] bg-bg-surface overflow-hidden">
-        {/* Footer trees — absolute, behind text */}
-        <div className="absolute bottom-0 left-0 right-0 pointer-events-none select-none">
-          <Image
-            src="/footer-trees.svg"
-            alt=""
-            width={1920}
-            height={300}
-            className="w-full h-auto block opacity-100"
-          />
-        </div>
-
-        {/* Footer content — above trees */}
+      {/* Bottom bar */}
+      <div className="relative border-t border-[var(--border)] bg-bg-surface">
+        {/* Footer content — above trees (higher z-index) */}
         <div className="relative z-10 max-w-5xl mx-auto px-6 py-8">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
             {/* Left — Logo SVG */}
@@ -92,6 +81,17 @@ export default function Footer({ onBecomeSaviour }: FooterProps) {
               © 2025 Praan. Made with care for Delhi&apos;s birds.
             </p>
           </div>
+        </div>
+
+        {/* Footer trees — decorative bottom border, below all content */}
+        <div className="relative w-full h-[200px] overflow-hidden">
+          <Image
+            src="/footer-trees.svg"
+            alt=""
+            fill
+            sizes="100vw"
+            className="object-cover object-bottom"
+          />
         </div>
       </div>
     </footer>

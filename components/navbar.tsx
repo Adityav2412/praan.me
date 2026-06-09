@@ -21,22 +21,25 @@ export default function Navbar({ onNavigate }: NavbarProps) {
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 glass border-b border-[var(--border)]">
-      <nav className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-        {/* Logo — SVG */}
+    <header className="sticky top-4 z-50 mx-auto max-w-[900px] px-4">
+      <nav
+        className="flex items-center justify-between h-14 px-5 bg-white rounded-full"
+        style={{ boxShadow: '0 2px 16px rgba(0,0,0,0.08)' }}
+      >
+        {/* Left — Logo SVG */}
         <Link href="/">
           <Image
             src="/praan-navbar.svg"
             alt="praan."
-            width={100}
-            height={28}
-            className="h-7 w-auto"
+            width={90}
+            height={24}
+            className="h-6 w-auto"
             priority
           />
         </Link>
 
-        {/* Desktop Nav Links */}
-        <div className="hidden md:flex items-center gap-8">
+        {/* Center — Nav Links */}
+        <div className="hidden md:flex items-center gap-7">
           <button
             onClick={() => handleNavClick('about')}
             className="motion-nav-link text-sm font-medium text-text-muted hover:text-text-primary transition-colors"
@@ -57,7 +60,7 @@ export default function Navbar({ onNavigate }: NavbarProps) {
           </button>
         </div>
 
-        {/* Desktop CTA — dark pill style */}
+        {/* Right — CTA dark pill */}
         <div className="hidden md:block">
           <button
             onClick={() => handleNavClick('cta')}
@@ -79,33 +82,34 @@ export default function Navbar({ onNavigate }: NavbarProps) {
 
       {/* Mobile menu */}
       {mobileOpen && (
-        <div className="md:hidden glass border-t border-[var(--border)] animate-slide-up">
-          <div className="px-6 py-6 flex flex-col gap-4">
-            <button
-              onClick={() => handleNavClick('about')}
-              className="text-left text-base font-medium text-text-primary py-2"
-            >
-              About
-            </button>
-            <button
-              onClick={() => handleNavClick('how-it-works')}
-              className="text-left text-base font-medium text-text-primary py-2"
-            >
-              How it works
-            </button>
-            <button
-              onClick={() => handleNavClick('saviours')}
-              className="text-left text-base font-medium text-text-primary py-2"
-            >
-              Saviours
-            </button>
-            <button
-              onClick={() => handleNavClick('cta')}
-              className="mt-2 bg-[#1A1A18] text-white text-sm font-semibold px-[22px] py-[10px] rounded-full w-full"
-            >
-              Place a bowl
-            </button>
-          </div>
+        <div
+          className="md:hidden mt-2 bg-white rounded-2xl px-6 py-5 flex flex-col gap-4 animate-slide-up"
+          style={{ boxShadow: '0 2px 16px rgba(0,0,0,0.08)' }}
+        >
+          <button
+            onClick={() => handleNavClick('about')}
+            className="text-left text-base font-medium text-text-primary py-2"
+          >
+            About
+          </button>
+          <button
+            onClick={() => handleNavClick('how-it-works')}
+            className="text-left text-base font-medium text-text-primary py-2"
+          >
+            How it works
+          </button>
+          <button
+            onClick={() => handleNavClick('saviours')}
+            className="text-left text-base font-medium text-text-primary py-2"
+          >
+            Saviours
+          </button>
+          <button
+            onClick={() => handleNavClick('cta')}
+            className="mt-2 bg-[#1A1A18] text-white text-sm font-semibold px-[22px] py-[10px] rounded-full w-full"
+          >
+            Place a bowl
+          </button>
         </div>
       )}
     </header>
