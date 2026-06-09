@@ -157,6 +157,16 @@
   animation: slide-in-right 0.3s ease-out;
 }
 
+/* Floating bird animation — slow gentle bobbing */
+@keyframes float-bird {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+
+.animate-float-bird {
+  animation: float-bird 3s ease-in-out infinite;
+}
+
 /* Premium motion system — respect prefers-reduced-motion */
 @media (prefers-reduced-motion: no-preference) {
   .motion-reveal {
