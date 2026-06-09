@@ -63,15 +63,13 @@ export default function HeroSection({
         </div>
       </div>
 
-      {/* Hero illustration — full width, bleeding to edges */}
+      {/* Hero illustration — full width, blend with beige bg */}
       <div className="relative w-full mt-4">
-        <Image
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
           src="/hero-illustration.svg"
           alt=""
-          width={1920}
-          height={600}
-          className="w-full h-auto block"
-          priority
+          style={{ width: '100%', height: 'auto', display: 'block', mixBlendMode: 'multiply' }}
         />
       </div>
     </section>
