@@ -7,19 +7,16 @@ const steps = [
     number: '01',
     title: 'Fill a bowl with water',
     description: 'Any bowl, plate, or container works. Fill it with fresh water — that\'s all you need.',
-    bg: '#FFFFFF',
   },
   {
     number: '02',
     title: 'Place it outside',
     description: 'Put it on your balcony, terrace, windowsill, or near a tree. Somewhere birds can safely access.',
-    bg: '#F5F0E8',
   },
   {
     number: '03',
     title: 'Register & share',
     description: 'Register on the site, get your certificate, and inspire others to join the movement.',
-    bg: '#FFFFFF',
   },
 ];
 
@@ -55,22 +52,19 @@ export default function HowItWorks() {
             {steps.map((step) => (
               <div
                 key={step.number}
-                className="relative rounded-2xl p-8 overflow-hidden"
-                style={{
-                  backgroundColor: step.bg,
-                  boxShadow: '0 2px 12px rgba(0,0,0,0.06)',
-                }}
+                className="relative rounded-2xl p-8 pb-14 overflow-hidden bg-white"
+                style={{ boxShadow: '0 2px 12px rgba(0,0,0,0.06)' }}
               >
-                {/* Large background watermark number */}
+                {/* Step number — absolute bottom right, does NOT overlap text */}
                 <span
-                  className="absolute top-[-10px] right-2 font-display text-[96px] font-bold leading-none select-none pointer-events-none"
-                  style={{ color: '#1A1A18', opacity: 0.08 }}
+                  className="absolute bottom-[-8px] right-3 font-display text-[80px] font-bold leading-none select-none pointer-events-none"
+                  style={{ color: '#1A1A18', opacity: 0.06 }}
                 >
                   {step.number}
                 </span>
 
-                {/* Content */}
-                <div className="relative">
+                {/* Content — pb-6 ensures text stays above number */}
+                <div className="relative pb-6">
                   <h3 className="text-lg font-semibold text-text-primary mb-3">
                     {step.title}
                   </h3>
