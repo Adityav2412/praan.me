@@ -24,7 +24,7 @@ export default function HowItWorks() {
   const { ref: sectionRef, hasMounted, isVisible } = useScrollAnimation({ threshold: 0.1 });
 
   return (
-    <section id="how-it-works" className="py-24 lg:py-32 px-6 bg-[#F5EDE0] relative overflow-hidden">
+    <section id="how-it-works" className="py-24 lg:py-32 px-6 bg-[#FAF8F4] relative overflow-hidden">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div
@@ -41,56 +41,34 @@ export default function HowItWorks() {
 
         {/* Full-width horizontal timeline */}
         <div className="relative">
-          {/* Hand-drawn style wavy dashed SVG path — desktop */}
-          <svg
-            className="hidden md:block absolute top-1/2 left-0 right-0 -translate-y-1/2 w-full h-24 pointer-events-none z-0"
-            viewBox="0 0 1200 100"
-            fill="none"
-            preserveAspectRatio="none"
-          >
-            <path
-              d="M 50 50 C 150 20, 250 80, 400 50 C 550 20, 650 80, 800 50 C 950 20, 1050 80, 1150 50"
-              stroke="var(--accent)"
-              strokeWidth="2.5"
-              strokeDasharray="10 8"
-              opacity="0.35"
-              strokeLinecap="round"
-            />
-          </svg>
+          {/* Solid thin connecting line with arrow — desktop */}
+          <div className="hidden md:flex absolute top-1/2 left-0 right-0 -translate-y-1/2 items-center z-0 px-8">
+            <div className="flex-1 h-px bg-[#1A1A18] opacity-[0.15]" />
+            <span className="text-[#1A1A18] opacity-[0.15] text-lg ml-1">→</span>
+          </div>
 
-          {/* Bird icon sitting on path between steps */}
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/bird-icon.png"
-            alt=""
-            className="hidden md:block absolute top-[38%] left-[30%] w-8 h-8 opacity-40 pointer-events-none select-none animate-float-bird z-10"
-          />
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/bird-icon.png"
-            alt=""
-            className="hidden md:block absolute top-[42%] left-[64%] w-7 h-7 opacity-35 pointer-events-none select-none animate-float-bird z-10"
-            style={{ animationDelay: '1s', transform: 'scaleX(-1)' }}
-          />
-
-          {/* Steps — horizontal timeline */}
-          <div className={`relative z-10 grid grid-cols-1 md:grid-cols-3 gap-10 lg:gap-16 ${hasMounted ? `motion-stagger ${isVisible ? 'is-visible' : ''}` : ''}`}>
+          {/* Step cards */}
+          <div className={`relative z-10 grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-10 ${hasMounted ? `motion-stagger ${isVisible ? 'is-visible' : ''}` : ''}`}>
             {steps.map((step) => (
-              <div key={step.number} className="relative text-center md:text-left">
-                {/* Large background number */}
-                <span className="font-display text-[80px] font-bold text-text-primary/[0.07] leading-none absolute top-[-20px] left-1/2 md:left-0 -translate-x-1/2 md:translate-x-0 select-none pointer-events-none">
+              <div
+                key={step.number}
+                className="relative rounded-2xl p-8 pb-14 overflow-hidden bg-white"
+                style={{ boxShadow: '0 2px 12px rgba(0,0,0,0.06)' }}
+              >
+                {/* Step number — absolute bottom right, fully visible */}
+                <span
+                  className="absolute bottom-4 right-4 font-display text-[80px] font-bold leading-none select-none pointer-events-none"
+                  style={{ color: '#1A1A18', opacity: 0.15 }}
+                >
                   {step.number}
                 </span>
 
-                {/* Content overlaid */}
-                <div className="relative pt-10">
-                  {/* Small dot indicator */}
-                  <div className="w-3 h-3 rounded-full bg-accent mx-auto md:mx-0 mb-4" />
-
+                {/* Content — pb-6 ensures text stays above number */}
+                <div className="relative pb-6">
                   <h3 className="text-lg font-semibold text-text-primary mb-3">
                     {step.title}
                   </h3>
-                  <p className="text-sm leading-relaxed text-text-muted max-w-[280px] mx-auto md:mx-0">
+                  <p className="text-sm leading-relaxed text-text-muted max-w-[280px]">
                     {step.description}
                   </p>
                 </div>

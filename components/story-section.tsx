@@ -86,64 +86,91 @@ export default function StorySection({ saviourCount }: StorySectionProps) {
       </section>
 
       {/* ═══════════════════════════════════════════════════════════
-          SOLUTION SECTION — split layout: dark left, beige right
+          SOLUTION SECTION — dark warm brown, constellation network
           ═══════════════════════════════════════════════════════════ */}
-      <section className="relative overflow-hidden">
+      <section className="py-24 lg:py-32 px-6 bg-[#1C0F00] relative overflow-hidden">
         <div
           ref={solutionRef}
-          className={`grid grid-cols-1 lg:grid-cols-2 min-h-[500px] ${solutionMounted ? `motion-reveal ${solutionVisible ? 'is-visible' : ''}` : ''}`}
+          className={`relative z-10 max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center ${solutionMounted ? `motion-reveal ${solutionVisible ? 'is-visible' : ''}` : ''}`}
         >
-          {/* Left — Dark terracotta with text */}
-          <div className="bg-[#3D1F0D] px-8 sm:px-12 lg:px-16 py-16 lg:py-24 flex flex-col justify-center">
-            <span className="inline-block text-xs font-semibold uppercase tracking-[0.2em] text-amber-300/80 mb-4">
+          {/* Left — Text */}
+          <div>
+            <span className="inline-block text-xs font-semibold uppercase tracking-[0.2em] text-[#C9A84C] mb-4">
               The Solution
             </span>
-            <h2 className="font-display text-3xl sm:text-4xl font-bold text-white leading-tight mb-6">
+            <h2 className="font-display text-3xl sm:text-4xl font-bold text-[#F2EDE3] leading-tight mb-6">
               A network of water bowls, placed by people who care.
             </h2>
-            <p className="text-base leading-relaxed text-white/65 mb-4">
+            <p className="text-base leading-relaxed text-[#F2EDE3]/65 mb-4">
               Water For Wings is building a community-driven network of water stations
               across Delhi. Each participant — a &quot;Saviour&quot; — places a bowl of fresh
               water outside their home, office, or balcony.
             </p>
-            <p className="text-base leading-relaxed text-white/65">
+            <p className="text-base leading-relaxed text-[#F2EDE3]/65">
               It takes 2 minutes. It costs nothing. And it can keep dozens of birds
               alive through the hottest months of the year.
             </p>
           </div>
 
-          {/* Right — Beige with sketch + floating stat pills */}
-          <div className="bg-[#FAF8F4] px-8 sm:px-12 lg:px-16 py-16 lg:py-24 flex items-center justify-center relative overflow-hidden">
-            {/* Bowl sketch */}
-            <div className="relative w-[280px] h-[280px] sm:w-[320px] sm:h-[320px]">
-              <Image
-                src="/hero-bowl-sketch.png"
-                alt="Water bowl"
-                fill
-                sizes="320px"
-                className="object-contain opacity-80"
-              />
-            </div>
+          {/* Right — Animated constellation network */}
+          <div className="relative h-[360px] sm:h-[400px] w-full">
+            {/* SVG constellation — dots + dashed connections */}
+            <svg className="absolute inset-0 w-full h-full" viewBox="0 0 400 400" fill="none">
+              {/* Dashed connection lines */}
+              <line x1="80" y1="60" x2="200" y2="120" stroke="#C9A84C" strokeWidth="1" strokeDasharray="4 4" opacity="0.3" />
+              <line x1="200" y1="120" x2="320" y2="80" stroke="#C9A84C" strokeWidth="1" strokeDasharray="4 4" opacity="0.3" />
+              <line x1="200" y1="120" x2="150" y2="220" stroke="#C9A84C" strokeWidth="1" strokeDasharray="4 4" opacity="0.3" />
+              <line x1="150" y1="220" x2="280" y2="200" stroke="#C9A84C" strokeWidth="1" strokeDasharray="4 4" opacity="0.3" />
+              <line x1="280" y1="200" x2="350" y2="280" stroke="#C9A84C" strokeWidth="1" strokeDasharray="4 4" opacity="0.3" />
+              <line x1="150" y1="220" x2="60" y2="300" stroke="#C9A84C" strokeWidth="1" strokeDasharray="4 4" opacity="0.3" />
+              <line x1="60" y1="300" x2="180" y2="340" stroke="#C9A84C" strokeWidth="1" strokeDasharray="4 4" opacity="0.3" />
+              <line x1="180" y1="340" x2="320" y2="320" stroke="#C9A84C" strokeWidth="1" strokeDasharray="4 4" opacity="0.3" />
+              <line x1="320" y1="320" x2="350" y2="280" stroke="#C9A84C" strokeWidth="1" strokeDasharray="4 4" opacity="0.3" />
+              <line x1="80" y1="60" x2="60" y2="160" stroke="#C9A84C" strokeWidth="1" strokeDasharray="4 4" opacity="0.3" />
+              <line x1="60" y1="160" x2="150" y2="220" stroke="#C9A84C" strokeWidth="1" strokeDasharray="4 4" opacity="0.3" />
+              <line x1="320" y1="80" x2="280" y2="200" stroke="#C9A84C" strokeWidth="1" strokeDasharray="4 4" opacity="0.3" />
 
-            {/* Floating stat pills overlaid on sketch */}
-            <div
-              className="absolute top-[15%] right-[12%] bg-white rounded-full px-4 py-2 shadow-lg border border-[var(--border)] text-xs font-semibold text-text-primary"
-              style={{ transform: 'rotate(-3deg)' }}
-            >
-              🌱 {saviourCount ?? '—'} Saviours
-            </div>
-            <div
-              className="absolute bottom-[20%] left-[10%] bg-white rounded-full px-4 py-2 shadow-lg border border-[var(--border)] text-xs font-semibold text-red-500"
-              style={{ transform: 'rotate(2deg)' }}
-            >
-              🌡️ 40°C Delhi
-            </div>
-            <div
-              className="absolute bottom-[35%] right-[8%] bg-white rounded-full px-4 py-2 shadow-lg border border-[var(--border)] text-xs font-semibold text-accent"
-              style={{ transform: 'rotate(-1deg)' }}
-            >
-              🐦 {birdsHelped ?? '—'} Birds
-            </div>
+              {/* Glowing dots (nodes) */}
+              <circle cx="80" cy="60" r="4" fill="#C9A84C" className="animate-pulse-dot" />
+              <circle cx="200" cy="120" r="5" fill="#C9A84C" className="animate-pulse-dot" style={{ animationDelay: '0.3s' }} />
+              <circle cx="320" cy="80" r="4" fill="#C9A84C" className="animate-pulse-dot" style={{ animationDelay: '0.6s' }} />
+              <circle cx="150" cy="220" r="5" fill="#C9A84C" className="animate-pulse-dot" style={{ animationDelay: '0.9s' }} />
+              <circle cx="280" cy="200" r="4" fill="#C9A84C" className="animate-pulse-dot" style={{ animationDelay: '1.2s' }} />
+              <circle cx="350" cy="280" r="4" fill="#C9A84C" className="animate-pulse-dot" style={{ animationDelay: '0.4s' }} />
+              <circle cx="60" cy="300" r="4" fill="#C9A84C" className="animate-pulse-dot" style={{ animationDelay: '0.7s' }} />
+              <circle cx="180" cy="340" r="5" fill="#C9A84C" className="animate-pulse-dot" style={{ animationDelay: '1.0s' }} />
+              <circle cx="320" cy="320" r="4" fill="#C9A84C" className="animate-pulse-dot" style={{ animationDelay: '0.5s' }} />
+              <circle cx="60" cy="160" r="3" fill="#C9A84C" className="animate-pulse-dot" style={{ animationDelay: '0.8s' }} />
+              <circle cx="240" cy="280" r="3" fill="#C9A84C" className="animate-pulse-dot" style={{ animationDelay: '1.1s' }} />
+              <circle cx="130" cy="120" r="3" fill="#C9A84C" className="animate-pulse-dot" style={{ animationDelay: '0.2s' }} />
+              <circle cx="360" cy="160" r="3" fill="#C9A84C" className="animate-pulse-dot" style={{ animationDelay: '1.4s' }} />
+
+              {/* Bird silhouettes — 8 birds, larger and more visible */}
+              <g className="animate-float-bird" style={{ animationDelay: '0s' }}>
+                <path d="M95 80 C100 72, 108 72, 113 80 M113 80 C118 72, 126 72, 131 80" stroke="#C9A84C" strokeWidth="2" fill="none" opacity="0.75" strokeLinecap="round" />
+              </g>
+              <g className="animate-float-bird" style={{ animationDelay: '0.8s' }}>
+                <path d="M280 140 C285 132, 293 132, 298 140 M298 140 C303 132, 311 132, 316 140" stroke="#C9A84C" strokeWidth="2" fill="none" opacity="0.7" strokeLinecap="round" />
+              </g>
+              <g className="animate-float-bird" style={{ animationDelay: '1.5s' }}>
+                <path d="M50 200 C55 192, 63 192, 68 200 M68 200 C73 192, 81 192, 86 200" stroke="#C9A84C" strokeWidth="2" fill="none" opacity="0.65" strokeLinecap="round" />
+              </g>
+              <g className="animate-float-bird" style={{ animationDelay: '0.4s' }}>
+                <path d="M310 240 C315 232, 323 232, 328 240 M328 240 C333 232, 341 232, 346 240" stroke="#C9A84C" strokeWidth="2" fill="none" opacity="0.7" strokeLinecap="round" />
+              </g>
+              <g className="animate-float-bird" style={{ animationDelay: '1.1s' }}>
+                <path d="M170 280 C175 272, 183 272, 188 280 M188 280 C193 272, 201 272, 206 280" stroke="#C9A84C" strokeWidth="2" fill="none" opacity="0.6" strokeLinecap="round" />
+              </g>
+              <g className="animate-float-bird" style={{ animationDelay: '2.0s' }}>
+                <path d="M360 100 C365 92, 373 92, 378 100 M378 100 C383 92, 391 92, 396 100" stroke="#C9A84C" strokeWidth="2" fill="none" opacity="0.65" strokeLinecap="round" />
+              </g>
+              <g className="animate-float-bird" style={{ animationDelay: '0.6s' }}>
+                <path d="M120 350 C125 342, 133 342, 138 350 M138 350 C143 342, 151 342, 156 350" stroke="#C9A84C" strokeWidth="2" fill="none" opacity="0.7" strokeLinecap="round" />
+              </g>
+              <g className="animate-float-bird" style={{ animationDelay: '1.7s' }}>
+                <path d="M260 360 C265 352, 273 352, 278 360 M278 360 C283 352, 291 352, 296 360" stroke="#C9A84C" strokeWidth="2" fill="none" opacity="0.6" strokeLinecap="round" />
+              </g>
+            </svg>
           </div>
         </div>
       </section>

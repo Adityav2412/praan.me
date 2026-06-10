@@ -4,9 +4,13 @@ import { useState, useEffect } from 'react';
 import { fetchSaviours, getColonyLeaderboard } from '@/lib/storage';
 import { useScrollAnimation } from '@/hooks/use-scroll-animation';
 
+type FilterType = 'top5' | 'top10' | 'all';
+
 export default function AreaLeaderboard() {
   const [leaderboard, setLeaderboard] = useState<{ colony: string; count: number }[]>([]);
   const [loading, setLoading] = useState(true);
+  const [filter, setFilter] = useState<FilterType>('top10');
+  const [fadeIn, setFadeIn] = useState(true);
   const { ref: sectionRef, hasMounted, isVisible } = useScrollAnimation({ threshold: 0.1 });
 
   useEffect(() => {
@@ -39,6 +43,22 @@ export default function AreaLeaderboard() {
     };
   }, []);
 
+  const handleFilterChange = (newFilter: FilterType) => {
+    if (newFilter === filter) return;
+    setFadeIn(false);
+    setTimeout(() => {
+      setFilter(newFilter);
+      setFadeIn(true);
+    }, 150);
+  };
+
+  const getFilteredData = () => {
+    if (filter === 'top5') return leaderboard.slice(0, 5);
+    if (filter === 'top10') return leaderboard.slice(0, 10);
+    return leaderboard;
+  };
+
+  const filteredData = getFilteredData();
   const maxCount = Math.max(...leaderboard.map((l) => l.count), 1);
 
   const getMedal = (rank: number) => {
@@ -66,6 +86,23 @@ export default function AreaLeaderboard() {
           </p>
         </div>
 
+        {/* Filter buttons */}
+        <div className="flex items-center justify-center gap-3 mb-8">
+          {(['top5', 'top10', 'all'] as FilterType[]).map((f) => (
+            <button
+              key={f}
+              onClick={() => handleFilterChange(f)}
+              className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
+                filter === f
+                  ? 'bg-[#1A1A18] text-white'
+                  : 'bg-transparent text-[#1A1A18] border border-[#1A1A18]/20 hover:border-[#1A1A18]/50'
+              }`}
+            >
+              {f === 'top5' ? 'Top 5' : f === 'top10' ? 'Top 10' : 'All'}
+            </button>
+          ))}
+        </div>
+
         <div className="bg-bg-card rounded-2xl border border-[var(--border)] p-6 sm:p-8 shadow-sm">
           {loading ? (
             <div className="space-y-4">
@@ -79,18 +116,23 @@ export default function AreaLeaderboard() {
                 </div>
               ))}
             </div>
-          ) : leaderboard.length === 0 ? (
+          ) : filteredData.length === 0 ? (
             <p className="text-center text-text-muted py-8 text-sm">
               Be the first from your colony to join!
             </p>
           ) : (
-            <div className="space-y-4">
-              {leaderboard.slice(0, 10).map((item, index) => (
+            <div
+              className="space-y-3 transition-opacity duration-300"
+              style={{ opacity: fadeIn ? 1 : 0 }}
+            >
+              {filteredData.map((item, index) => (
                 <div
                   key={`${item.colony}-${item.count}`}
-                  className="flex items-center gap-4 transition-all duration-500"
+                  className={`flex items-center gap-4 p-3 rounded-xl transition-all duration-200 cursor-default border-l-[3px] border-l-transparent hover:bg-[#F2EEE6] hover:border-l-[#5C7A5A] ${
+                    index < 3 ? 'hover:shadow-[0_0_12px_rgba(201,168,76,0.3)]' : ''
+                  }`}
                 >
-                  <div className="w-10 h-10 flex items-center justify-center text-xl font-bold">
+                  <div className="w-10 h-10 flex items-center justify-center text-xl font-bold shrink-0">
                     {getMedal(index)}
                   </div>
 
@@ -106,7 +148,7 @@ export default function AreaLeaderboard() {
 
                     <div className="h-2.5 bg-bg-surface rounded-full overflow-hidden">
                       <div
-                        className={`h-full rounded-full transition-all duration-700 ${
+                        className={`h-full rounded-full ${
                           index === 0
                             ? 'bg-gradient-to-r from-amber-400 to-amber-500'
                             : index === 1
@@ -115,7 +157,10 @@ export default function AreaLeaderboard() {
                             ? 'bg-gradient-to-r from-amber-600 to-amber-700'
                             : 'bg-accent/60'
                         }`}
-                        style={{ width: `${(item.count / maxCount) * 100}%` }}
+                        style={{
+                          width: isVisible ? `${(item.count / maxCount) * 100}%` : '0%',
+                          transition: `width 800ms ease-out ${index * 100}ms`,
+                        }}
                       />
                     </div>
                   </div>
