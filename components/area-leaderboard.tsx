@@ -103,6 +103,21 @@ export default function AreaLeaderboard() {
           ))}
         </div>
 
+        {/* Winner banner — dynamically shows #1 colony */}
+        {!loading && leaderboard.length > 0 && (
+          <div className="mb-6 rounded-xl bg-gradient-to-r from-amber-50 to-amber-100/50 border border-amber-200/60 px-5 py-4 flex items-center gap-4">
+            <span className="text-3xl">👑</span>
+            <div>
+              <p className="font-display text-lg font-bold text-[#1A1A18]">
+                {leaderboard[0].colony}
+              </p>
+              <p className="text-xs text-amber-800/70 font-medium">
+                Currently leading · {leaderboard[0].count} {leaderboard[0].count === 1 ? 'saviour' : 'saviours'}
+              </p>
+            </div>
+          </div>
+        )}
+
         <div className="bg-bg-card rounded-2xl border border-[var(--border)] p-6 sm:p-8 shadow-sm">
           {loading ? (
             <div className="space-y-4">
