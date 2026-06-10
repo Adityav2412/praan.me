@@ -79,7 +79,7 @@ export default function CertificateModal({
     }
   };
 
-  const handleShare = async (platform: 'x' | 'whatsapp' | 'instagram') => {
+  const handleShare = async (platform: 'x' | 'whatsapp') => {
     try {
       setIsDownloading(true);
       await downloadCertificate();
@@ -97,9 +97,6 @@ export default function CertificateModal({
             '_blank',
             'noopener,noreferrer'
           );
-        }
-        if (platform === 'instagram') {
-          alert('Certificate downloaded.\n\nShare it on your Instagram Story and tag @officialwaterforwings');
         }
       }, 500);
     } catch (error) {
@@ -184,22 +181,14 @@ export default function CertificateModal({
             {/* Thin rule */}
             <div className="w-16 h-px bg-[#1C1209]/20 mx-auto mb-6" />
 
-            {/* Info cards — thin border, no emojis */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-center mb-8">
+            {/* Info cards — thin border, no emojis, no station/type */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-center mb-8">
               <div className="p-3 rounded-lg border border-[#1C1209]/10">
                 <p className="text-[10px] uppercase tracking-wider text-[#7A7468] mb-1">
                   Colony
                 </p>
                 <p className="font-semibold text-sm text-[#1C1209] break-words">
                   {saviour.colony}
-                </p>
-              </div>
-              <div className="p-3 rounded-lg border border-[#1C1209]/10">
-                <p className="text-[10px] uppercase tracking-wider text-[#7A7468] mb-1">
-                  Station
-                </p>
-                <p className="font-semibold text-sm text-[#1C1209] break-words">
-                  {saviour.stationType}
                 </p>
               </div>
               <div className="p-3 rounded-lg border border-[#1C1209]/10">

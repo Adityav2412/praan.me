@@ -69,11 +69,11 @@ export default function Footer({ onBecomeSaviour }: FooterProps) {
                 Terms
               </a>
               <span className="text-text-muted/30">·</span>
-              <a href="https://instagram.com/waterforwings" target="_blank" rel="noopener noreferrer" className="hover:text-text-primary transition-colors">
-                Instagram
+              <a href="https://x.com/praanofficial" target="_blank" rel="noopener noreferrer" className="hover:text-text-primary transition-colors">
+                X @praanofficial
               </a>
               <span className="text-text-muted/30">·</span>
-              <a href="mailto:Akshay1092001@yahoo.com" className="hover:text-text-primary transition-colors">
+              <a href="mailto:akshay@praan.me" className="hover:text-text-primary transition-colors">
                 Contact
               </a>
             </nav>

@@ -8,6 +8,5 @@ export const NAV_ITEMS = [
 export const NAVBAR_HEIGHT_PX = 64;
 
 export const SOCIAL_LINKS = {
-  instagram: 'https://instagram.com/officalwaterforwings',
-  x: 'https://x.com/waterforwings',
+  x: 'https://x.com/praanofficial',
 } as const;
