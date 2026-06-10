@@ -5,16 +5,19 @@ import { useScrollAnimation } from '@/hooks/use-scroll-animation';
 const steps = [
   {
     number: '01',
+    icon: '/icon-bowl.svg',
     title: 'Fill a bowl with water',
     description: 'Any bowl, plate, or container works. Fill it with fresh water — that\'s all you need.',
   },
   {
     number: '02',
+    icon: '/icon-place.svg',
     title: 'Place it outside',
     description: 'Put it on your balcony, terrace, windowsill, or near a tree. Somewhere birds can safely access.',
   },
   {
     number: '03',
+    icon: '/icon-certificate.svg',
     title: 'Register & share',
     description: 'Register on the site, get your certificate, and inspire others to join the movement.',
   },
@@ -69,6 +72,13 @@ export default function HowItWorks() {
 
                 {/* Content overlaid */}
                 <div className="relative pt-10">
+                  {/* Illustrated icon */}
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={step.icon}
+                    alt=""
+                    className="w-20 h-20 mx-auto md:mx-0 mb-4"
+                  />
                   <h3 className="text-lg font-semibold text-text-primary mb-3">
                     {step.title}
                   </h3>
