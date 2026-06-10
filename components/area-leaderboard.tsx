@@ -92,7 +92,7 @@ export default function AreaLeaderboard() {
             <button
               key={f}
               onClick={() => handleFilterChange(f)}
-              className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
+              className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-150 ease-out ${
                 filter === f
                   ? 'bg-[#1A1A18] text-white'
                   : 'bg-transparent text-[#1A1A18] border border-[#1A1A18]/20 hover:border-[#1A1A18]/50'
@@ -143,8 +143,8 @@ export default function AreaLeaderboard() {
               {filteredData.map((item, index) => (
                 <div
                   key={`${item.colony}-${item.count}`}
-                  className={`flex items-center gap-4 p-3 rounded-xl transition-all duration-200 cursor-default border-l-[3px] border-l-transparent hover:bg-[#F2EEE6] hover:border-l-[#5C7A5A] ${
-                    index < 3 ? 'hover:shadow-[0_0_12px_rgba(201,168,76,0.3)]' : ''
+                  className={`flex items-center gap-4 p-3 rounded-xl transition-all duration-150 ease-out cursor-default border-l-[3px] border-l-transparent hover:bg-[#F2EEE6] hover:border-l-[#5C7A5A] ${
+                    index < 3 ? 'hover:shadow-[0_0_12px_rgba(201,168,76,0.2)]' : ''
                   }`}
                 >
                   <div className="w-10 h-10 flex items-center justify-center text-xl font-bold shrink-0">
@@ -174,7 +174,7 @@ export default function AreaLeaderboard() {
                         }`}
                         style={{
                           width: isVisible ? `${(item.count / maxCount) * 100}%` : '0%',
-                          transition: `width 800ms ease-out ${index * 100}ms`,
+                          transition: `width 300ms cubic-bezier(0.16, 1, 0.3, 1) ${index * 60}ms`,
                         }}
                       />
                     </div>

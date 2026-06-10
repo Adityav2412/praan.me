@@ -13,7 +13,7 @@ export default function StorySection({ saviourCount }: StorySectionProps) {
 
   // Live counter: each saviour = 20 birds helped
   const birdsHelped = saviourCount !== null ? saviourCount * 20 : null;
-  const animatedBirds = useAnimatedCounter(birdsHelped, 1500, problemVisible, problemMounted);
+  const animatedBirds = useAnimatedCounter(birdsHelped, 800, problemVisible, problemMounted);
 
   return (
     <>

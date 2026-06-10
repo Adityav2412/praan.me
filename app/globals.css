@@ -102,35 +102,59 @@
   font-family: var(--font-body);
 }
 
-/* Custom animations */
+/* ═══════════════════════════════════════════════
+   ANIMATIONS — per emil-design.md guidelines:
+   - All UI animations ≤ 300ms
+   - Ease-out (cubic-bezier(0.16, 1, 0.3, 1))
+   - Transform + opacity only
+   - No bounce, no parallax
+   - Start from scale(0.9+), never scale(0)
+   ═══════════════════════════════════════════════ */
+
 @keyframes marquee {
   0% { transform: translateX(0%); }
   100% { transform: translateX(-50%); }
 }
 
+/* Ambient float — subtle, decorative only */
 @keyframes float {
   0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
+  50% { transform: translateY(-4px); }
 }
 
+/* Pulsing dot indicator — subtle scale (max 1.2, per guidelines) */
 @keyframes pulse-dot {
   0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.6; transform: scale(1.3); }
+  50% { opacity: 0.7; transform: scale(1.2); }
 }
 
-@keyframes count-up {
-  from { opacity: 0; transform: scale(0.5); }
-  to { opacity: 1; transform: scale(1); }
-}
-
+/* Slide up entrance — small distance (24px), fast (250ms) */
 @keyframes slide-up {
-  from { transform: translateY(100%); opacity: 0; }
+  from { transform: translateY(24px); opacity: 0; }
   to { transform: translateY(0); opacity: 1; }
 }
 
 @keyframes slide-in-right {
-  from { transform: translateX(100%); }
-  to { transform: translateX(0); }
+  from { transform: translateX(24px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+/* Subtle pulse for winner ticker — barely perceptible */
+@keyframes pulse-subtle {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.85; }
+}
+
+/* Pulse scale for live dots — restrained (max 1.2) */
+@keyframes pulse-scale {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.2); opacity: 0.8; }
+}
+
+/* Floating bird — subtle ambient (4px max travel) */
+@keyframes float-bird {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-4px); }
 }
 
 .animate-marquee {
@@ -145,66 +169,38 @@
   animation: pulse-dot 2s ease-in-out infinite;
 }
 
-/* Subtle pulse for winner ticker */
-@keyframes pulse-subtle {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.92; transform: scale(1.01); }
-}
-
 .animate-pulse-subtle {
   animation: pulse-subtle 3s ease-in-out infinite;
 }
 
-.animate-count-up {
-  animation: count-up 0.5s ease-out;
-}
-
-/* Flip-board digit animation */
-@keyframes flip-in {
-  0% { transform: translateY(-100%); opacity: 0; }
-  60% { transform: translateY(5%); opacity: 1; }
-  100% { transform: translateY(0); opacity: 1; }
-}
-
-.animate-flip-in {
-  animation: flip-in 400ms cubic-bezier(0.2, 0.8, 0.3, 1) forwards;
-}
-
-/* Pulse scale for live dots (1 → 1.4 → 1, 1.5s infinite) */
-@keyframes pulse-scale {
-  0%, 100% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.4); opacity: 0.7; }
-}
-
 .animate-pulse-scale {
-  animation: pulse-scale 1.5s ease-in-out infinite;
+  animation: pulse-scale 2s ease-in-out infinite;
 }
 
 .animate-slide-up {
-  animation: slide-up 0.4s ease-out;
+  animation: slide-up 250ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .animate-slide-in-right {
-  animation: slide-in-right 0.3s ease-out;
-}
-
-/* Floating bird animation — slow gentle bobbing */
-@keyframes float-bird {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-8px); }
+  animation: slide-in-right 250ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .animate-float-bird {
-  animation: float-bird 3s ease-in-out infinite;
+  animation: float-bird 4s ease-in-out infinite;
 }
 
-/* Premium motion system — respect prefers-reduced-motion */
+/* ═══════════════════════════════════════════════
+   SCROLL-TRIGGERED REVEALS
+   Duration: 300ms (down from 600ms)
+   Easing: cubic-bezier(0.16, 1, 0.3, 1) (ease-out)
+   Distance: 16px (down from 24px — subtler)
+   ═══════════════════════════════════════════════ */
 @media (prefers-reduced-motion: no-preference) {
   .motion-reveal {
     opacity: 0;
-    transform: translateY(24px);
-    transition: opacity 600ms cubic-bezier(0.16, 1, 0.3, 1), 
-                transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
+    transform: translateY(16px);
+    transition: opacity 300ms cubic-bezier(0.16, 1, 0.3, 1), 
+                transform 300ms cubic-bezier(0.16, 1, 0.3, 1);
   }
   
   .motion-reveal.is-visible {
@@ -212,33 +208,36 @@
     transform: translateY(0);
   }
 
+  /* Stagger: 60ms between items (down from 80ms — snappier) */
   .motion-stagger > * {
     opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 500ms cubic-bezier(0.16, 1, 0.3, 1), 
-                transform 500ms cubic-bezier(0.16, 1, 0.3, 1);
+    transform: translateY(12px);
+    transition: opacity 250ms cubic-bezier(0.16, 1, 0.3, 1), 
+                transform 250ms cubic-bezier(0.16, 1, 0.3, 1);
   }
   
   .motion-stagger.is-visible > *:nth-child(1) { transition-delay: 0ms; opacity: 1; transform: translateY(0); }
-  .motion-stagger.is-visible > *:nth-child(2) { transition-delay: 80ms; opacity: 1; transform: translateY(0); }
-  .motion-stagger.is-visible > *:nth-child(3) { transition-delay: 160ms; opacity: 1; transform: translateY(0); }
-  .motion-stagger.is-visible > *:nth-child(4) { transition-delay: 240ms; opacity: 1; transform: translateY(0); }
-  .motion-stagger.is-visible > *:nth-child(5) { transition-delay: 320ms; opacity: 1; transform: translateY(0); }
-  .motion-stagger.is-visible > *:nth-child(6) { transition-delay: 400ms; opacity: 1; transform: translateY(0); }
+  .motion-stagger.is-visible > *:nth-child(2) { transition-delay: 60ms; opacity: 1; transform: translateY(0); }
+  .motion-stagger.is-visible > *:nth-child(3) { transition-delay: 120ms; opacity: 1; transform: translateY(0); }
+  .motion-stagger.is-visible > *:nth-child(4) { transition-delay: 180ms; opacity: 1; transform: translateY(0); }
+  .motion-stagger.is-visible > *:nth-child(5) { transition-delay: 240ms; opacity: 1; transform: translateY(0); }
+  .motion-stagger.is-visible > *:nth-child(6) { transition-delay: 300ms; opacity: 1; transform: translateY(0); }
 
+  /* CTA hover: subtle lift (1px), refined shadow */
   .motion-cta {
-    transition: transform 200ms cubic-bezier(0.16, 1, 0.3, 1),
-                box-shadow 200ms cubic-bezier(0.16, 1, 0.3, 1);
+    transition: transform 150ms cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 150ms cubic-bezier(0.16, 1, 0.3, 1);
   }
   
   .motion-cta:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 20px rgba(92, 122, 90, 0.15);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(26, 26, 24, 0.1);
   }
 
+  /* Nav link underline — 150ms */
   .motion-nav-link {
     position: relative;
-    transition: color 200ms ease;
+    transition: color 150ms ease-out;
   }
   
   .motion-nav-link::after {
@@ -249,8 +248,8 @@
     width: 0;
     height: 1.5px;
     background: var(--accent);
-    transition: width 200ms cubic-bezier(0.16, 1, 0.3, 1),
-                left 200ms cubic-bezier(0.16, 1, 0.3, 1);
+    transition: width 150ms cubic-bezier(0.16, 1, 0.3, 1),
+                left 150ms cubic-bezier(0.16, 1, 0.3, 1);
   }
   
   .motion-nav-link:hover::after {
