@@ -65,27 +65,29 @@ export default function HowItWorks() {
           <div className={`relative z-10 grid grid-cols-1 md:grid-cols-3 gap-10 lg:gap-16 ${hasMounted ? `motion-stagger ${isVisible ? 'is-visible' : ''}` : ''}`}>
             {steps.map((step) => (
               <div key={step.number} className="relative text-center md:text-left">
-                {/* Large background number */}
-                <span className="font-display text-[80px] font-bold text-text-primary/[0.07] leading-none absolute top-[-20px] left-1/2 md:left-0 -translate-x-1/2 md:translate-x-0 select-none pointer-events-none">
+                {/* Step number — above icon */}
+                <span className="font-display text-[80px] font-bold text-text-primary/[0.07] leading-none select-none pointer-events-none block">
                   {step.number}
                 </span>
 
-                {/* Content overlaid */}
-                <div className="relative pt-10">
-                  {/* Illustrated icon */}
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={step.icon}
-                    alt=""
-                    className="w-20 h-20 mx-auto md:mx-0 mb-4"
-                  />
-                  <h3 className="text-lg font-semibold text-text-primary mb-3">
-                    {step.title}
-                  </h3>
-                  <p className="text-sm leading-relaxed text-text-muted max-w-[280px] mx-auto md:mx-0">
-                    {step.description}
-                  </p>
-                </div>
+                {/* Illustrated icon — 120px, blend with beige bg */}
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={step.icon}
+                  alt=""
+                  className="w-[120px] h-[120px] mx-auto md:mx-0 mb-4"
+                  style={{ mixBlendMode: 'multiply' }}
+                />
+
+                {/* Title */}
+                <h3 className="text-lg font-semibold text-text-primary mb-3">
+                  {step.title}
+                </h3>
+
+                {/* Description */}
+                <p className="text-sm leading-relaxed text-text-muted max-w-[280px] mx-auto md:mx-0">
+                  {step.description}
+                </p>
               </div>
             ))}
           </div>
