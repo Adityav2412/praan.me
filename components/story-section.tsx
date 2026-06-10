@@ -145,37 +145,32 @@ export default function StorySection({ saviourCount }: StorySectionProps) {
               <circle cx="130" cy="120" r="3" fill="#C9A84C" className="animate-pulse-dot" style={{ animationDelay: '0.2s' }} />
               <circle cx="360" cy="160" r="3" fill="#C9A84C" className="animate-pulse-dot" style={{ animationDelay: '1.4s' }} />
 
-              {/* Bird silhouettes — simple path shapes */}
+              {/* Bird silhouettes — 8 birds, larger and more visible */}
               <g className="animate-float-bird" style={{ animationDelay: '0s' }}>
-                <path d="M105 90 C108 86, 112 86, 115 90 M115 90 C118 86, 122 86, 125 90" stroke="#C9A84C" strokeWidth="1.5" fill="none" opacity="0.6" strokeLinecap="round" />
+                <path d="M95 80 C100 72, 108 72, 113 80 M113 80 C118 72, 126 72, 131 80" stroke="#C9A84C" strokeWidth="2" fill="none" opacity="0.75" strokeLinecap="round" />
               </g>
-              <g className="animate-float-bird" style={{ animationDelay: '1.2s' }}>
-                <path d="M290 250 C293 246, 297 246, 300 250 M300 250 C303 246, 307 246, 310 250" stroke="#C9A84C" strokeWidth="1.5" fill="none" opacity="0.5" strokeLinecap="round" />
+              <g className="animate-float-bird" style={{ animationDelay: '0.8s' }}>
+                <path d="M280 140 C285 132, 293 132, 298 140 M298 140 C303 132, 311 132, 316 140" stroke="#C9A84C" strokeWidth="2" fill="none" opacity="0.7" strokeLinecap="round" />
+              </g>
+              <g className="animate-float-bird" style={{ animationDelay: '1.5s' }}>
+                <path d="M50 200 C55 192, 63 192, 68 200 M68 200 C73 192, 81 192, 86 200" stroke="#C9A84C" strokeWidth="2" fill="none" opacity="0.65" strokeLinecap="round" />
+              </g>
+              <g className="animate-float-bird" style={{ animationDelay: '0.4s' }}>
+                <path d="M310 240 C315 232, 323 232, 328 240 M328 240 C333 232, 341 232, 346 240" stroke="#C9A84C" strokeWidth="2" fill="none" opacity="0.7" strokeLinecap="round" />
+              </g>
+              <g className="animate-float-bird" style={{ animationDelay: '1.1s' }}>
+                <path d="M170 280 C175 272, 183 272, 188 280 M188 280 C193 272, 201 272, 206 280" stroke="#C9A84C" strokeWidth="2" fill="none" opacity="0.6" strokeLinecap="round" />
+              </g>
+              <g className="animate-float-bird" style={{ animationDelay: '2.0s' }}>
+                <path d="M360 100 C365 92, 373 92, 378 100 M378 100 C383 92, 391 92, 396 100" stroke="#C9A84C" strokeWidth="2" fill="none" opacity="0.65" strokeLinecap="round" />
               </g>
               <g className="animate-float-bird" style={{ animationDelay: '0.6s' }}>
-                <path d="M200 300 C203 296, 207 296, 210 300 M210 300 C213 296, 217 296, 220 300" stroke="#C9A84C" strokeWidth="1.5" fill="none" opacity="0.55" strokeLinecap="round" />
+                <path d="M120 350 C125 342, 133 342, 138 350 M138 350 C143 342, 151 342, 156 350" stroke="#C9A84C" strokeWidth="2" fill="none" opacity="0.7" strokeLinecap="round" />
+              </g>
+              <g className="animate-float-bird" style={{ animationDelay: '1.7s' }}>
+                <path d="M260 360 C265 352, 273 352, 278 360 M278 360 C283 352, 291 352, 296 360" stroke="#C9A84C" strokeWidth="2" fill="none" opacity="0.6" strokeLinecap="round" />
               </g>
             </svg>
-
-            {/* Floating stat pills */}
-            <div
-              className="absolute top-[10%] right-[8%] bg-white rounded-full px-4 py-2 shadow-lg text-xs font-semibold text-[#1C0F00]"
-              style={{ transform: 'rotate(-2deg)' }}
-            >
-              🌿 {saviourCount ?? 26} Saviours
-            </div>
-            <div
-              className="absolute bottom-[18%] left-[5%] bg-white rounded-full px-4 py-2 shadow-lg text-xs font-semibold text-[#1C0F00]"
-              style={{ transform: 'rotate(2deg)' }}
-            >
-              🌡 40°C Delhi
-            </div>
-            <div
-              className="absolute top-[50%] right-[15%] bg-white rounded-full px-4 py-2 shadow-lg text-xs font-semibold text-[#1C0F00]"
-              style={{ transform: 'rotate(-1deg)' }}
-            >
-              🐦 {birdsHelped ?? 520} Birds
-            </div>
           </div>
         </div>
       </section>
