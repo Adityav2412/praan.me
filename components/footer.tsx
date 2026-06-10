@@ -73,7 +73,7 @@ export default function Footer({ onBecomeSaviour }: FooterProps) {
                 Instagram
               </a>
               <span className="text-text-muted/30">·</span>
-              <a href="mailto:Akshay1092001@yahoo.com" className="hover:text-text-primary transition-colors">
+              <a href="mailto:akshay@praan.me" className="hover:text-text-primary transition-colors">
                 Contact
               </a>
             </nav>
