@@ -55,10 +55,10 @@ export default function HowItWorks() {
                 className="relative rounded-2xl p-8 pb-14 overflow-hidden bg-white"
                 style={{ boxShadow: '0 2px 12px rgba(0,0,0,0.06)' }}
               >
-                {/* Step number — absolute bottom right, does NOT overlap text */}
+                {/* Step number — absolute bottom right, fully visible */}
                 <span
-                  className="absolute bottom-[-8px] right-3 font-display text-[80px] font-bold leading-none select-none pointer-events-none"
-                  style={{ color: '#1A1A18', opacity: 0.06 }}
+                  className="absolute bottom-4 right-4 font-display text-[80px] font-bold leading-none select-none pointer-events-none"
+                  style={{ color: '#1A1A18', opacity: 0.15 }}
                 >
                   {step.number}
                 </span>
