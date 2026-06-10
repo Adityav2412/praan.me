@@ -1,10 +1,40 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { useScrollAnimation, useAnimatedCounter } from '@/hooks/use-scroll-animation';
+import { useState, useEffect, useRef } from 'react';
+import { useScrollAnimation } from '@/hooks/use-scroll-animation';
 
 interface LiveStatsBarProps {
   saviourCount: number | null;
+}
+
+/** Simple count-up that re-runs when target changes */
+function useCountUp(target: number | null, duration: number = 1500) {
+  const [count, setCount] = useState(0);
+  const prevTarget = useRef<number | null>(null);
+
+  useEffect(() => {
+    if (target === null) return;
+    if (target === prevTarget.current) return;
+
+    prevTarget.current = target;
+    const startValue = count;
+    const startTime = performance.now();
+
+    const animate = (currentTime: number) => {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const easeOut = 1 - Math.pow(1 - progress, 3);
+      const currentCount = Math.round(startValue + (target - startValue) * easeOut);
+      setCount(currentCount);
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      }
+    };
+
+    requestAnimationFrame(animate);
+  }, [target, duration]);
+
+  return count;
 }
 
 export default function LiveStatsBar({ saviourCount }: LiveStatsBarProps) {
@@ -13,11 +43,8 @@ export default function LiveStatsBar({ saviourCount }: LiveStatsBarProps) {
 
   const { ref: statsRef, hasMounted, isVisible } = useScrollAnimation({ threshold: 0.3 });
 
-  const birdsHelped = saviourCount !== null ? saviourCount * 25 : null;
-
-  const animatedSaviours = useAnimatedCounter(saviourCount, 1500, isVisible, hasMounted);
-  const animatedBirds = useAnimatedCounter(birdsHelped, 1500, isVisible, hasMounted);
-  const animatedTemp = useAnimatedCounter(temperature, 1500, isVisible, hasMounted);
+  const animatedSaviours = useCountUp(saviourCount, 1500);
+  const animatedTemp = useCountUp(temperature, 1500);
 
   // Fetch Delhi temperature from Open-Meteo
   useEffect(() => {
@@ -50,8 +77,8 @@ export default function LiveStatsBar({ saviourCount }: LiveStatsBarProps) {
       ref={statsRef}
       className={`py-6 px-6 ${hasMounted ? `motion-reveal ${isVisible ? 'is-visible' : ''}` : ''}`}
     >
-      <div className="max-w-4xl mx-auto bg-bg-card rounded-2xl border border-[var(--border)] shadow-sm px-6 py-6 sm:px-10 sm:py-8">
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-0 sm:divide-x sm:divide-[var(--border)]">
+      <div className="max-w-3xl mx-auto bg-bg-card rounded-2xl border border-[var(--border)] shadow-sm px-6 py-6 sm:px-10 sm:py-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-0 sm:divide-x sm:divide-[var(--border)]">
 
           {/* Live Saviours */}
           <div className="flex flex-col items-center px-4">
@@ -65,7 +92,7 @@ export default function LiveStatsBar({ saviourCount }: LiveStatsBarProps) {
               {saviourCount === null ? (
                 <span className="inline-block w-16 h-9 bg-bg-surface rounded animate-pulse" />
               ) : (
-                hasMounted ? animatedSaviours : saviourCount
+                animatedSaviours
               )}
             </span>
           </div>
@@ -82,25 +109,9 @@ export default function LiveStatsBar({ saviourCount }: LiveStatsBarProps) {
               {tempLoading ? (
                 <span className="inline-block w-16 h-9 bg-bg-surface rounded animate-pulse" />
               ) : temperature !== null ? (
-                <>{hasMounted ? animatedTemp : temperature}°C</>
+                <>{animatedTemp}°C</>
               ) : (
                 '—'
-              )}
-            </span>
-          </div>
-
-          {/* Birds Helped */}
-          <div className="flex flex-col items-center px-4">
-            <div className="flex items-center gap-2 mb-3">
-              <span className="text-xs font-medium uppercase tracking-wider text-text-muted">
-                Birds Helped
-              </span>
-            </div>
-            <span className="text-3xl sm:text-4xl font-bold text-text-primary tabular-nums">
-              {birdsHelped === null ? (
-                <span className="inline-block w-16 h-9 bg-bg-surface rounded animate-pulse" />
-              ) : (
-                hasMounted ? animatedBirds : birdsHelped
               )}
             </span>
           </div>
