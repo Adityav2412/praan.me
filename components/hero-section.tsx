@@ -6,11 +6,13 @@ import { useScrollAnimation } from '@/hooks/use-scroll-animation';
 interface HeroSectionProps {
   onBecomeSaviour: () => void;
   onNavigate?: (section: string) => void;
+  topColony?: { colony: string; count: number } | null;
 }
 
 export default function HeroSection({
   onBecomeSaviour,
   onNavigate,
+  topColony,
 }: HeroSectionProps) {
   const { ref: heroRef, hasMounted, isVisible } = useScrollAnimation({ threshold: 0.1 });
 
@@ -27,12 +29,25 @@ export default function HeroSection({
             e.preventDefault();
             onNavigate?.('how-it-works');
           }}
-          className="inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-bg-card px-4 py-2 text-xs font-medium text-text-muted hover:text-text-primary transition-colors mb-8 shadow-sm"
+          className="inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-bg-card px-4 py-2 text-xs font-medium text-text-muted hover:text-text-primary transition-colors mb-6 shadow-sm"
         >
           <span className="w-2 h-2 rounded-full bg-accent animate-pulse-dot" />
           <span>A Praan Initiative · Water for Wings · Summer 2026</span>
           <span className="text-text-muted/50">→</span>
         </a>
+
+        {/* Winner ticker — competitive, urgent */}
+        {topColony && (
+          <div className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-amber-50 to-amber-100/60 border border-amber-200/50 px-4 py-2 mb-8 animate-pulse-subtle">
+            <span className="text-base">👑</span>
+            <span className="text-xs font-semibold text-amber-900">
+              {topColony.colony} is leading · {topColony.count} {topColony.count === 1 ? 'saviour' : 'saviours'}
+            </span>
+            <span className="text-xs text-amber-700/70 hidden sm:inline">
+              · Is your colony next?
+            </span>
+          </div>
+        )}
 
         {/* Headline */}
         <h1 className="font-display text-[2.5rem] sm:text-[3.25rem] lg:text-[3.75rem] font-bold leading-[1.1] text-text-primary mb-6 max-w-3xl">

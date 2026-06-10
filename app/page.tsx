@@ -16,6 +16,7 @@ import CertificateModal from '@/components/certificate-modal';
 
 import {
   fetchSaviours,
+  getColonyLeaderboard,
   type Saviour,
 } from '@/lib/storage';
 
@@ -24,6 +25,7 @@ export default function Home() {
   const [certificateOpen, setCertificateOpen] = useState(false);
   const [newSaviour, setNewSaviour] = useState<Saviour | null>(null);
   const [saviours, setSaviours] = useState<Saviour[]>([]);
+  const [topColony, setTopColony] = useState<{ colony: string; count: number } | null>(null);
   const [saviourCount, setSaviourCount] = useState<number | null>(() => {
     if (typeof window !== 'undefined') {
       const saved = localStorage.getItem('saviourCount');
@@ -40,6 +42,12 @@ export default function Home() {
         setSaviours(data);
         setSaviourCount(data.length);
         localStorage.setItem('saviourCount', data.length.toString());
+
+        // Compute top colony for hero ticker
+        const leaderboard = getColonyLeaderboard();
+        if (leaderboard.length > 0) {
+          setTopColony(leaderboard[0]);
+        }
       } catch (error) {
         console.error('Failed to fetch saviours:', error);
       }
@@ -123,6 +131,7 @@ export default function Home() {
         <HeroSection
           onBecomeSaviour={handleBecomeSaviour}
           onNavigate={handleNavigate}
+          topColony={topColony}
         />
 
         {/* Live Stats Bar */}
