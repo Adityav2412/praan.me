@@ -58,21 +58,6 @@ export default function HowItWorks() {
             />
           </svg>
 
-          {/* Bird icon sitting on path between steps */}
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/bird-icon.png"
-            alt=""
-            className="hidden md:block absolute top-[38%] left-[30%] w-8 h-8 opacity-40 pointer-events-none select-none animate-float-bird z-10"
-          />
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/bird-icon.png"
-            alt=""
-            className="hidden md:block absolute top-[42%] left-[64%] w-7 h-7 opacity-35 pointer-events-none select-none animate-float-bird z-10"
-            style={{ animationDelay: '1s', transform: 'scaleX(-1)' }}
-          />
-
           {/* Steps — horizontal timeline */}
           <div className={`relative z-10 grid grid-cols-1 md:grid-cols-3 gap-10 lg:gap-16 ${hasMounted ? `motion-stagger ${isVisible ? 'is-visible' : ''}` : ''}`}>
             {steps.map((step) => (
@@ -84,9 +69,6 @@ export default function HowItWorks() {
 
                 {/* Content overlaid */}
                 <div className="relative pt-10">
-                  {/* Small dot indicator */}
-                  <div className="w-3 h-3 rounded-full bg-accent mx-auto md:mx-0 mb-4" />
-
                   <h3 className="text-lg font-semibold text-text-primary mb-3">
                     {step.title}
                   </h3>
