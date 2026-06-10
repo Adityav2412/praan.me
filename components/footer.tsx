@@ -1,7 +1,6 @@
 'use client';
 
 import Image from 'next/image';
-import Link from 'next/link';
 import { useScrollAnimation } from '@/hooks/use-scroll-animation';
 
 interface FooterProps {
@@ -53,12 +52,8 @@ export default function Footer({ onBecomeSaviour }: FooterProps) {
               <span className="text-xs text-text-muted">Water for Wings · Saving Delhi&apos;s birds</span>
             </div>
 
-            {/* Center — Links */}
-            <nav className="flex items-center gap-6 text-sm text-text-muted">
-              <Link href="/founder" className="hover:text-text-primary transition-colors">
-                A letter from our founder →
-              </Link>
-            </nav>
+            {/* Center spacer */}
+            <div />
 
             {/* Right — Bottom links */}
             <nav className="flex items-center gap-4 text-xs text-text-muted">
