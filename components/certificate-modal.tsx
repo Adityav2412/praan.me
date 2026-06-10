@@ -79,7 +79,7 @@ export default function CertificateModal({
     }
   };
 
-  const handleShare = async (platform: 'x' | 'whatsapp' | 'instagram') => {
+  const handleShare = async (platform: 'x' | 'whatsapp') => {
     try {
       setIsDownloading(true);
       await downloadCertificate();
@@ -97,9 +97,6 @@ export default function CertificateModal({
             '_blank',
             'noopener,noreferrer'
           );
-        }
-        if (platform === 'instagram') {
-          alert('Certificate downloaded.\n\nShare it on your Instagram Story and tag @officialwaterforwings');
         }
       }, 500);
     } catch (error) {

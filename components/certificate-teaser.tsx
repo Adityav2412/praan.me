@@ -41,7 +41,7 @@ export default function CertificateTeaser({ onBecomeSaviour }: CertificateTeaser
             </div>
             <div className="flex items-center gap-3">
               <span className="text-amber-300/80 text-sm">✓</span>
-              <span className="text-sm text-white/60">Shareable on Instagram</span>
+              <span className="text-sm text-white/60">Shareable on X</span>
             </div>
             <div className="flex items-center gap-3">
               <span className="text-amber-300/80 text-sm">✓</span>
