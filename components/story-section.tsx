@@ -68,7 +68,7 @@ export default function StorySection({ saviourCount }: StorySectionProps) {
       {/* ═══════════════════════════════════════════════════════════
           PROBLEM SECTION — dark terracotta, massive counter, two-column text
           ═══════════════════════════════════════════════════════════ */}
-      <section id="about" className="py-24 lg:py-32 px-6 bg-[#3D1F0D] relative overflow-hidden">
+      <section className="py-24 lg:py-32 px-6 bg-[#3D1F0D] relative overflow-hidden">
         {/* HUGE watermark — hero-bowl-sketch.png */}
         <div className="absolute top-1/2 right-[-80px] -translate-y-1/2 w-[600px] h-[600px] pointer-events-none select-none opacity-[0.05]">
           <Image

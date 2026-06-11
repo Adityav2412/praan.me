@@ -10,6 +10,7 @@ import HowItWorks from '@/components/how-it-works';
 import SavioursSection from '@/components/saviours-section';
 import AreaLeaderboard from '@/components/area-leaderboard';
 import CertificateTeaser from '@/components/certificate-teaser';
+import AboutPraan from '@/components/about-praan';
 import Footer from '@/components/footer';
 import FormModal from '@/components/form-modal';
 import CertificateModal from '@/components/certificate-modal';
@@ -136,6 +137,9 @@ export default function Home() {
 
         {/* Live Stats Bar */}
         <LiveStatsBar saviourCount={saviourCount} />
+
+        {/* About Praan */}
+        <AboutPraan />
 
         {/* Story — The Problem + The Solution */}
         <StorySection saviourCount={saviourCount} />
