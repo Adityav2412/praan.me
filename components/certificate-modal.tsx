@@ -24,6 +24,7 @@ export default function CertificateModal({
 }: CertificateModalProps) {
   const certificateRef = useRef<HTMLDivElement>(null);
   const [isDownloading, setIsDownloading] = useState(false);
+  const [downloadError, setDownloadError] = useState<string | null>(null);
 
   if (!isOpen || !saviour) return null;
 
@@ -33,75 +34,83 @@ export default function CertificateModal({
     year: 'numeric',
   });
 
-  const shareText = `I became a Saviour with Water For Wings.\n\nDelhi's birds need water this summer.\nYou can help too.\n\nGet your Saviour Certificate:\nhttps://praan.me\n\n#DelhiBirdsNeedWater`;
+  const generateCertificateImage = async (): Promise<string | null> => {
+    if (!certificateRef.current) {
+      console.error('Certificate ref not attached');
+      return null;
+    }
 
-  const generateCertificateImage = async () => {
+    // Wait for images/fonts to render
+    await new Promise((resolve) => setTimeout(resolve, 500));
+
     try {
-      if (!certificateRef.current) return null;
-      await new Promise((resolve) => setTimeout(resolve, 400));
       const canvas = await html2canvas(certificateRef.current, {
         scale: 2,
         backgroundColor: '#FAF8F4',
-        useCORS: false,
+        useCORS: true,
         allowTaint: true,
         logging: false,
-        imageTimeout: 0,
+        imageTimeout: 5000,
         removeContainer: true,
+        onclone: (clonedDoc) => {
+          // Force all elements in the cloned document to use hex colors
+          // This prevents html2canvas from encountering oklch/color-mix
+          const allElements = clonedDoc.querySelectorAll('*');
+          allElements.forEach((el) => {
+            const htmlEl = el as HTMLElement;
+            const computed = window.getComputedStyle(htmlEl);
+            const outlineColor = computed.outlineColor;
+            const borderColor = computed.borderColor;
+
+            // Override any oklch/color-mix values with transparent
+            if (outlineColor && (outlineColor.includes('oklch') || outlineColor.includes('color-mix'))) {
+              htmlEl.style.outlineColor = 'transparent';
+            }
+            if (borderColor && (borderColor.includes('oklch') || borderColor.includes('color-mix'))) {
+              htmlEl.style.borderColor = 'rgba(28, 18, 9, 0.1)';
+            }
+          });
+        },
       });
+
       return canvas.toDataURL('image/png', 1);
     } catch (error) {
-      console.error('Canvas generation failed:', error);
+      console.error('html2canvas failed:', error);
       return null;
     }
   };
 
   const downloadCertificate = async () => {
+    setDownloadError(null);
+
     const image = await generateCertificateImage();
-    if (!image) throw new Error('Image generation failed');
+
+    if (!image) {
+      throw new Error(
+        'Certificate generation failed. Please try again or take a screenshot instead.'
+      );
+    }
+
     const link = document.createElement('a');
     link.href = image;
     link.download = `Praan-Saviour-${saviour.saviourNumber}.png`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-    return image;
   };
 
   const handleDownload = async () => {
     try {
       setIsDownloading(true);
+      setDownloadError(null);
       await downloadCertificate();
     } catch (error) {
-      console.error(error);
-      alert('Failed to download certificate.');
-    } finally {
-      setIsDownloading(false);
-    }
-  };
-
-  const handleShare = async (platform: 'x' | 'whatsapp') => {
-    try {
-      setIsDownloading(true);
-      await downloadCertificate();
-      setTimeout(() => {
-        if (platform === 'x') {
-          window.open(
-            `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}`,
-            '_blank',
-            'noopener,noreferrer'
-          );
-        }
-        if (platform === 'whatsapp') {
-          window.open(
-            `https://wa.me/?text=${encodeURIComponent(shareText)}`,
-            '_blank',
-            'noopener,noreferrer'
-          );
-        }
-      }, 500);
-    } catch (error) {
-      console.error(error);
-      alert('Unable to generate certificate right now.');
+      const message =
+        error instanceof Error
+          ? error.message
+          : 'Something went wrong. Please try taking a screenshot instead.';
+      console.error('Download failed:', error);
+      setDownloadError(message);
     } finally {
       setIsDownloading(false);
     }
@@ -135,6 +144,7 @@ export default function CertificateModal({
               background: '#FAF8F4',
               border: '3px double #1C1209',
               color: '#1C1209',
+              outlineColor: 'transparent',
             }}
           >
             {/* Top — Logo + Initiative */}
@@ -218,6 +228,13 @@ export default function CertificateModal({
               Share and inspire more people to help Delhi&apos;s birds.
             </p>
           </div>
+
+          {/* Error message */}
+          {downloadError && (
+            <p className="mt-4 text-center text-sm text-red-600">
+              {downloadError}
+            </p>
+          )}
 
           {/* Download button */}
           <div className="mt-6">
