@@ -18,13 +18,6 @@ function getInitials(name: string): string {
     .slice(0, 2);
 }
 
-function getBadge(count: number): string {
-  if (count <= 10) return '🌱';
-  if (count <= 50) return '🪴';
-  if (count <= 100) return '🌳';
-  return '⭐';
-}
-
 export default function SavioursSection({ saviours, onBecomeSaviour }: SavioursSectionProps) {
   const { ref: sectionRef, hasMounted, isVisible } = useScrollAnimation({ threshold: 0.1 });
 
@@ -64,7 +57,7 @@ export default function SavioursSection({ saviours, onBecomeSaviour }: SavioursS
               className="bg-bg-card rounded-xl border border-[var(--border)] p-5 hover:shadow-sm transition-shadow"
             >
               <div className="flex items-start gap-4">
-                {/* Avatar */}
+                {/* Avatar — initials */}
                 <div className="w-11 h-11 rounded-full bg-accent/10 flex items-center justify-center shrink-0">
                   <span className="text-sm font-semibold text-accent">
                     {getInitials(saviour.name)}
@@ -73,14 +66,9 @@ export default function SavioursSection({ saviours, onBecomeSaviour }: SavioursS
 
                 {/* Info */}
                 <div className="min-w-0 flex-1">
-                  <div className="flex items-center gap-2">
-                    <h3 className="text-sm font-semibold text-text-primary truncate">
-                      {saviour.name}
-                    </h3>
-                    <span className="text-base" title="Saviour badge">
-                      {getBadge(saviour.saviourNumber)}
-                    </span>
-                  </div>
+                  <h3 className="text-sm font-semibold text-text-primary truncate">
+                    {saviour.name}
+                  </h3>
                   <p className="text-xs text-text-muted mt-0.5 truncate">
                     {saviour.colony || saviour.area || 'Delhi'}
                   </p>
