@@ -46,29 +46,38 @@ export default function LiveStatsBar({ saviourCount }: LiveStatsBarProps) {
   const animatedSaviours = useCountUp(saviourCount, 800);
   const animatedTemp = useCountUp(temperature, 800);
 
-  // Fetch Delhi temperature from Open-Meteo
+  // Fetch Delhi temperature from Open-Meteo (current endpoint)
   useEffect(() => {
     const fetchTemp = async () => {
       try {
         const controller = new AbortController();
-        const timeout = setTimeout(() => controller.abort(), 5000);
+        const timeout = setTimeout(() => controller.abort(), 8000);
 
         const res = await fetch(
-          'https://api.open-meteo.com/v1/forecast?latitude=28.6139&longitude=77.2090&current_weather=true',
+          'https://api.open-meteo.com/v1/forecast?latitude=28.6139&longitude=77.2090&current=temperature_2m',
           { signal: controller.signal }
         );
         clearTimeout(timeout);
 
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
         const data = await res.json();
-        setTemperature(Math.round(data.current_weather.temperature));
+
+        // Try new API format first, fall back to legacy
+        const temp = data?.current?.temperature_2m ?? data?.current_weather?.temperature;
+
+        if (temp !== undefined && temp !== null) {
+          setTemperature(Math.round(temp));
+        }
         setTempLoading(false);
-      } catch {
+      } catch (error) {
+        console.error('Temperature fetch failed:', error);
         setTempLoading(false);
       }
     };
 
     fetchTemp();
-    const interval = setInterval(fetchTemp, 5 * 60 * 1000);
+    const interval = setInterval(fetchTemp, 5 * 60 * 1000); // every 5 minutes
     return () => clearInterval(interval);
   }, []);
 
@@ -111,7 +120,7 @@ export default function LiveStatsBar({ saviourCount }: LiveStatsBarProps) {
               ) : temperature !== null ? (
                 <>{animatedTemp}°C</>
               ) : (
-                '—'
+                'N/A'
               )}
             </span>
           </div>
