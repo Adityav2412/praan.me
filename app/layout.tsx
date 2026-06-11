@@ -121,7 +121,7 @@ export default function RootLayout({
     >
       <head>
         <link rel="icon" href="/a.ico" />
-        {/* Microsoft Clarity */
+        {/* Microsoft Clarity */}
         <script
           type="text/javascript"
           dangerouslySetInnerHTML={{
