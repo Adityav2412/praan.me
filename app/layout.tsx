@@ -97,8 +97,8 @@ export const metadata: Metadata = {
   },
 
   icons: {
-    icon: '/a.png',
-    shortcut: '/a.png',
+    icon: '/a.ico',
+    shortcut: '/a.ico',
     apple: '/a.png',
   },
 
@@ -120,7 +120,8 @@ export default function RootLayout({
       className={`${playfair.variable} ${dmSans.variable}`}
     >
       <head>
-        {/* Microsoft Clarity */}
+        <link rel="icon" href="/a.ico" />
+        {/* Microsoft Clarity */
         <script
           type="text/javascript"
           dangerouslySetInnerHTML={{
