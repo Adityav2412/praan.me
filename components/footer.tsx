@@ -52,11 +52,8 @@ export default function Footer({ onBecomeSaviour }: FooterProps) {
               <span className="text-xs text-text-muted">Water for Wings · Saving Delhi&apos;s birds</span>
             </div>
 
-            {/* Center spacer */}
-            <div />
-
-            {/* Right — Bottom links */}
-            <nav className="flex items-center flex-wrap gap-4 text-xs text-text-muted">
+            {/* Bottom links */}
+            <nav className="flex items-center gap-4 text-xs text-text-muted">
               <button onClick={() => {}} className="hover:text-text-primary transition-colors">
                 About
               </button>
@@ -82,7 +79,7 @@ export default function Footer({ onBecomeSaviour }: FooterProps) {
           {/* Copyright */}
           <div className="mt-6 pt-6 border-t border-[var(--border)] text-center">
             <p className="text-xs text-text-muted/60">
-              © 2025 Praan. Made with care for Delhi&apos;s birds.
+              © 2026 Praan. Made with care for Delhi&apos;s birds.
             </p>
           </div>
         </div>
