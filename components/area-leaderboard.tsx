@@ -133,7 +133,7 @@ export default function AreaLeaderboard() {
             </div>
           ) : filteredData.length === 0 ? (
             <p className="text-center text-text-muted py-8 text-sm">
-              Be the first from your colony to join!
+              Founding Summer 2026 — Be among the first saviours from your colony.
             </p>
           ) : (
             <div

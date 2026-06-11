@@ -96,7 +96,7 @@ export default function SaviourWall({ onBecomeSaviour }: SaviourWallProps) {
         ) : saviours.length === 0 ? (
           <div className="text-center py-16 bg-[var(--bg-card)] border border-[var(--border)] rounded-2xl">
             <p className="text-xl text-[var(--text-primary)] font-medium">
-              Be the first Saviour in Delhi!
+              Founding Summer 2026 — Be among Delhi’s first saviours.
             </p>
             <p className="text-[var(--text-muted)] mt-2">
               Join the mission and see your name here

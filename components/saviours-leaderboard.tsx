@@ -134,7 +134,7 @@ export default function SavioursLeaderboard() {
           <p className="text-xl text-navy font-medium">No saviours found</p>
           <p className="text-navy/60 mt-2">
             {saviours.length === 0
-              ? 'Be the first to join the mission!'
+              ? 'Founding Summer 2026 — Be among the first to join.'
               : 'Try a different search or filter.'}
           </p>
         </div>
