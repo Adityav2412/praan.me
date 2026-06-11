@@ -54,15 +54,28 @@ export default function Footer({ onBecomeSaviour }: FooterProps) {
 
             {/* Bottom links */}
             <nav className="flex items-center gap-4 text-xs text-text-muted">
+            {/* Center spacer */}
+            <div />
+
+            {/* Right — Bottom links */}
+            <nav className="flex items-center flex-wrap gap-4 text-xs text-text-muted">
               <button onClick={() => {}} className="hover:text-text-primary transition-colors">
                 About
               </button>
               <span className="text-text-muted/30">·</span>
-              <a href="https://instagram.com/waterforwings" target="_blank" rel="noopener noreferrer" className="hover:text-text-primary transition-colors">
-                Instagram
+              <a href="/privacy" className="hover:text-text-primary transition-colors">
+                Privacy Policy
               </a>
               <span className="text-text-muted/30">·</span>
-              <a href="mailto:Akshay1092001@yahoo.com" className="hover:text-text-primary transition-colors">
+              <a href="/terms" className="hover:text-text-primary transition-colors">
+                Terms
+              </a>
+              <span className="text-text-muted/30">·</span>
+              <a href="https://x.com/praanofficial" target="_blank" rel="noopener noreferrer" className="hover:text-text-primary transition-colors">
+                X @praanofficial
+              </a>
+              <span className="text-text-muted/30">·</span>
+              <a href="mailto:akshay@praan.me" className="hover:text-text-primary transition-colors">
                 Contact
               </a>
             </nav>

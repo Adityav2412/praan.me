@@ -43,8 +43,8 @@ export default function LiveStatsBar({ saviourCount }: LiveStatsBarProps) {
 
   const { ref: statsRef, hasMounted, isVisible } = useScrollAnimation({ threshold: 0.3 });
 
-  const animatedSaviours = useCountUp(saviourCount, 1500);
-  const animatedTemp = useCountUp(temperature, 1500);
+  const animatedSaviours = useCountUp(saviourCount, 800);
+  const animatedTemp = useCountUp(temperature, 800);
 
   // Fetch Delhi temperature from Open-Meteo
   useEffect(() => {

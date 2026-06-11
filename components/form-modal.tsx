@@ -56,6 +56,7 @@ export default function FormModal({
 
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitPhase, setSubmitPhase] = useState<'idle' | 'submitting' | 'loading'>('idle');
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -80,6 +81,7 @@ export default function FormModal({
     if (!validate()) return;
     if (isSubmitting) return;
     setIsSubmitting(true);
+    setSubmitPhase('submitting');
 
     try {
       await fetch(
@@ -96,16 +98,19 @@ export default function FormModal({
         }
       );
 
-      await new Promise((resolve) => setTimeout(resolve, 2500));
+      setSubmitPhase('loading');
+      await new Promise((resolve) => setTimeout(resolve, 1500));
       const latestData = await refreshSaviours();
       const latest = latestData[latestData.length - 1];
       if (!latest) throw new Error('No saviour found');
 
       onSuccess(latest);
       setFormData({ name: '', colony: '', source: '' });
+      setSubmitPhase('idle');
       onClose();
     } catch (error) {
       console.error(error);
+      setSubmitPhase('idle');
       alert('Unable to submit right now. Please try again.');
     } finally {
       setIsSubmitting(false);
@@ -231,7 +236,7 @@ export default function FormModal({
               {isSubmitting ? (
                 <>
                   <div className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />
-                  <span>Saving your mission...</span>
+                  <span>{submitPhase === 'loading' ? 'Almost ready...' : 'Saving your mission...'}</span>
                 </>
               ) : (
                 'Join the Mission'

@@ -5,8 +5,6 @@ import Image from 'next/image';
 import {
   X,
   Download,
-  Instagram,
-  MessageCircle,
 } from 'lucide-react';
 
 import html2canvas from 'html2canvas';
@@ -81,7 +79,7 @@ export default function CertificateModal({
     }
   };
 
-  const handleShare = async (platform: 'x' | 'whatsapp' | 'instagram') => {
+  const handleShare = async (platform: 'x' | 'whatsapp') => {
     try {
       setIsDownloading(true);
       await downloadCertificate();
@@ -99,9 +97,6 @@ export default function CertificateModal({
             '_blank',
             'noopener,noreferrer'
           );
-        }
-        if (platform === 'instagram') {
-          alert('Certificate downloaded.\n\nShare it on your Instagram Story and tag @officialwaterforwings');
         }
       }, 500);
     } catch (error) {
@@ -186,22 +181,14 @@ export default function CertificateModal({
             {/* Thin rule */}
             <div className="w-16 h-px bg-[#1C1209]/20 mx-auto mb-6" />
 
-            {/* Info cards — thin border, no emojis */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-center mb-8">
+            {/* Info cards — thin border, no emojis, no station/type */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-center mb-8">
               <div className="p-3 rounded-lg border border-[#1C1209]/10">
                 <p className="text-[10px] uppercase tracking-wider text-[#7A7468] mb-1">
                   Colony
                 </p>
                 <p className="font-semibold text-sm text-[#1C1209] break-words">
                   {saviour.colony}
-                </p>
-              </div>
-              <div className="p-3 rounded-lg border border-[#1C1209]/10">
-                <p className="text-[10px] uppercase tracking-wider text-[#7A7468] mb-1">
-                  Station
-                </p>
-                <p className="font-semibold text-sm text-[#1C1209] break-words">
-                  {saviour.stationType}
                 </p>
               </div>
               <div className="p-3 rounded-lg border border-[#1C1209]/10">
@@ -232,48 +219,15 @@ export default function CertificateModal({
             </p>
           </div>
 
-          {/* Share buttons */}
-          <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3">
-            {/* X */}
-            <button
-              onClick={() => handleShare('x')}
-              disabled={isDownloading}
-              className="flex items-center justify-center gap-3 bg-[#1C1209] text-white px-4 py-3.5 rounded-full font-semibold text-sm hover:bg-[#2a1f12] transition-all disabled:opacity-60"
-            >
-              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-              </svg>
-              Share on X
-            </button>
-
-            {/* WhatsApp */}
-            <button
-              onClick={() => handleShare('whatsapp')}
-              disabled={isDownloading}
-              className="flex items-center justify-center gap-3 bg-[#25D366] text-white px-4 py-3.5 rounded-full font-semibold text-sm hover:bg-[#1da851] transition-all disabled:opacity-60"
-            >
-              <MessageCircle className="w-4 h-4" />
-              Share on WhatsApp
-            </button>
-
-            {/* Instagram */}
-            <button
-              onClick={() => handleShare('instagram')}
-              disabled={isDownloading}
-              className="flex items-center justify-center gap-3 bg-[#8B4513] text-white px-4 py-3.5 rounded-full font-semibold text-sm hover:bg-[#6d3610] transition-all disabled:opacity-60"
-            >
-              <Instagram className="w-4 h-4" />
-              Instagram Story
-            </button>
-
-            {/* Download */}
+          {/* Download button */}
+          <div className="mt-6">
             <button
               onClick={handleDownload}
               disabled={isDownloading}
-              className="flex items-center justify-center gap-3 bg-white text-[#1C1209] px-4 py-3.5 rounded-full font-semibold text-sm border border-[#1C1209]/15 hover:border-[#1C1209]/40 transition-all disabled:opacity-60"
+              className="w-full flex items-center justify-center gap-3 bg-[#1C1209] text-white px-6 py-4 rounded-full font-semibold text-base hover:bg-[#2a1f12] transition-all disabled:opacity-60"
             >
-              <Download className="w-4 h-4" />
-              {isDownloading ? 'Preparing...' : 'Download PNG'}
+              <Download className="w-5 h-5" />
+              {isDownloading ? 'Preparing...' : 'Download & Share'}
             </button>
           </div>
         </div>

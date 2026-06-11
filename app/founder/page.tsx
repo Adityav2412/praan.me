@@ -166,7 +166,7 @@ export default function FounderPage() {
             {/* Connect */}
             <div className="mt-8 flex flex-wrap items-center gap-4">
               <a
-                href="mailto:Akshay1092001@yahoo.com"
+                href="mailto:akshay@praan.me"
                 className="motion-cta inline-flex items-center gap-2 bg-[#1A1A18] text-white text-sm font-semibold px-6 py-3 rounded-full hover:bg-[#2a2a28] transition-colors"
               >
                 Let&apos;s Talk →
@@ -177,22 +177,19 @@ export default function FounderPage() {
               </span>
 
               <a
-                href="https://instagram.com/akshayyyy.000"
+                href="https://x.com/praanofficial"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-9 h-9 rounded-full border border-[var(--border)] flex items-center justify-center text-text-muted hover:text-text-primary hover:border-text-primary/30 transition-all"
-                aria-label="Instagram"
+                aria-label="X (Twitter)"
               >
                 <svg
                   width="16"
                   height="16"
                   viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
+                  fill="currentColor"
                 >
-                  <rect x="2" y="2" width="20" height="20" rx="5" />
-                  <circle cx="12" cy="12" r="4" />
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
                 </svg>
               </a>
 
