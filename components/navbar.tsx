@@ -38,7 +38,7 @@ export default function Navbar({ onNavigate }: NavbarProps) {
               priority
             />
           </Link>
-          <span className="hidden sm:inline-flex text-[10px] font-medium text-text-muted/70 bg-bg-surface px-2 py-0.5 rounded-full">
+          <span className="hidden sm:inline-flex text-[10px] font-medium text-[#635A50] bg-bg-surface px-2 py-0.5 rounded-full">
             Water for Wings ↗
           </span>
         </div>
