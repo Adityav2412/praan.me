@@ -52,7 +52,7 @@ export default function HeroSection({
         {/* Headline */}
         <h1 className="font-display text-[2.5rem] sm:text-[3.25rem] lg:text-[3.75rem] font-bold leading-[1.1] text-text-primary mb-6 max-w-3xl">
           Delhi&apos;s birds are dying of thirst.{' '}
-          <span className="font-display italic">One bowl can save lives.</span>
+          <span className="font-display italic">One bowl saves lives.</span>
         </h1>
 
         {/* Subtext */}
