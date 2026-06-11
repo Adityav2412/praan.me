@@ -54,7 +54,7 @@ export default function Footer({ onBecomeSaviour }: FooterProps) {
 
             {/* Bottom links */}
             <nav className="flex items-center gap-4 text-xs text-text-muted">
-              <button onClick={() => {}} className="hover:text-text-primary transition-colors">
+              <button onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })} className="hover:text-text-primary transition-colors">
                 About
               </button>
               <span className="text-text-muted/30">·</span>
