@@ -46,21 +46,16 @@ export default function LiveStatsBar({ saviourCount }: LiveStatsBarProps) {
   const animatedSaviours = useCountUp(saviourCount, 800);
   const animatedTemp = useCountUp(temperature, 800);
 
-  // Fetch Delhi temperature from Open-Meteo
+  // Fetch Delhi temperature via server-side API route (avoids CORS/connection issues)
   useEffect(() => {
     const fetchTemp = async () => {
       try {
-        const controller = new AbortController();
-        const timeout = setTimeout(() => controller.abort(), 5000);
-
-        const res = await fetch(
-          'https://api.open-meteo.com/v1/forecast?latitude=28.6139&longitude=77.2090&current_weather=true',
-          { signal: controller.signal }
-        );
-        clearTimeout(timeout);
-
+        const res = await fetch('/api/temperature');
         const data = await res.json();
-        setTemperature(Math.round(data.current_weather.temperature));
+
+        if (data.temperature !== null && data.temperature !== undefined) {
+          setTemperature(data.temperature);
+        }
         setTempLoading(false);
       } catch {
         setTempLoading(false);
@@ -111,7 +106,7 @@ export default function LiveStatsBar({ saviourCount }: LiveStatsBarProps) {
               ) : temperature !== null ? (
                 <>{animatedTemp}°C</>
               ) : (
-                '—'
+                'N/A'
               )}
             </span>
           </div>
