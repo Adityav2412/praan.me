@@ -166,11 +166,11 @@ export default function CertificateModal({
 
             {/* Title — with horizontal rules */}
             <div className="flex items-center justify-center gap-4 mb-6">
-              <div className="flex-1 h-px bg-[#1C1209]/15" />
+              <div className="flex-1 h-px" style={{ backgroundColor: 'rgba(28,18,9,0.15)' }} />
               <h2 className="font-display italic text-lg sm:text-xl font-semibold text-[#1C1209] tracking-wide text-center">
                 Saviour Certificate
               </h2>
-              <div className="flex-1 h-px bg-[#1C1209]/15" />
+              <div className="flex-1 h-px" style={{ backgroundColor: 'rgba(28,18,9,0.15)' }} />
             </div>
 
             {/* This certifies */}
@@ -189,11 +189,11 @@ export default function CertificateModal({
             </p>
 
             {/* Thin rule */}
-            <div className="w-16 h-px bg-[#1C1209]/20 mx-auto mb-6" />
+            <div className="w-16 h-px mx-auto mb-6" style={{ backgroundColor: 'rgba(28,18,9,0.2)' }} />
 
             {/* Info cards — thin border, no emojis, no station/type */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-center mb-8">
-              <div className="p-3 rounded-lg border border-[#1C1209]/10">
+              <div className="p-3 rounded-lg" style={{ border: '1px solid rgba(28,18,9,0.1)' }}>
                 <p className="text-[10px] uppercase tracking-wider text-[#7A7468] mb-1">
                   Colony
                 </p>
@@ -201,7 +201,7 @@ export default function CertificateModal({
                   {saviour.colony}
                 </p>
               </div>
-              <div className="p-3 rounded-lg border border-[#1C1209]/10">
+              <div className="p-3 rounded-lg" style={{ border: '1px solid rgba(28,18,9,0.1)' }}>
                 <p className="text-[10px] uppercase tracking-wider text-[#7A7468] mb-1">
                   Date
                 </p>
