@@ -1,10 +1,58 @@
 'use client';
 
+import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
-import { useScrollAnimation, useAnimatedCounter } from '@/hooks/use-scroll-animation';
+import { useScrollAnimation } from '@/hooks/use-scroll-animation';
 
 interface StorySectionProps {
   saviourCount: number | null;
+}
+
+/**
+ * Live counter effect: starts from a random high number, rapidly counts DOWN
+ * to the actual value with flickering, then settles with a pulse.
+ */
+function useLiveCounterEffect(target: number | null, isVisible: boolean, hasMounted: boolean) {
+  const [displayValue, setDisplayValue] = useState<number | null>(null);
+  const [settled, setSettled] = useState(false);
+  const hasStarted = useRef(false);
+
+  useEffect(() => {
+    if (!hasMounted || target === null || !isVisible) return;
+    if (hasStarted.current) return;
+    hasStarted.current = true;
+
+    const startValue = target + Math.floor(Math.random() * (target * 1.5)) + 200;
+    let current = startValue;
+    setDisplayValue(current);
+    setSettled(false);
+
+    const totalSteps = 40;
+    let step = 0;
+
+    const interval = setInterval(() => {
+      step++;
+      const progress = step / totalSteps;
+      const easeOut = 1 - Math.pow(1 - progress, 3);
+      current = Math.round(startValue + (target - startValue) * easeOut);
+
+      if (progress < 0.7) {
+        current += Math.floor(Math.random() * 10) - 5;
+      }
+
+      setDisplayValue(current);
+
+      if (step >= totalSteps) {
+        clearInterval(interval);
+        setDisplayValue(target);
+        setSettled(true);
+      }
+    }, 50);
+
+    return () => clearInterval(interval);
+  }, [target, isVisible, hasMounted]);
+
+  return { displayValue, settled };
 }
 
 export default function StorySection({ saviourCount }: StorySectionProps) {
@@ -13,7 +61,7 @@ export default function StorySection({ saviourCount }: StorySectionProps) {
 
   // Live counter: each saviour = 20 birds helped
   const birdsHelped = saviourCount !== null ? saviourCount * 20 : null;
-  const animatedBirds = useAnimatedCounter(birdsHelped, 1500, problemVisible, problemMounted);
+  const { displayValue: animatedBirds, settled: counterSettled } = useLiveCounterEffect(birdsHelped, problemVisible, problemMounted);
 
   return (
     <>
@@ -42,11 +90,11 @@ export default function StorySection({ saviourCount }: StorySectionProps) {
             <span className="inline-block text-xs font-semibold uppercase tracking-[0.25em] text-amber-300/70 mb-4">
               This Summer
             </span>
-            <div className="font-display text-[120px] sm:text-[160px] font-bold text-white/90 leading-none tabular-nums">
+            <div className={`font-display text-[120px] sm:text-[160px] font-bold text-white/90 leading-none tabular-nums transition-transform duration-300 ${counterSettled ? 'animate-settle-pulse' : ''}`}>
               {birdsHelped === null ? (
                 <span className="inline-block w-48 h-32 bg-white/10 rounded-xl animate-pulse" />
               ) : (
-                problemMounted ? animatedBirds : birdsHelped
+                <><span className="text-[0.4em] align-baseline opacity-60">≈</span>{animatedBirds ?? birdsHelped}</>
               )}
             </div>
             <p className="text-lg text-white/50 mt-3 font-medium">

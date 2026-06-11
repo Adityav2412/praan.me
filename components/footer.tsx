@@ -1,7 +1,6 @@
 'use client';
 
 import Image from 'next/image';
-import Link from 'next/link';
 import { useScrollAnimation } from '@/hooks/use-scroll-animation';
 
 interface FooterProps {
@@ -53,14 +52,7 @@ export default function Footer({ onBecomeSaviour }: FooterProps) {
               <span className="text-xs text-text-muted">Water for Wings · Saving Delhi&apos;s birds</span>
             </div>
 
-            {/* Center — Links */}
-            <nav className="flex items-center gap-6 text-sm text-text-muted">
-              <Link href="/founder" className="hover:text-text-primary transition-colors">
-                A letter from our founder →
-              </Link>
-            </nav>
-
-            {/* Right — Bottom links */}
+            {/* Bottom links */}
             <nav className="flex items-center gap-4 text-xs text-text-muted">
               <button onClick={() => {}} className="hover:text-text-primary transition-colors">
                 About
@@ -79,7 +71,7 @@ export default function Footer({ onBecomeSaviour }: FooterProps) {
           {/* Copyright */}
           <div className="mt-6 pt-6 border-t border-[var(--border)] text-center">
             <p className="text-xs text-text-muted/60">
-              © 2025 Praan. Made with care for Delhi&apos;s birds.
+              © 2026 Praan. Made with care for Delhi&apos;s birds.
             </p>
           </div>
         </div>
