@@ -138,9 +138,7 @@ export default function RootLayout({
 
       <body className="font-body antialiased bg-bg-base text-text-primary">
         {children}
-
-        {/* Vercel Analytics */}
-        {process.env.NODE_ENV === 'production' && <Analytics />}
+        <Analytics />
       </body>
     </html>
   );
