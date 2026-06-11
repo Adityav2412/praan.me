@@ -162,22 +162,8 @@ export default function StorySection({ saviourCount }: StorySectionProps) {
 
           {/* Right — Animated constellation network */}
           <div className="relative h-[360px] sm:h-[400px] w-full">
-            {/* SVG constellation — dots + dashed connections */}
+            {/* SVG — floating dots + birds (organic, no geometric lines) */}
             <svg className="absolute inset-0 w-full h-full" viewBox="0 0 400 400" fill="none">
-              {/* Dashed connection lines */}
-              <line x1="80" y1="60" x2="200" y2="120" stroke="#C9A84C" strokeWidth="1" strokeDasharray="4 4" opacity="0.3" />
-              <line x1="200" y1="120" x2="320" y2="80" stroke="#C9A84C" strokeWidth="1" strokeDasharray="4 4" opacity="0.3" />
-              <line x1="200" y1="120" x2="150" y2="220" stroke="#C9A84C" strokeWidth="1" strokeDasharray="4 4" opacity="0.3" />
-              <line x1="150" y1="220" x2="280" y2="200" stroke="#C9A84C" strokeWidth="1" strokeDasharray="4 4" opacity="0.3" />
-              <line x1="280" y1="200" x2="350" y2="280" stroke="#C9A84C" strokeWidth="1" strokeDasharray="4 4" opacity="0.3" />
-              <line x1="150" y1="220" x2="60" y2="300" stroke="#C9A84C" strokeWidth="1" strokeDasharray="4 4" opacity="0.3" />
-              <line x1="60" y1="300" x2="180" y2="340" stroke="#C9A84C" strokeWidth="1" strokeDasharray="4 4" opacity="0.3" />
-              <line x1="180" y1="340" x2="320" y2="320" stroke="#C9A84C" strokeWidth="1" strokeDasharray="4 4" opacity="0.3" />
-              <line x1="320" y1="320" x2="350" y2="280" stroke="#C9A84C" strokeWidth="1" strokeDasharray="4 4" opacity="0.3" />
-              <line x1="80" y1="60" x2="60" y2="160" stroke="#C9A84C" strokeWidth="1" strokeDasharray="4 4" opacity="0.3" />
-              <line x1="60" y1="160" x2="150" y2="220" stroke="#C9A84C" strokeWidth="1" strokeDasharray="4 4" opacity="0.3" />
-              <line x1="320" y1="80" x2="280" y2="200" stroke="#C9A84C" strokeWidth="1" strokeDasharray="4 4" opacity="0.3" />
-
               {/* Glowing dots (nodes) */}
               <circle cx="80" cy="60" r="4" fill="#C9A84C" className="animate-pulse-dot" />
               <circle cx="200" cy="120" r="5" fill="#C9A84C" className="animate-pulse-dot" style={{ animationDelay: '0.3s' }} />
