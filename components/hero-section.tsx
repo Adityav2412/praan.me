@@ -36,8 +36,8 @@ export default function HeroSection({
           <span className="text-text-muted/50">→</span>
         </a>
 
-        {/* Winner ticker — competitive, urgent */}
-        {topColony && (
+        {/* Winner ticker — skeleton while loading, data when ready */}
+        {topColony ? (
           <div className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-amber-50 to-amber-100/60 border border-amber-200/50 px-4 py-2 mb-8 animate-pulse-subtle">
             <span className="text-base">👑</span>
             <span className="text-xs font-semibold text-amber-900">
@@ -46,6 +46,12 @@ export default function HeroSection({
             <span className="text-xs text-amber-700/70 hidden sm:inline">
               · Is your colony next?
             </span>
+          </div>
+        ) : (
+          <div className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-amber-50 to-amber-100/60 border border-amber-200/50 px-4 py-2 mb-8 animate-pulse">
+            <span className="w-4 h-4 rounded-full bg-amber-200/60" />
+            <span className="w-32 h-3 rounded bg-amber-200/40" />
+            <span className="w-20 h-3 rounded bg-amber-200/30 hidden sm:block" />
           </div>
         )}
 
