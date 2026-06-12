@@ -16,8 +16,7 @@ interface FormModalProps {
 }
 
 const sourceOptions = [
-  'X/Twitter',
-  'Instagram',
+  'X (Twitter)',
   'WhatsApp',
   'Friend',
   'Website',
