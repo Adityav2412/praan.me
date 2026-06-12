@@ -84,6 +84,11 @@ export default function HeroSection({
         <img
           src="/hero-illustration.svg"
           alt=""
+          width={1920}
+          height={600}
+          loading="eager"
+          fetchPriority="high"
+          decoding="async"
           style={{ width: '100%', height: 'auto', display: 'block', mixBlendMode: 'multiply' }}
         />
       </div>
