@@ -1,7 +1,6 @@
 'use client';
 
 import { useRef, useState } from 'react';
-import Image from 'next/image';
 import {
   X,
   Download,
@@ -139,7 +138,7 @@ export default function CertificateModal({
           {/* Certificate */}
           <div
             ref={certificateRef}
-            className="p-6 sm:p-8 md:p-10 rounded-xl relative overflow-hidden"
+            className="p-6 sm:p-8 md:p-10 rounded-xl relative"
             style={{
               background: '#FAF8F4',
               border: '3px double #1C1209',
@@ -149,12 +148,13 @@ export default function CertificateModal({
           >
             {/* Top — Logo + Initiative */}
             <div className="flex flex-col items-center mb-6">
-              <Image
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
                 src="/praan-navbar.svg"
                 alt="Praan"
-                width={100}
-                height={28}
-                className="h-7 w-auto mb-2"
+                width="100"
+                height="28"
+                style={{ width: '100px', height: '28px', display: 'block', marginBottom: '8px' }}
               />
               <span className="font-display text-base font-semibold text-[#1C1209]">
                 Water for Wings
@@ -213,12 +213,13 @@ export default function CertificateModal({
 
             {/* Founder signature */}
             <div className="flex flex-col items-center mb-4">
-              <Image
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
                 src="/akshay-signature.png"
                 alt="Founder signature"
-                width={140}
-                height={56}
-                className="opacity-90 mb-1"
+                width="140"
+                height="56"
+                style={{ width: '140px', height: '56px', opacity: 0.9, marginBottom: '4px' }}
               />
               <span className="text-[10px] text-[#7A7468]">Akshay, Founder</span>
             </div>

@@ -20,7 +20,7 @@ export default function HeroSection({
     <section className="relative bg-bg-base pt-16 overflow-hidden">
       <div
         ref={heroRef}
-        className={`relative z-10 max-w-4xl mx-auto px-6 pt-20 pb-12 lg:pt-28 lg:pb-16 flex flex-col items-center text-center ${hasMounted ? `motion-reveal ${isVisible ? 'is-visible' : ''}` : ''}`}
+        className={`relative z-10 max-w-4xl mx-auto px-6 pt-8 pb-12 lg:pt-16 lg:pb-16 flex flex-col items-center text-center ${hasMounted ? `motion-reveal ${isVisible ? 'is-visible' : ''}` : ''}`}
       >
         {/* Announcement pill */}
         <a
