@@ -24,12 +24,12 @@ export default function HowItWorks() {
   const { ref: sectionRef, hasMounted, isVisible } = useScrollAnimation({ threshold: 0.1 });
 
   return (
-    <section id="how-it-works" className="py-24 lg:py-32 px-6 bg-[#FAF8F4] relative overflow-hidden">
+    <section id="how-it-works" className="py-16 lg:py-32 px-6 bg-[#FAF8F4] relative overflow-hidden">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div
           ref={sectionRef}
-          className={`text-center mb-20 ${hasMounted ? `motion-reveal ${isVisible ? 'is-visible' : ''}` : ''}`}
+          className={`text-center mb-12 md:mb-20 ${hasMounted ? `motion-reveal ${isVisible ? 'is-visible' : ''}` : ''}`}
         >
           <span className="inline-block text-xs font-semibold uppercase tracking-[0.2em] text-accent mb-4">
             How it works
@@ -48,16 +48,16 @@ export default function HowItWorks() {
           </div>
 
           {/* Step cards */}
-          <div className={`relative z-10 grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-10 ${hasMounted ? `motion-stagger ${isVisible ? 'is-visible' : ''}` : ''}`}>
+          <div className={`relative z-10 grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 lg:gap-10 ${hasMounted ? `motion-stagger ${isVisible ? 'is-visible' : ''}` : ''}`}>
             {steps.map((step) => (
               <div
                 key={step.number}
-                className="relative rounded-2xl p-8 pb-14 overflow-hidden bg-white"
+                className="relative rounded-2xl p-5 pb-12 md:p-8 md:pb-14 overflow-hidden bg-white"
                 style={{ boxShadow: '0 2px 12px rgba(0,0,0,0.06)' }}
               >
                 {/* Step number — absolute bottom right, fully visible */}
                 <span
-                  className="absolute bottom-4 right-4 font-display text-[80px] font-bold leading-none select-none pointer-events-none"
+                  className="absolute bottom-3 right-3 md:bottom-4 md:right-4 font-display text-[56px] md:text-[80px] font-bold leading-none select-none pointer-events-none"
                   style={{ color: '#1A1A18', opacity: 0.15 }}
                 >
                   {step.number}

@@ -4,13 +4,11 @@ import { useState, useEffect } from 'react';
 import { fetchSaviours, getColonyLeaderboard } from '@/lib/storage';
 import { useScrollAnimation } from '@/hooks/use-scroll-animation';
 
-type FilterType = 'top5' | 'top10' | 'all';
-
 export default function AreaLeaderboard() {
   const [leaderboard, setLeaderboard] = useState<{ colony: string; count: number }[]>([]);
   const [loading, setLoading] = useState(true);
-  const [filter, setFilter] = useState<FilterType>('top10');
-  const [fadeIn, setFadeIn] = useState(true);
+  
+  
   const { ref: sectionRef, hasMounted, isVisible } = useScrollAnimation({ threshold: 0.1 });
 
   useEffect(() => {
@@ -43,22 +41,9 @@ export default function AreaLeaderboard() {
     };
   }, []);
 
-  const handleFilterChange = (newFilter: FilterType) => {
-    if (newFilter === filter) return;
-    setFadeIn(false);
-    setTimeout(() => {
-      setFilter(newFilter);
-      setFadeIn(true);
-    }, 150);
-  };
 
-  const getFilteredData = () => {
-    if (filter === 'top5') return leaderboard.slice(0, 5);
-    if (filter === 'top10') return leaderboard.slice(0, 10);
-    return leaderboard;
-  };
 
-  const filteredData = getFilteredData();
+  const filteredData = leaderboard.slice(0, 3);
   const maxCount = Math.max(...leaderboard.map((l) => l.count), 1);
 
   const getMedal = (rank: number) => {
@@ -86,22 +71,7 @@ export default function AreaLeaderboard() {
           </p>
         </div>
 
-        {/* Filter buttons */}
-        <div className="flex items-center justify-center gap-3 mb-8">
-          {(['top5', 'top10', 'all'] as FilterType[]).map((f) => (
-            <button
-              key={f}
-              onClick={() => handleFilterChange(f)}
-              className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-150 ease-out ${
-                filter === f
-                  ? 'bg-[#1A1A18] text-white'
-                  : 'bg-transparent text-[#1A1A18] border border-[#1A1A18]/20 hover:border-[#1A1A18]/50'
-              }`}
-            >
-              {f === 'top5' ? 'Top 5' : f === 'top10' ? 'Top 10' : 'All'}
-            </button>
-          ))}
-        </div>
+
 
         {/* Winner banner — dynamically shows #1 colony */}
         {!loading && leaderboard.length > 0 && (
@@ -136,10 +106,7 @@ export default function AreaLeaderboard() {
               Be the first from your colony to join!
             </p>
           ) : (
-            <div
-              className="space-y-3 transition-opacity duration-300"
-              style={{ opacity: fadeIn ? 1 : 0 }}
-            >
+            <div className="space-y-3">
               {filteredData.map((item, index) => (
                 <div
                   key={`${item.colony}-${item.count}`}
@@ -184,6 +151,15 @@ export default function AreaLeaderboard() {
             </div>
           )}
         </div>
+
+        {/* View Full link */}
+        {!loading && leaderboard.length > 3 && (
+          <div className="mt-6 text-center">
+            <a href="/saviours" className="text-sm font-medium text-accent hover:text-accent-hover transition-colors">
+              View Full Leaderboard →
+            </a>
+          </div>
+        )}
       </div>
     </section>
   );
