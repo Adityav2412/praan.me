@@ -43,7 +43,7 @@ export default function AreaLeaderboard() {
 
 
 
-  const filteredData = leaderboard.slice(0, 3);
+  const filteredData = leaderboard.slice(0, 10);
   const maxCount = Math.max(...leaderboard.map((l) => l.count), 1);
 
   const getMedal = (rank: number) => {
@@ -106,7 +106,7 @@ export default function AreaLeaderboard() {
               Be the first from your colony to join!
             </p>
           ) : (
-            <div className="space-y-3">
+            <div className="space-y-3 [&>*:nth-child(n+4)]:hidden [&>*:nth-child(n+4)]:lg:flex">
               {filteredData.map((item, index) => (
                 <div
                   key={`${item.colony}-${item.count}`}
