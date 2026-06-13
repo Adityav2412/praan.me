@@ -22,7 +22,7 @@ export default function SavioursSection({ saviours, onBecomeSaviour }: SavioursS
   const { ref: sectionRef, hasMounted, isVisible } = useScrollAnimation({ threshold: 0.1 });
 
   // Show latest 5 saviours
-  const displaySaviours = saviours.slice(-5).reverse();
+  const displaySaviours = saviours.slice(-3).reverse();
 
   return (
     <section id="saviours" className="py-20 lg:py-28 px-6 bg-[#EDE8DF]">

@@ -145,7 +145,7 @@ export default function Home() {
         {/* About Praan */}
         <AboutPraan />
 
-        {/* Story — The Problem + The Solution */}
+        {/* Why It Matters — merged story section */}
         <StorySection saviourCount={saviourCount} />
 
         {/* How It Works */}

@@ -66,10 +66,67 @@ export default function StorySection({ saviourCount }: StorySectionProps) {
   return (
     <>
       {/* ═══════════════════════════════════════════════════════════
-          PROBLEM SECTION — dark terracotta, massive counter, two-column text
+          MOBILE: "Why It Matters" — single merged section
+          DESKTOP: Full Problem section (original storytelling)
           ═══════════════════════════════════════════════════════════ */}
-      <section className="py-24 lg:py-32 px-6 bg-[#3D1F0D] relative overflow-hidden">
-        {/* HUGE watermark — hero-bowl-sketch.png */}
+
+      {/* MOBILE — Compact "Why It Matters" (hidden on lg+) */}
+      <section className="lg:hidden py-16 px-6 bg-[#3D1F0D] relative overflow-hidden">
+        {/* Floating gold dots + birds */}
+        <div className="absolute inset-0 pointer-events-none select-none overflow-hidden">
+          <svg className="absolute inset-0 w-full h-full" viewBox="0 0 400 300" fill="none">
+            <circle cx="50" cy="40" r="3" fill="#C9A84C" className="animate-pulse-dot" />
+            <circle cx="340" cy="60" r="4" fill="#C9A84C" className="animate-pulse-dot" style={{ animationDelay: '0.5s' }} />
+            <circle cx="120" cy="220" r="3" fill="#C9A84C" className="animate-pulse-dot" style={{ animationDelay: '1.0s' }} />
+            <circle cx="300" cy="240" r="4" fill="#C9A84C" className="animate-pulse-dot" style={{ animationDelay: '0.3s' }} />
+            <g className="animate-float-bird">
+              <path d="M70 100 C75 92, 83 92, 88 100 M88 100 C93 92, 101 92, 106 100" stroke="#C9A84C" strokeWidth="2" fill="none" opacity="0.6" strokeLinecap="round" />
+            </g>
+            <g className="animate-float-bird" style={{ animationDelay: '1.2s' }}>
+              <path d="M280 180 C285 172, 293 172, 298 180 M298 180 C303 172, 311 172, 316 180" stroke="#C9A84C" strokeWidth="2" fill="none" opacity="0.5" strokeLinecap="round" />
+            </g>
+            <g className="animate-float-bird" style={{ animationDelay: '0.6s' }}>
+              <path d="M160 260 C165 252, 173 252, 178 260 M178 260 C183 252, 191 252, 196 260" stroke="#C9A84C" strokeWidth="2" fill="none" opacity="0.55" strokeLinecap="round" />
+            </g>
+          </svg>
+        </div>
+
+        <div
+          ref={problemRef}
+          className={`relative z-10 max-w-4xl mx-auto text-center ${problemMounted ? `motion-reveal ${problemVisible ? 'is-visible' : ''}` : ''}`}
+        >
+          <span className="inline-block text-xs font-semibold uppercase tracking-[0.25em] text-[#C9A84C] mb-4">
+            Why It Matters
+          </span>
+
+          {/* Counter */}
+          <div className={`font-display text-[80px] font-bold text-white/90 leading-none tabular-nums transition-transform duration-300 ${counterSettled ? 'animate-settle-pulse' : ''}`}>
+            {birdsHelped === null ? (
+              <span className="inline-block w-40 h-20 bg-white/10 rounded-xl animate-pulse" />
+            ) : (
+              <><span className="text-[0.4em] align-baseline opacity-60" style={{ backgroundColor: 'transparent' }}>≈</span>{animatedBirds ?? birdsHelped}</>
+            )}
+          </div>
+          <p className="text-base text-white/50 mt-2 mb-6 font-medium">
+            birds helped so far this summer.
+          </p>
+
+          <div className="w-12 h-px mx-auto mb-6" style={{ backgroundColor: 'rgba(255,255,255,0.15)' }} />
+
+          <div className="max-w-lg mx-auto space-y-3 text-sm leading-relaxed text-white/70 text-left">
+            <p>
+              Every summer, Delhi&apos;s temperatures cross 45°C. Water sources vanish. Thousands of birds die — not from disease, but from the simple lack of water.
+            </p>
+            <p>
+              Water For Wings is building a network of community water bowls across Delhi. One bowl. One person. Dozens of lives saved.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* DESKTOP — Full Problem section (hidden on mobile) */}
+      <section className="hidden lg:block py-32 px-6 bg-[#3D1F0D] relative overflow-hidden">
+        {/* HUGE watermark */}
         <div className="absolute top-1/2 right-[-80px] -translate-y-1/2 w-[600px] h-[600px] pointer-events-none select-none opacity-[0.05]">
           <Image
             src="/hero-bowl-sketch.png"
@@ -81,20 +138,17 @@ export default function StorySection({ saviourCount }: StorySectionProps) {
           />
         </div>
 
-        <div
-          ref={problemRef}
-          className={`relative z-10 max-w-5xl mx-auto ${problemMounted ? `motion-reveal ${problemVisible ? 'is-visible' : ''}` : ''}`}
-        >
+        <div className={`relative z-10 max-w-5xl mx-auto ${problemMounted ? `motion-reveal ${problemVisible ? 'is-visible' : ''}` : ''}`}>
           {/* Massive centered counter */}
           <div className="text-center mb-12">
             <span className="inline-block text-xs font-semibold uppercase tracking-[0.25em] text-amber-300/70 mb-4">
               This Summer
             </span>
-            <div className={`font-display text-[120px] sm:text-[160px] font-bold text-white/90 leading-none tabular-nums transition-transform duration-300 ${counterSettled ? 'animate-settle-pulse' : ''}`}>
+            <div className={`font-display text-[160px] font-bold text-white/90 leading-none tabular-nums transition-transform duration-300 ${counterSettled ? 'animate-settle-pulse' : ''}`}>
               {birdsHelped === null ? (
                 <span className="inline-block w-48 h-32 bg-white/10 rounded-xl animate-pulse" />
               ) : (
-                <><span className="text-[0.4em] align-baseline opacity-60">≈</span>{animatedBirds ?? birdsHelped}</>
+                <><span className="text-[0.4em] align-baseline opacity-60" style={{ backgroundColor: 'transparent' }}>≈</span>{animatedBirds ?? birdsHelped}</>
               )}
             </div>
             <p className="text-lg text-white/50 mt-3 font-medium">
@@ -102,28 +156,24 @@ export default function StorySection({ saviourCount }: StorySectionProps) {
             </p>
           </div>
 
-          {/* Thin horizontal rule */}
           <div className="w-full max-w-md mx-auto h-px bg-white/15 mb-12" />
 
           {/* Two-column problem text */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-14">
+          <div className="grid grid-cols-2 gap-14">
             <div>
               <span className="inline-block text-xs font-semibold uppercase tracking-[0.2em] text-amber-300/80 mb-4">
                 The Problem
               </span>
-              <h2 className="font-display text-2xl sm:text-3xl font-bold text-white leading-tight mb-5">
+              <h2 className="font-display text-3xl font-bold text-white leading-tight mb-5">
                 Every summer, Delhi becomes a death trap for birds.
               </h2>
               <p className="text-base leading-relaxed text-white/65">
-                When temperatures cross 45°C, water sources dry up across the city.
-                Birds — pigeons, sparrows, mynas, parakeets — fly for hours without finding
-                a single drop.
+                When temperatures cross 45°C, water sources dry up across the city. Birds — pigeons, sparrows, mynas, parakeets — fly for hours without finding a single drop.
               </p>
             </div>
             <div className="flex flex-col justify-end">
               <p className="text-base leading-relaxed text-white/65 mb-4">
-                Many collapse from dehydration and heat stroke. Thousands die every summer.
-                Not from disease or predators, but from something as simple as the lack of water.
+                Many collapse from dehydration and heat stroke. Thousands die every summer. Not from disease or predators, but from something as simple as the lack of water.
               </p>
               <p className="text-base leading-relaxed text-white/65">
                 It&apos;s a crisis that hides in plain sight — and one that anyone can help solve.
@@ -133,38 +183,32 @@ export default function StorySection({ saviourCount }: StorySectionProps) {
         </div>
       </section>
 
-      {/* ═══════════════════════════════════════════════════════════
-          SOLUTION SECTION — dark warm brown, constellation network
-          ═══════════════════════════════════════════════════════════ */}
-      <section className="py-24 lg:py-32 px-6 bg-[#1C0F00] relative overflow-hidden">
+      {/* DESKTOP — Full Solution section (hidden on mobile) */}
+      <section className="hidden lg:block py-32 px-6 bg-[#1C0F00] relative overflow-hidden">
         <div
           ref={solutionRef}
-          className={`relative z-10 max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center ${solutionMounted ? `motion-reveal ${solutionVisible ? 'is-visible' : ''}` : ''}`}
+          className={`relative z-10 max-w-5xl mx-auto grid grid-cols-2 gap-20 items-center ${solutionMounted ? `motion-reveal ${solutionVisible ? 'is-visible' : ''}` : ''}`}
         >
           {/* Left — Text */}
           <div>
             <span className="inline-block text-xs font-semibold uppercase tracking-[0.2em] text-[#C9A84C] mb-4">
               The Solution
             </span>
-            <h2 className="font-display text-3xl sm:text-4xl font-bold text-[#F2EDE3] leading-tight mb-6">
+            <h2 className="font-display text-4xl font-bold text-[#F2EDE3] leading-tight mb-6">
               A network of water bowls, placed by people who care.
             </h2>
             <p className="text-base leading-relaxed text-[#F2EDE3]/65 mb-4">
-              Water For Wings is building a community-driven network of water stations
-              across Delhi. Each participant — a &quot;Saviour&quot; — places a bowl of fresh
-              water outside their home, office, or balcony.
+              Water For Wings is building a community-driven network of water stations across Delhi. Each participant — a &quot;Saviour&quot; — places a bowl of fresh water outside their home, office, or balcony.
             </p>
             <p className="text-base leading-relaxed text-[#F2EDE3]/65">
-              It takes 2 minutes. It costs nothing. And it can keep dozens of birds
-              alive through the hottest months of the year.
+              It takes 2 minutes. It costs nothing. And it can keep dozens of birds alive through the hottest months of the year.
             </p>
           </div>
 
-          {/* Right — Animated constellation network */}
-          <div className="relative h-[360px] sm:h-[400px] w-full">
-            {/* SVG — floating dots + birds (organic, no geometric lines) */}
+          {/* Right — Constellation (dots + birds) */}
+          <div className="relative h-[400px] w-full">
             <svg className="absolute inset-0 w-full h-full" viewBox="0 0 400 400" fill="none">
-              {/* Glowing dots (nodes) */}
+              {/* Glowing dots */}
               <circle cx="80" cy="60" r="4" fill="#C9A84C" className="animate-pulse-dot" />
               <circle cx="200" cy="120" r="5" fill="#C9A84C" className="animate-pulse-dot" style={{ animationDelay: '0.3s' }} />
               <circle cx="320" cy="80" r="4" fill="#C9A84C" className="animate-pulse-dot" style={{ animationDelay: '0.6s' }} />
@@ -178,32 +222,15 @@ export default function StorySection({ saviourCount }: StorySectionProps) {
               <circle cx="240" cy="280" r="3" fill="#C9A84C" className="animate-pulse-dot" style={{ animationDelay: '1.1s' }} />
               <circle cx="130" cy="120" r="3" fill="#C9A84C" className="animate-pulse-dot" style={{ animationDelay: '0.2s' }} />
               <circle cx="360" cy="160" r="3" fill="#C9A84C" className="animate-pulse-dot" style={{ animationDelay: '1.4s' }} />
-
-              {/* Bird silhouettes — 8 birds, larger and more visible */}
-              <g className="animate-float-bird" style={{ animationDelay: '0s' }}>
-                <path d="M95 80 C100 72, 108 72, 113 80 M113 80 C118 72, 126 72, 131 80" stroke="#C9A84C" strokeWidth="2" fill="none" opacity="0.75" strokeLinecap="round" />
-              </g>
-              <g className="animate-float-bird" style={{ animationDelay: '0.8s' }}>
-                <path d="M280 140 C285 132, 293 132, 298 140 M298 140 C303 132, 311 132, 316 140" stroke="#C9A84C" strokeWidth="2" fill="none" opacity="0.7" strokeLinecap="round" />
-              </g>
-              <g className="animate-float-bird" style={{ animationDelay: '1.5s' }}>
-                <path d="M50 200 C55 192, 63 192, 68 200 M68 200 C73 192, 81 192, 86 200" stroke="#C9A84C" strokeWidth="2" fill="none" opacity="0.65" strokeLinecap="round" />
-              </g>
-              <g className="animate-float-bird" style={{ animationDelay: '0.4s' }}>
-                <path d="M310 240 C315 232, 323 232, 328 240 M328 240 C333 232, 341 232, 346 240" stroke="#C9A84C" strokeWidth="2" fill="none" opacity="0.7" strokeLinecap="round" />
-              </g>
-              <g className="animate-float-bird" style={{ animationDelay: '1.1s' }}>
-                <path d="M170 280 C175 272, 183 272, 188 280 M188 280 C193 272, 201 272, 206 280" stroke="#C9A84C" strokeWidth="2" fill="none" opacity="0.6" strokeLinecap="round" />
-              </g>
-              <g className="animate-float-bird" style={{ animationDelay: '2.0s' }}>
-                <path d="M360 100 C365 92, 373 92, 378 100 M378 100 C383 92, 391 92, 396 100" stroke="#C9A84C" strokeWidth="2" fill="none" opacity="0.65" strokeLinecap="round" />
-              </g>
-              <g className="animate-float-bird" style={{ animationDelay: '0.6s' }}>
-                <path d="M120 350 C125 342, 133 342, 138 350 M138 350 C143 342, 151 342, 156 350" stroke="#C9A84C" strokeWidth="2" fill="none" opacity="0.7" strokeLinecap="round" />
-              </g>
-              <g className="animate-float-bird" style={{ animationDelay: '1.7s' }}>
-                <path d="M260 360 C265 352, 273 352, 278 360 M278 360 C283 352, 291 352, 296 360" stroke="#C9A84C" strokeWidth="2" fill="none" opacity="0.6" strokeLinecap="round" />
-              </g>
+              {/* Bird silhouettes */}
+              <g className="animate-float-bird"><path d="M95 80 C100 72, 108 72, 113 80 M113 80 C118 72, 126 72, 131 80" stroke="#C9A84C" strokeWidth="2" fill="none" opacity="0.75" strokeLinecap="round" /></g>
+              <g className="animate-float-bird" style={{ animationDelay: '0.8s' }}><path d="M280 140 C285 132, 293 132, 298 140 M298 140 C303 132, 311 132, 316 140" stroke="#C9A84C" strokeWidth="2" fill="none" opacity="0.7" strokeLinecap="round" /></g>
+              <g className="animate-float-bird" style={{ animationDelay: '1.5s' }}><path d="M50 200 C55 192, 63 192, 68 200 M68 200 C73 192, 81 192, 86 200" stroke="#C9A84C" strokeWidth="2" fill="none" opacity="0.65" strokeLinecap="round" /></g>
+              <g className="animate-float-bird" style={{ animationDelay: '0.4s' }}><path d="M310 240 C315 232, 323 232, 328 240 M328 240 C333 232, 341 232, 346 240" stroke="#C9A84C" strokeWidth="2" fill="none" opacity="0.7" strokeLinecap="round" /></g>
+              <g className="animate-float-bird" style={{ animationDelay: '1.1s' }}><path d="M170 280 C175 272, 183 272, 188 280 M188 280 C193 272, 201 272, 206 280" stroke="#C9A84C" strokeWidth="2" fill="none" opacity="0.6" strokeLinecap="round" /></g>
+              <g className="animate-float-bird" style={{ animationDelay: '2.0s' }}><path d="M360 100 C365 92, 373 92, 378 100 M378 100 C383 92, 391 92, 396 100" stroke="#C9A84C" strokeWidth="2" fill="none" opacity="0.65" strokeLinecap="round" /></g>
+              <g className="animate-float-bird" style={{ animationDelay: '0.6s' }}><path d="M120 350 C125 342, 133 342, 138 350 M138 350 C143 342, 151 342, 156 350" stroke="#C9A84C" strokeWidth="2" fill="none" opacity="0.7" strokeLinecap="round" /></g>
+              <g className="animate-float-bird" style={{ animationDelay: '1.7s' }}><path d="M260 360 C265 352, 273 352, 278 360 M278 360 C283 352, 291 352, 296 360" stroke="#C9A84C" strokeWidth="2" fill="none" opacity="0.6" strokeLinecap="round" /></g>
             </svg>
           </div>
         </div>
