@@ -25,7 +25,7 @@ export default function SavioursSection({ saviours, onBecomeSaviour }: SavioursS
   const displaySaviours = saviours.slice(-5).reverse();
 
   return (
-    <section id="saviours" className="py-20 lg:py-28 px-6 bg-[#EDE8DF]">
+    <section id="saviours" className="py-12 lg:py-28 px-6 bg-[#EDE8DF]">
       <div className="max-w-5xl mx-auto">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-3">

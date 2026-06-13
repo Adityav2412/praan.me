@@ -24,7 +24,7 @@ export default function HowItWorks() {
   const { ref: sectionRef, hasMounted, isVisible } = useScrollAnimation({ threshold: 0.1 });
 
   return (
-    <section id="how-it-works" className="py-24 lg:py-32 px-6 bg-[#FAF8F4] relative overflow-hidden">
+    <section id="how-it-works" className="py-16 lg:py-32 px-6 bg-[#FAF8F4] relative overflow-hidden">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div

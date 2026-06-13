@@ -11,7 +11,7 @@ export default function CertificateTeaser({ onBecomeSaviour }: CertificateTeaser
   const { ref: sectionRef, hasMounted, isVisible } = useScrollAnimation({ threshold: 0.15 });
 
   return (
-    <section className="py-24 lg:py-32 px-6 bg-[#3D1F0D] overflow-hidden">
+    <section className="py-16 lg:py-32 px-6 bg-[#3D1F0D] overflow-hidden">
       <div
         ref={sectionRef}
         className={`max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center ${hasMounted ? `motion-reveal ${isVisible ? 'is-visible' : ''}` : ''}`}

@@ -69,7 +69,7 @@ export default function AreaLeaderboard() {
   };
 
   return (
-    <section id="leaderboard" className="py-20 lg:py-28 px-6 bg-bg-base">
+    <section id="leaderboard" className="py-12 lg:py-28 px-6 bg-bg-base">
       <div
         ref={sectionRef}
         className={`max-w-4xl mx-auto ${hasMounted ? `motion-reveal ${isVisible ? 'is-visible' : ''}` : ''}`}

@@ -6,7 +6,7 @@ export default function AboutPraan() {
   const { ref: sectionRef, hasMounted, isVisible } = useScrollAnimation({ threshold: 0.1 });
 
   return (
-    <section id="about" className="py-24 lg:py-32 px-6 bg-bg-base">
+    <section id="about" className="py-16 lg:py-32 px-6 bg-bg-base">
       <div
         ref={sectionRef}
         className={`max-w-3xl mx-auto ${hasMounted ? `motion-reveal ${isVisible ? 'is-visible' : ''}` : ''}`}
